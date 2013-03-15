@@ -1,0 +1,894 @@
+.\" us: Follow old s macro layout, for documentation.
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.do xflag 3
+.\""""""""""""""""""""""""""""""""""""""
+.\" default variables
+.ds data-tmac hlm-t
+.ds data-file /tmp/t-tmp
+.nr page-head 3
+.nr page-foot 57 \" 44
+.nr page-box \n[page-foot]+4
+.nr text-offset 3c
+.nr text-offset-e 3c
+.nr text-length 15c
+.nr text-hyphen 14
+.nr text-font 10p
+.nr text-line 13p \" change page-foot if you change this!
+.nr note-offset \n[text-offset]u
+.nr note-offset-e \n[text-offset-e]u
+.nr note-length 7c
+.nr note-blank 1c
+.nr note-hyphen \n[text-hyphen]
+.nr note-font 10p
+.nr note-line 13p
+.nr box-offset \n[text-offset]u\"+\n[text-length]u
+.nr box-length \n[text-length]u\"4c
+.nr typo-orphan \n[page-head]+1
+.nr typo-widow \n[page-foot]-2
+.nr typo-blank \n[page-foot]-1
+.hypp 0 0 200
+.papersize a4
+.mediasize a4
+.padj
+.if t \{\
+.	char \[repeat-char] \h'0.5m'.\h'0.5m'
+.	lc \[repeat-char]
+.\}
+.\""""""""""""""""""""""""""""""""""""""
+.\" Document
+.de doc:start
+.	\" start document
+.	par:init
+.	sum:input
+.	em doc:end
+.	pdf:config
+.	ds page-file \\n(.F
+.	\" begin first page
+.	wh 0 page:head
+.	page:head
+..
+.de doc:end
+.	\" end document
+.	br
+.	if d sum-list .sum:out \\*[sum-list]
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Page
+.if !r RV .nr RV 0
+.de RV
+.	\" reverse recto-verso
+.	nr RV 1-\\n(RV
+..
+.if !r RP .nr RP 1
+.de RP
+.	\" reverse print page number
+.	nr RP 1-\\n(RP
+..
+.de page:head
+.	\" put a vacuum header
+.	wh \\n[page-foot]v page:foot
+.	if !"\\n(.F"\\*[page-file]" \{\
+.		pdf:anchor \\n(.F
+.		ds page-file \\n(.F
+.	\}
+.	sp |\\n[page-head]v
+.	ns
+.	\" place a trap if note are diverted to this page
+.	note:head
+.	po \\n[text-offset]u
+.	if \\n(RV=1 .if e .po \\n[text-offset-e]u
+..
+.de page:foot
+.	\" print footer
+.	ev ev-foot
+.	br
+.	if \\n%=1 .if d data:write .data:write
+.	par:init
+.	br
+.	ch page:foot
+.	if d note:div .note:print
+.	page:box
+.	bp
+.	ns
+.	ev
+.	code:init
+..
+.de page:box
+.	par:init
+.	in 0
+.	sp |\\n[page-box]v
+.	po \\n[box-offset]u
+.	lt \\n[box-length]u
+.	if \\n(RV=1 .if e .po \\n[note-offset-e]u
+.	ie \\n(RP .nr page-num \\n%
+.	el .nr page-num
+.	ie d page-title-tmp \{\
+.		tl "\\*[col-grey]\T'TOC'\\*[page-title-tmp]\T"\
+"\\*C\\n[page-num]\\*R\\*[col-black]"
+.		rm page-title-tmp
+.	\}
+.	el .tl "\\*[col-grey]\T'TOC'\\*[page-title]\T"\
+"\\*C\\n[page-num]\\*R\\*[col-black]"
+..
+.de page:num
+.	\" get real page number in padj mode
+.	nr page-num \\n%
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Paragraphs
+.de par:init
+.	\" start paragraph
+.	ad b
+.	fi
+.	hy \\n[text-hyphen]
+.	ll \\n[text-length]u
+.	lt \\n[text-length]u
+.	vs \\n[text-line]u
+.	ps \\n[text-font]u
+'	in 0 \" Avoid break!
+.	\"ti 1v
+.	font:text
+.	typo:text
+..
+.de par:start
+.	br
+.	par:init
+.	typo:inform
+..
+.de par:space
+.	\" insert space if not after H4
+.	if \\n[head-H4]=0 .sp 1v
+.	nr head-H4 0
+..
+.de PP
+.	par:start
+.	par:space
+..
+.de PQ
+.	par:start
+.	in 3v
+.	ti 4v
+.	par:space
+..
+.de PI
+.	par:start
+.	in 3v
+.	ti 1v
+.	ta 2v
+.	ie \\n(.$ .ds par-bullet \\$*
+.	el .ds par-bullet \(em
+.	ie \w'\\*[par-bullet]u'>=2v \{\
+.		var:print "\\*[par-bullet]"
+.		br
+.	\}
+.	el .var:print \\*[par-bullet]\t\c
+..
+.de PL
+.	par:start
+.	in 3v
+.	ti 0
+.	par:space
+..
+.de PR
+.	par:start
+.	ad r
+.	par:space
+..
+.de PC
+.	par:start
+.	ad c
+.	par:space
+..
+.de PX
+.	par:start
+.	nf
+.	ti 0
+.	in 3v
+.	par:space
+..
+.de par:toc
+.	\" table of content paragraph
+.	\" Be carefull: don't reset paragraph
+.	\" to use it in footnotes
+.	\"par:start
+.	if \\n(.$ .in \\$1v
+.	if t .lc \[repeat-char]
+.	ta (\\n(.lu-\\n(.iu-\w'000'u) (\\n(.lu-\\n(.iu)R
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Micro-typography
+.de typo:text
+.	\" init micro typography variables for text
+.	\" ss: interword, intersentences space size
+.	\" minss: minimum interword space size
+.	\" letadj:
+.	\" minimum interglyph size, minimum glyph size,
+.	\" width of word that can be expanded,
+.	\" maximum interglyph size, maximum glyph size
+.	\" rhang: font, [glyph, right hanging] ...
+.	\" track: font, max point size, space between char,
+.	\" min point size, space between char,
+.	\" max point size, computing number size.
+.	ss 11 0 
+.	minss 10
+.	letadj 99 99 15 101 101
+.	rhang RRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang RIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang BRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang BIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	\"track R 10 0 24 .1
+..
+.de typo:note
+.	\" init micro-typography variables for notes
+.	ss 10 0 
+.	minss 9.5
+.	letadj 98 98 8 102 102
+.	rhang RRN - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang RIN - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang BRN - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang BIN - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+..
+.de TD
+.	\" minimize paragraphs to avoid orphans
+.	ss 10 0 
+.	minss 9
+.	letadj 98 98 15 101 101
+.	rhang RRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang RIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang BRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang BIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+..
+.de TI
+.	\" maximize paragraphs to avoid orphans
+.	ss 12 0 
+.	minss 11
+.	letadj 100 100 15 102 102
+.	rhang RRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang RIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang BRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang BIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+..
+.nr inform-orphan 1
+.de typo:inform
+.	\" inform about orphans
+.	if \\n(RH \{\
+.	if \\n[inform-orphan] .if \\n(nl=\\n[typo-orphan]v \{\
+.		var:tm Orphan
+.	\}
+.	if \\n(nl=\\n[typo-widow]v \{\
+.		var:tm Widow
+.	\}
+.	if \\n(nl=\\n[typo-blank]v \{\
+.		var:tm Blank
+.	\}
+.	nr inform-orphan 1
+.	\}
+..
+.if !r RH .nr RH 1
+.de RH
+.	\" Reverse help printing
+.	nr RH 1-\\n(RH
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Headings
+.de head:orn
+.	\" Put ornament
+.	br
+.	par:init
+.	lnr orn-limit (\\n[page-foot]-3)
+.	lnr orn-line \\n(nl/\\n[text-line]
+.	if \\n[orn-line]<\\n[orn-limit] \{\
+.		if \\n[orn-line]>\\n[page-head] \{\
+.			\" a>?b : maximum of a and b.
+.			lnr orn-space (\\n[orn-limit]-\\n[orn-line]/3)>?2
+.			sp \\n[orn-space]v
+.			ce
+.			var:print \\*[font-orn]
+.		\}
+.	\}
+..
+.nr head-1 0 1
+.nr head-2 0 1
+.nr head-3 0 1
+.nr head-4 0 1
+.de head:num
+.	\" Reset numbers
+.	\" $1: heading level
+.	nr head-\\$1 +1
+.	lnr i \\$1 1
+.	while \\n+i<5 .nr head-\\ni 0
+.	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
+..
+.nr head-previous -1 1
+.de head:data
+.	\" Use pdf header system - adapt user hierarchy
+.	\" $1 head level, $2 title string
+.	\" first level of pdf header system is 0, not 1
+.	lnr i \\$1
+.	shift
+.	if (\\ni-\\n[head-previous])>=1 \{\
+.		while \\n+[head-previous]<\\ni \{\
+.			pdf:toc \\n[head-previous] \\$*
+.		\}
+.	\}
+.	pdf:toc \\ni \\$*
+.	nr head-previous \\ni
+..
+.de head:print
+.	lnr i \\$1
+.	shift
+.	lds head-beg \\$*
+.	lds head-end \\$*
+.	chop head-beg
+.	substring head-end -1 -1
+.	nh
+.	in 0
+.	head:num \\ni
+.	head:data \\ni \\$*
+.	pdf:anchor \\*[head-level]
+.	pdf:anchor \\*[head-beg]\\*[head-end]
+.	pdf:link TOC "\\*[head-beg]\\*F\\*[head-end]\\*P"
+.	var:print \\P[page:num]
+.	br
+.	font:endhead
+.	toc:record \\ni \\$*
+.	sum:record \\ni \\$*
+.	hy \\n[text-hyphen]
+.	nr inform-orphan 0
+.	nr head-H4 0
+..
+.de H1
+.	bp
+.	rs
+.	par:init
+.	sp 8v
+.	ps 25p
+.	ad c
+.	vs \\n[text-line]u*2u
+.	font:head
+.	head:print 1 \\$*
+.	br
+.	par:init
+.	sp 5v
+..
+.de H2
+.	if \\n[head-2]>0 .head:orn
+.	bp
+.	rs
+.	par:init
+.	sp 3v
+.	ps 20p
+.	ad c
+.	vs \\n[text-line]u*2u
+.	font:head
+.	head:print 2 \\$*
+.	nr * 0 1 \" reset note number
+.	par:init
+.	sp 2v
+..
+.de H3
+.	par:init
+.	br
+.	sp 1v
+.	ps 12
+.	ad l
+.	font:head
+.	head:print 3 \\$*
+..
+.nr head-H4 0
+.de H4
+.	par:init
+.	br
+.	sp 1v
+.	ad l
+.	font:head
+.	head:print 4 \\$*
+.	nr head-H4 1
+..
+.de H0
+.	ds page-title-tmp \\$*
+..
+.ds page-title
+.de H*
+.	ds page-title \\$*
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\"	Table of content
+.de toc:record
+.	\" record for TOC.
+.	\" $1 indent $2 title string
+.	lnr i \\$1
+.	shift
+.	ev toc
+.	br
+.	par:init \" par:toc don't reset paragraph
+.	par:toc \\ni
+.	da toc:print
+.		pdf:linktoc \\*[head-level] "\\$*" \\n[page-num]
+.		in 0
+.		br
+.	di
+.	ev
+..
+.de AT
+.	\" print table of contents
+.	H3 Table des matières
+.	H* Table des matières
+.	H0
+.	sp -1v
+.	var:print \A'TOC'
+.	br
+.	ev toc
+.	par:init \" par:toc don't reset paragraph
+.	sp 1v
+.	par:toc 0
+.	nf
+.	toc:print
+.	br
+.	fi
+.	ev
+..
+.\"""""""""""""""""""""""""""""""""""""
+.\"	Summary
+.\"
+.ig
+When S[1-4] or S* are called,
+the macro sum:out\\*[sum-level] is created,
+and filled with following headers of this level.
+At the end of processing, all the created macros
+are renamed sum:in\\*[sum-level] and are
+recorded to \\*[data-file]-sum.tr.
+This file is sourced at next input, and when
+S[1-4] or S* macros are found, the corresponding
+index is printed.
+
+sum-level format is like a directory hierarchy,
+where \\n[head-n] is the current number of level n:
+For H1: /
+For H2: /\\n[head-1]/
+For H3: /\\n[head-1]/\\n[head-2]
+For H4: /\\n[head-1]/\\n[head-2]/\\n[head-3]
+For the whole table of content: *
+
+So .S2 will create the macro sum:out/\\n[head-1]/
+and call the macro sum:in/\\n[head-1]/
+
+..
+.de sum:record
+.	\" record header for summary.
+.	\" $1 level, $2 head string
+.	lnr i 0 1
+.	lds sum-level /
+.	while \\n+i<\\$1 .as sum-level \\n[head-\\ni]/
+.	shift
+.	if d sum:out\\*[sum-level] \{
+.		am sum:out\\*[sum-level]
+.			par:toc 0 \" all headings are on the same level
+.			pdf:linktoc \\*[head-level] "\\$*" \\n[page-num]
+.			br
+\\..
+.	\}
+.	if d sum:out* \{
+.		am sum:out*
+.			par:toc \\ni
+.			pdf:linktoc \\*[head-level] "\\$*" \\n[page-num]
+.			br
+\\..
+.	\}
+..
+.de sum:out
+.	\" output recorded summary in file for next pass
+.	\" $1 = sum-list : list of macros
+.	open sum-out \\*[data-file]-sum.tr
+.	while \\n(.$ \{\
+.		write sum-out .de sum:in\\$1
+.		\" hopefully, par:toc doesn't reset paragraphs
+.		write sum-out .par:toc 0
+.		writem sum-out sum:out\\$1
+.		write sum-out ..
+.		shift
+.	\}
+.	close sum-out
+..
+.de sum:input
+.	\" insert summary from previous pass
+.	\" Create file in case it doesn't exist
+.	opena sum-in \\*[data-file]-sum.tr
+.	close sum-in
+.	\" delete EOF = \004 in octal = ^D in vim
+.	pso tr -d '\\\\004' < \\*[data-file]-sum.tr
+.	\"so \\*[data-file]-sum.tr
+..
+.de sum:macro
+.	\" Record wanted summary.
+.	\" Insert summary if its macro is defined
+.	\" $1 macro which call sum:macro
+.	\" $2 wanted summary
+.	if !d sum:out\\$2 .as sum-list " \\$2
+.	de sum:out\\$2
+\\..
+.	br
+.	NS no
+.	par:toc
+.	ie d sum:in\\$2 .sum:in\\$2
+.	el .if \\n(RH .var:tm Wait next pass for \\$1
+.	NE
+.	br \" break after note trap ending with \c
+..
+.de S1
+.	sum:macro S1 /
+..
+.de S2
+.	sum:macro S2 /\\n[head-1]/
+..
+.de S3
+.	sum:macro S3 /\\n[head-1]/\\n[head-2]/
+..
+.de S4
+.	sum:macro S4 /\\n[head-1]/\\n[head-2]/\\n[head-3]/
+..
+.de S*
+.	sum:macro S* *
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Notes in no padj mode
+.nr * 0 1
+.ds * \|\fU\\n+*\fP
+.nr note-size 3
+.de note:init
+.	ad b
+.	fi
+.	hy \\n[hyphen]
+.	ll \\n[note-length]u
+.	lt \\n[note-length]u
+.	vs \\n[text-line]u
+.	ps \\n[note-font]u
+'	in 0 \" Avoid break!
+.	font:margin
+.	typo:note
+..
+.de NS
+.	ev ev-note
+.	br
+.	note:init
+.	da note:div
+.	var:print \\n*
+..
+.de NE
+.	br
+.	di
+.	ev
+.	font:text
+.\".	nr note-size +\\n(dnu
+.\".	nr note-half \\n[note-size]/2
+.\".	ch page:foot \\n[page-foot]v-\\n[note-half]u
+.	nr note-lines \\n(dnu/\\n[note-line]u
+.	nr note-size +\\n[note-lines]
+.	nr note-divide \\n[note-size]/2
+.	nr note-modulo \\n[note-size]%2
+.	ie \\n[note-modulo]>0 .nr note-divide +1
+.	ch page:foot \\n[page-foot]v-\\n[note-divide]v
+..
+.de note:print
+.	ti 0
+.	\"var:print \D'l \\n[text-length]u'
+.	sp 1v
+.	br
+.	mk
+.	po \\n[note-offset]u
+.	wh \\n[page-foot]v note:print2
+.	ev ev-note
+.	nf
+.	note:div
+.	fi
+.	ev
+.	rm note:div
+.	nr note-size 3
+..
+.de note:print2
+.	rt
+.	po +\\n[note-length]u+\\n[note-blank]u
+.	wh \\n[page-foot]v note:print3
+.	ch note:print2
+..
+.de note:print3
+.	rt
+.	po +\\n[note-length]u+\\n[note-blank]u
+.	wh \\n[page-foot]v note:print3
+.	ch note:print3
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Notes in padj mode
+.nr * 0 1
+.ds * \|\\*U\\n+*\\*P
+.nr note-size 3 \" size of diversion
+.\" deal with output line traps:
+.nr note-olt 0 1 \" output line trap number
+.de note:init
+.	ad b
+.	fi
+.	hy \\n[note-hyphen]
+.	ll \\n[note-length]u
+.	lt \\n[note-length]u
+.	vs \\n[note-line]u
+.	ps \\n[note-font]u
+'	in 0 \" Avoid break!
+.	if t .lc \[repeat-char]
+.	ta (\\n[note-length]u-\w'000'u) (\\n[note-length]u)R
+.	\"ta (\\n(.lu-\\n(.iu-\w'000'u) (\\n(.lu-\\n(.iu)R
+.	font:note
+.	typo:note
+..
+.de NS
+.	nr note-in 1
+.	\" start a note
+.	\" Do not append text of note to note:div
+.	\" before that line is printed.
+.	lnr i \\n[note-olt] \" erase trap later
+.	\" Call numbered macro in line trap:
+.	var:print \&\\P[note:olt-\\n+[note-olt]]\&\c
+.	\" Define macro called by line trap
+.	de note:olt-\\n[note-olt]
+.		rm note:olt-\\ni \" erase previous trap
+.		ev ev-note
+.		note:init
+.		\" Append text of note to note:div
+.		da note:div
+.			br
+.			nf
+.			note:plt-\\n[note-olt]
+.			fi
+.			br
+.		di
+.		ev
+.		font:text
+.		note:mvtrap
+\\..
+.	\" Divert text of note to line trap macro
+.	ev ev-note
+.	br
+.	note:init
+.	di note:plt-\\n[note-olt]
+.		if \\n(.$=0 .var:print \\*(BU\\n*\\*R
+..
+.de NE
+.	br
+.	di
+.	ev
+.	font:text
+.	nr note-in 0
+..
+.de NT
+.	NS no
+..
+.de NB
+.	NS no
+..
+.de note:mvtrap
+.	\" place or move a trap for notes
+.	\" number of lines in last diversion:
+.	lnr note-lines \\n(dnu/\\n[note-line]u
+.	\" size of all the notes:
+.	nr note-size +\\n[note-lines]
+.	\" size of each column
+.	lnr note-divide \\n[note-size]/2
+.	\" rest of division:
+.	lnr note-modulo \\n[note-size]%2
+.	\" if modulo, add one line to size of column:
+.	ie \\n[note-modulo]>0 .nr note-divide +1
+.	\" line of page in which the actual note appears:
+.	nr note-olt-line \\n(nlu/\\n[text-line]u
+.	\" line of page in which footer + note should begin:
+.	nr note-place \\n[page-foot]-\\n[note-divide]
+.	\" if enougth place, print all notes
+.	ie \\n[note-olt-line]<\\n[note-place] \{\
+.		ch page:foot \\n[note-place]v
+.	\}
+.	\" else, print diversion in next line
+.	el .ch page:foot \\n[note-olt-line]+1v
+..
+.de note:print
+.	ti 0
+.	var:print \D'l \\n[note-length]u'
+.	\"sp 1v
+.	br
+.	mk note-top
+.	po \\n[note-offset]u
+.	if \\n(RV .if e .po \\n[note-offset-e]u
+.	wh \\n[page-foot]v note:print2
+.	ev ev-note
+.	nf
+.	note:div
+.	rm note:div
+.	nr note-size 3
+.	if r note-trap .note:endtrap
+.	br
+.	ev
+..
+.de note:print2
+.	\" print second column
+.	rt \\n[note-top]u
+.	po +\\n[note-length]u+\\n[note-blank]u
+.	if \\n[note-olt-line]>\\n[note-place] \{\
+.		wh \\n[page-foot]v note:trap
+.	\}
+.	ch note:print2
+..
+.de note:trap
+.	\" divert to next page
+.	ch note:trap
+.	nr note-trap 1
+.	di note:pre
+..
+.de note:endtrap
+.	\" stop diversion to next page
+.	br
+.	di
+.	de note:div
+.		note:pre
+\\..
+..
+.de note:head
+.	\" add diversion from previous page
+.	if r note-trap .note:mvtrap
+.	rr note-trap
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" pdf marks
+.de pdf:mark
+.	var:print \X"PDFMark: \\$*"\\c
+..
+.de pdf:toc
+.	var:print \X"PDFMark: Bookmark \\$*"\\c
+..
+.de pdf:anchor
+.	var:print \A"\\$*"\\c
+..
+.de pdf:link
+.	\" $1: anchor, $2: text
+.	var:print \T"\\$1"\\$2\T\\$3\\c
+..
+.de pdf:linktoc
+.	\" $1: anchor, $2: text, $3: page
+\&\T"\\$1"\\$2\T\\a\\t\\$3
+..
+.de pdf:url
+.	\" $1: url, $2: text
+.	var:print \W"\\$1"\\$2\W
+..
+.de pdf:config
+.	var:print \X'SetLinkColor: .0 .0 .0 rgb'\\c
+.	var:print \X'SetLinkBorder: .0 .0 .0 rgb'\\c
+.	var:print \X'SetULinkColor: .0 .0 .0 rgb'\\c
+.	var:print \X'SetULinkBorder: .0 .0 .0 rgb'\\c
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\"	Meta datas
+.de DA
+.	am data:write
+.		pdf:mark Author \\$*
+\\..
+..
+.de DT
+.	am data:write
+.		pdf:mark Title \\$*
+\\..
+..
+.de DS
+.	am data:write
+.		pdf:mark Subject \\$*
+\\..
+..
+.de DK
+.	am data:write
+.		pdf:mark Keywords \\$*
+\\..
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Colors
+.ds col-lgrey \X'SetColor .8 .8 .8 rgb'
+.ds col-grey \X'SetColor .2 .2 .2 rgb'
+.ds col-black \X'SetColor black'
+.\""""""""""""""""""""""""""""""""""""""
+.\" Set locale
+.de RL
+.	so \V[TROFFMACS]/l-\\$1
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Images
+.ig
+\X'PI' offset:indent:line length:tab:\
+file(page):height,width,yoff,xoff:flags
+..
+.de img:left
+.	\" left align image
+.	PP
+.	psbb \\$1
+.	lnrf img-scale 1
+.	if \\n(.$>1 .lnrf img-scale \\$2
+.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
+.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
+\\X'PI:\\n(.o:\\n(.i:\\n(.l:\\n(.t:\
+\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
+..
+.de img:right
+.	\" right align image
+.	PR
+.	psbb \\$1
+.	lnrf img-scale 1
+.	if \\n(.$>1 .lnrf img-scale \\$2
+.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
+.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
+.	lnrf img-o \\n(.ou+\\n(.lu-\\n[img-x]u
+\\X'PI:\\n[img-o]:\\n(.i:\\n(.l:\\n(.t:\
+\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
+..
+.de img:center
+.	\" centered image
+.	PC
+.	psbb \\$1
+.	lnrf img-scale 1
+.	if \\n(.$>1 .lnrf img-scale \\$2
+.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
+.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
+.	lnrf img-o \\n(.ou+(\\n(.l/2)-(\\n[img-x]u/2)
+\\X'PI:\\n[img-o]:\\n(.i:\\n(.l:\\n(.t:\
+\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Various macros
+.de var:null
+.	\" do nothing
+..
+.de var:print
+.	\" print args
+\\$*
+..
+.de var:tm
+.	\" print to stderr
+.	tm \t\\$*, line \\n(.c, file \\n(.F; page \\n%.
+..
+.\"warn w all mac
+.warn w
+.\""""""""""""""""""""""""""""""""""""""
+.\" Here we go!
+.so \V[TROFFMACS]/hlm-ref			\" Refer
+.so \V[TROFFMACS]/hlm-grind			\" Grind
+.so \V[TROFFMACS]/hlm-idx			\" Index
+.ie "\V[HLMTMAC]"" \{\
+.	so \V[TROFFMACS]/hlm-en			\" Lang
+.	so \V[TROFFMACS]/hlm-libertine	\" Font
+.\}
+.el .so \V[HLMTMAC]					\" Locale
+.doc:start
