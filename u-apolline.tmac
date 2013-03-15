@@ -1,0 +1,385 @@
+.\" u-apolline: apolline font.
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.
+.
+.
+.ig
+
+
+Explanation
+
+A font is defined by three things:
+	a weight (regular or bold, etc.),
+	a style (roman or italic, etc.),
+	a form (upperscripts, small caps, etc.).
+
+But softwares (both troff and fonts), and after them end
+users, don't make real difference between weight, styles and
+forms. So, we have to create the difference, and give a
+simple and usual interface to these well defined fonts.
+
+That's why we use three letter to name fonts, and mount fonts
+using these names. To access a font, strings definition
+are shortcuts to these names.
+
+First letter define the weight, second one the style, and
+third one the form.
+
+weight:
+	R regular
+	K book
+	B bold
+	E extra
+style:
+	R roman
+	I italic
+forms:
+	N normal
+	C small caps
+	A acronyms
+	U superscript (upper)
+	F final glyphs
+	M monospace
+
+Thus, RRN means regular roman with normal form, which is
+usually named "roman"; and BIU means bold italic
+superscript, etc.
+
+
+When using a font, we usually need: a default weight, an
+emboldened weight. For each of these, we need a default
+style, and an emphasis style (italic). For each of these, we
+need a normal form, small caps, acronyms, superscripts, and
+special glyphs.
+
+So, end user names of fonts are:
+R RC RA RU RF		default weight, default style
+B BC BA BU BF		emboldened, default style
+I IC IA IU IF		default weight, emphasis style
+BI BIC BIA BIU BIF	emboldened, emphasis style
+
+We link these names to real fonts using strings, with:
+weight0	= default weight
+weight1 = emboldened weight
+style0  = default style
+style1  = emphasis style
+
+So, R is a shortcut to [weight0][style0]N,
+BIA is a shortcut to [weight1][style1]A,
+and IC is a shortcut to [weight0][style1]C.
+
+To embolden a whole set of font, we use some macros.
+
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" Strings
+.de font:strings
+.	\" normal form
+.	ds P \f[\\*[font-weight0]\\*[font-style0]N]
+.	ds R \f[\\*[font-weight0]\\*[font-style0]N]
+.	ds B \f[\\*[font-weight1]\\*[font-style0]N]
+.	ds I \f[\\*[font-weight0]\\*[font-style1]N]
+.	ds BI \f[\\*[font-weight1]\\*[font-style1]N]
+.	\" small caps form
+.	ds C \f[\\*[font-weight0]\\*[font-style0]C]
+.	ds BC \f[\\*[font-weight1]\\*[font-style0]C]
+.	ds BIC \f[\\*[font-weight1]\\*[font-style1]C]
+.	ds IC \f[\\*[font-weight0]\\*[font-style1]C]
+.	\" acronyms
+.	ds A \f[\\*[font-weight0]\\*[font-style0]A]
+.	ds BA \f[\\*[font-weight1]\\*[font-style0]A]
+.	ds BIA \f[\\*[font-weight1]\\*[font-style1]A]
+.	ds IA \f[\\*[font-weight0]\\*[font-style1]A]
+.	\" superscript
+.	ds U \f[\\*[font-weight0]\\*[font-style0]U]
+.	ds BU \f[\\*[font-weight1]\\*[font-style0]U]
+.	ds BIU \f[\\*[font-weight1]\\*[font-style1]U]
+.	ds IU \f[\\*[font-weight0]\\*[font-style1]U]
+.	\" Final glyphs
+.	ds F \f[\\*[font-weight0]\\*[font-style0]F]
+.	ds BF \f[\\*[font-weight1]\\*[font-style0]F]
+.	ds BIF \f[\\*[font-weight1]\\*[font-style1]F]
+.	ds IF \f[\\*[font-weight0]\\*[font-style1]F]
+.	\" usefull shortcuts
+.	ds { \f[RRU]
+.	ds } \f[RRN]
+.	\"ds siecle \\fA\\$1\\fP\\fUe\\fP
+..
+.\" ornament orn.023 orn.001
+.ds font-orn \[orn.023]
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\"	Macros to change weight
+.de font:text
+.	\" default font
+.	\" regular, bold, roman, italic
+.	ds font-weight0 R
+.	ds font-weight1 B
+.	ds font-style0 R
+.	ds font-style1 I
+.	font:strings
+.	ft RRN
+.	lang:char
+..
+.de font:note
+.	\" font for small text
+.	\" book, extra, roman, italic
+.	ds font-weight0 K
+.	ds font-weight1 E
+.	ds font-style0 R
+.	ds font-style1 I
+.	font:strings
+.	ft KRN
+.	lang:char
+..
+.de font:note-it
+.	\" small text, reverse italic
+.	\" book, extra, italic, roman
+.	ds font-weight0 K
+.	ds font-weight1 E
+.	ds font-style0 I
+.	ds font-style1 R
+.	font:strings
+.	ft KIN
+.	lang:char
+..
+.de font:head
+.	\" decoration for headers
+.	\" extra, extrabold, italic, roman
+.	ds font-weight0 E
+.	ds font-weight1 E
+.	ds font-style0 I
+.	ds font-style1 R
+.	font:strings
+.	char K \[K.swsh]
+.	char k \[k.swsh]
+.	char Q \[Q.swsh]
+.	char q \[q.swsh]
+.	char R \[R.swsh]
+.	feature EIN +salt
+.	feature ERN +salt
+.	ft EIN
+.	lang:char
+..
+.de font:subhead
+.	\" decoration for subheads
+.	\" bold, extra, italic, roman
+.	ds font-weight0 B
+.	ds font-weight1 E
+.	ds font-style0 I
+.	ds font-style1 R
+.	font:strings
+.	char K \[K.swsh]
+.	char k \[k.swsh]
+.	char Q \[Q.swsh]
+.	char q \[q.swsh]
+.	char R \[R.swsh]
+.	feature BIN +salt
+.	feature BRN +salt
+.	feature EIN +salt
+.	feature ERN +salt
+.	ft BIN
+.	lang:char
+..
+.de font:endhead
+.	\" reset after headers
+.	rchar K k Q q R
+.	feature BIN -salt
+.	feature BRN -salt
+.	feature EIN -salt
+.	feature ERN -salt
+.	font:text
+.	lang:char
+..
+.de font:code
+.	\" TODO: use monospace font
+.	ds P \f[RRN]
+.	ds R \f[RRN]
+.	ds B \f[BRN]
+.	ds I \f[RIM]
+.	ds BI \f[BIN]
+.	\" small caps form
+.	ds C \f[RRN]
+.	ds BC \f[BRN]
+.	ds BIC \f[BIN]
+.	\" acronyms
+.	ds A \f[RRN]
+.	ds BA \f[BRN]
+.	ds BIA \f[BIN]
+.	\" superscript
+.	ds U \f[RRN]
+.	ds BU \f[BRN]
+.	ds BIU \f[BIN]
+.	\" Final glyphs
+.	\" Since there's no final glyphs, map to N
+.	ds F \f[RRN]
+.	ds BF \f[BRN]
+.	ds BIF \f[BIN]
+.	\" usefull shortcuts
+.	ds { \f[RRN]
+.	ds } \f[RRN]
+.	ft RRN
+.	lang:rchar \" remove no-break spaces
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" Make ligatures
+.de font:liga
+.	\" make ligatures
+.	flig \\$1 ct \[c_t] st \[s_t] sp \[s_p]
+.	flig \\$1 fb \[f_b] ffb \[f_f_b]
+.	flig \\$1 ff \[f_f] fh \[f_h] ffh \[f_f_h]
+.	flig \\$1 fi \[fi] ffi \[f_f_i]
+.	flig \\$1 fj \[f_j] ffj \[f_f_j] fk \[f_k]
+.	flig \\$1 ffk \[f_f_k] fl \[fl]
+.	flig \\$1 ffl \[f_f_l] ft \[f_t] fft \[f_f_t] Th \[T_h]
+.	\"char \[doublepoint] ..
+.	\"flig \\$1 .. \[doublepoint] ... \[ellipsis]
+.
+.	\" add space after '
+.	kernafter \\$1 ' 100
+..
+.de font:noliga
+.	fdeferlig \\$1 ff ffi ffl
+.	kernafter \\$1 ' 100
+..
+.\""""""""""""""""""""""""""""
+.\" Mount fonts for text
+.\""""""""""""""""""""""""""""
+.\"	fp 1 R ApollinePTF-Regular otf
+.\"	fp 2 B ApollinePTF-ExtraBold otf
+.\"	fp 3 I ApollinePTF-Italic otf
+.\"	fp 4 BI ApollinePTF-ExtraBoldItalic otf
+.de font:mount
+.	\" $1: weight and style symbols
+.	\" $2: name of font
+.	\" N: default form
+.	fp \\nz \\$1N \\$2 otf
+.	font:liga \\$1N
+.	\" C: small caps
+.	fp \\n+z \\$1C \\$2 otf
+.	feature \\$1C +smcp +lnum
+.	font:noliga \\$1C
+.	\" A: acronyms
+.	fp \\n+z \\$1A \\$2 otf
+.	feature \\$1A +c2sc +smcp +lnum
+.	font:noliga \\$1A
+.	\" U: superscripts
+.	fp \\n+z \\$1U \\$2 otf
+.	feature \\$1U +sups
+.	font:noliga \\$1U
+.	\" F: final glyphs
+.	fp \\n+z \\$1F \\$2 otf
+.	feature \\$1F +fina
+.	font:noliga \\$1F
+.	nr z +1
+..
+.\" mount default fonts:
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" mount all fonts
+.\" TODO: find a way to mount on demand
+.nr z 11 1 \" position 9 and 10 are reserved
+.font:mount RR ApollinePTF-Regular
+.font:mount RI ApollinePTF-Italic
+.font:mount KR ApollinePTF-Book
+.font:mount KI ApollinePTF-BookItalic
+.font:mount BR ApollinePTF-Bold
+.font:mount BI ApollinePTF-BoldItalic
+.font:mount ER ApollinePTF-ExtraBold
+.font:mount EI ApollinePTF-ExtraBoldItalic
+.rm z
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" Opentype features
+.ig
+
+Letters
+-------
+aalt 	Access All Alternates
+smcp	Small Capitals
+c2sc	Capitals to Small Caps
+		used to type acronyms)
+case	Case-Sensitive Forms
+		Punctuation marks for all-capitals sequences
+		Lining figures are prefered than oldstyle figures
+swsh	Swash
+		all swash glyphs and end glyphs
+fina	Terminal Forms
+		Alternate forms for the end of a word
+salt	Stylistic Alternates
+		a, A, ç, Ç alternates
+ordn	Ordinals
+		Letter superscript to use after figures
+sups	superscript
+		letters and figure superscripts
+
+Figures
+-------
+onum	Oldstyle Figures (default)
+		Fit better in normal text
+		Override lnum
+lnum	Lining Figures
+		Figures that looks better in all capital forms
+		Override onum
+pnum	Proportional Figures
+		proportionnal inter-glyph space
+		Override tnum (tabular figures)
+tnum	Tabular figures
+		figures in uniform (tabular, monospace) interglyph space
+		Override pnum
+frac	Fractions
+		replace figures by Numr, and slash by fraction
+		Should be followed by dnom
+numr	Numerators
+		Used before a slash in a fraction
+dnom	Denominator
+		For figures which follow a slash in a fraction
+sinf	Scientific Inferiors
+		smaller figures glyphs which sit lower than the standard baseline
+		for chemical or mathematical notation
+
+Ornaments and stylistic sets
+----------------------------
+ornm	Ornaments
+		a->z A->K 0->9 punctuation
+		orn.001 -> orn.039, etc.
+ss01	Stylistic set 1
+ss02	Stylistic set 2
+ss03	Stylistic Set 3
+ss05	Stylistic Set 5
+ss06	Stylistic Set 6
+
+Ligatures
+---------
+No ligatures for c2sc smcp case ordn sups ornm
+..
+.de var:null
+..
