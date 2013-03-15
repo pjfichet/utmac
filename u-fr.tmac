@@ -1,0 +1,110 @@
+.\" u-fr: french locale.
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.lc_ctype fr_FR.utf8
+.hylang fr_FR
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" typo
+.de lang:char
+.	char : \~:
+.	char ; \|;
+.	char ? \|?
+.	char « «\|
+.	char » \|»
+.	char § §\|
+.	\"char ! \|! \" BUG with conditions
+..
+.de lang:rchar
+.	rchar : ; ? « » §
+..
+.ds « \[guilsinglleft]\|
+.ds » \|\[guilsinglright]
+.ds lq \[guilsinglleft]\|
+.ds rq \|\[guilsinglright]
+.ds lang-widow Veuve
+.ds lang-blank Blanc
+.ds lang-orphan Orpheline
+.ds lang-line ligne
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" xml
+.de lang:xmlchar
+.	char - \-
+.	\"char - \[u002D] \" for groff
+.	\" \U'00A0' unbreakable space
+.	\" \U'202F' unbreakable thin space
+.	char « «\U'00A0'
+.	char » \U'00A0'»
+.	char : \U'202F':
+.	\"char ; \U'202F';
+.	char ? \U'202F'?
+.	\"char ! \U'202F'!
+.	\"char < &lt
+.	\"char > &gt
+.	\" fo: U2039, fc: U203A
+.	ds « \U'2039'\U'00A0'
+.	ds » \U'00A0'\U'203A'
+.	ds lq \U'2039'\U'00A0'
+.	ds rq \U'00A0'\U'203A'
+..
+.de lang:xmlrchar
+.	rchar « » : ; ? ! \"< >
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" toc
+.ds lang-toc Table des matières
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" ref
+.ds lang-ed0 éd.
+.ds lang-ed1 éds.
+.ds lang-vol vol.
+.ds lang-col col.
+.ds lang-on consultable sur
+.ds lang-update mis à jour le
+.ds lang-seen consulté le
+.ds lang-opcit \\*Iop. cit.\\*P
+.ds lang-before ci-dessus
+.ds lang-idem \\*Iidem.\\*P
+.ds lang-num n\\*Uo\\*P
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" idx
+.ds lang-HA Index des acronymes
+.ds lang-HC Index des commandes
+.ds lang-HD Index des dates
+.ds lang-HE Index des erreurs
+.ds lang-HH Index des noms
+.ds lang-HN Index des choses
+.ds lang-HT Index des ouvrages
+.ds lang-HW Index des mots
+.ds lang-see Voir
+.\"""""""""""""""""""""""""""""""""""""""""""""""
