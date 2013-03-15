@@ -1,0 +1,206 @@
+.\" ut: translate to plain text file.
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.do xflag 3
+.nr txt-length 65
+.de doc:end
+.	pl \\n(nlu
+..
+.em doc:end
+.de txt:conf
+.	ll \\n[txt-length]
+.	lt \\n[txt-length]
+.	na
+.	fi
+.	nh
+.	in 0
+.	lpfx
+..
+.de txt:break
+.	txt:note
+.	br
+.	sp 1v
+.	txt:conf
+.	if \\n[txt-PI]=1 .nr txt-PI 0
+.	if \\n[txt-PX]=1 \{\
+.		\"txt:print ```
+.		nr txt-PX 0
+.	\}
+..
+.de txt:print
+\\$*
+..
+.\"""""""""""""""""""""""""""""""""""""
+.\" headings
+.de H1
+.	txt:break
+.	lnr head-width \\n[txt-length] 1
+.	lds head-string #
+.	while \\n-[head-width] .as head-string #
+.	txt:print \\*[head-string]
+.	tl '#'\\$*'#'
+.	txt:print \\*[string]
+.	sp 1v
+..
+.de H2
+.	txt:break
+.	length head-tmp \\$*
+.	lnr head-width \\n[head-tmp] 1
+.	lds head-string #####
+.	while \\n-[head-width] .as head-string #
+.	txt:print # \\$*
+.	br
+.	txt:print \\*[head-string]
+.	\"tl ''\\*[head-string]''
+.	\"tl ''# \\$* #''
+.	\"tl ''\\*[head-string]''
+..
+.de H3
+.	txt:break
+.	length head-tmp \\$*
+.	lnr head-width \\n[head-tmp] 1
+.	lds head-string ===
+.	while \\n-[head-width] .as head-string =
+.	txt:print # \\$*
+.	br
+.	txt:print \\*[head-string]
+..
+.de H4
+.	txt:break
+.	length head-tmp \\$*
+.	lnr head-width \\n[head-tmp] 1
+.	lds head-string ---
+.	while \\n-[head-width] .as head-string -
+.	txt:print # \\$*
+.	br
+.	txt:print \\*[head-string]
+..
+.als H0 var:null
+.als H* var:null
+.\"""""""""""""""""""""""""""""""""""""
+.\" paragraphs
+.de PP
+.	txt:break
+..
+.de PQ
+.	txt:break
+.	lpfx \ \ >\ \"
+..
+.de PI
+.	if \\n[txt-PI]=0 \{\
+.		txt:break
+.		nr txt-PI 1
+.	\}
+.	txt:conf
+.	in 4
+.	ti -4
+.	ie \\n(.$ .txt:print \ \ \\$*
+.	el txt:print \ \ - \\$*
+..
+.de PL
+.	txt:break
+.	in 4
+.	ti -4
+.de PR
+.	txt:break
+.	ad r
+..
+.de PX
+.	txt:break
+.	in 4
+.	nr txt-PX 1
+.	nf
+..
+.als vS PX
+.als vE PP
+.\"""""""""""""""""""""""""""""""""""""
+.\" notes
+.nr txt-note 0 1
+.ds * ^\\n+[txt-note]^
+.de txt:printnote
+.	br
+.	sp 1v
+.	ev note
+.	txt:conf
+.	txt:note
+.	br
+.	ev
+.	rm txt:note
+..
+.de NS
+.	ev note
+.	br
+.	da txt:note
+.	br
+.	sp 1v
+.	txt:conf
+.	txt:print ^\\n[txt-note]^
+..
+.de NE
+.	br
+.	di
+.	ev
+..
+.als NT NS
+.als NB NS
+.\"""""""""""""""""""""""""""""""""""""
+.\" fonts
+.\" define only bold and italic
+.ig
+.de font:init
+.	nr font-num 0
+.	ds font-0
+.	ds font-1 * 
+.	ds B *\\R'font-num 1'
+.	ds font-2 _
+.	ds I _\\R'font-num 2'
+.	ds P \\*[font-\\n[font-num]]\R'font-num 0'
+.	ds R \\*[font-\\n[font-num]]\R'font-num 0'
+..
+.de rdm:font
+.	while \\n(.$ \{\
+.		ds \\$1
+.		shift
+.	\}
+..
+.rdm:font P R B I BI
+.rdm:font A BA IA BIA
+.rdm:font C BC IC BIC
+.rdm:font U BU IU BIU
+.rdm:font F BF IF BIF
+.ds e \e
+.ds -- \(en
+.ds *) *
+.\"""""""""""""""""""""""""""""""""""""
+.\" start
+.txt:conf
