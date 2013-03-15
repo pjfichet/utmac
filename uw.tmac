@@ -1,0 +1,172 @@
+.\" uw: translate to markdown wiki syntax.
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.
+.
+.
+.ig
+TODO: a preprocessor is needed to move argument
+of PI to next line (to avoid problems with fonts).
+..
+.do xflag 3
+.nr txt-length 9999999c
+.de doc:end
+'	txt:note
+.	pl \\n(nlu
+..
+.em doc:end
+.de txt:conf
+.	ll \\n[txt-length]u
+.	lt \\n[txt-length]u
+.	na
+.	fi
+.	nh
+.	in 0
+.	lpfx
+..
+.de txt:break
+.	br
+.	sp 1v
+.	txt:conf
+.	if \\n[txt-PI]=1 .nr txt-PI 0
+.	if \\n[txt-PX]=1 \{\
+.		\"txt:print ```
+.		nr txt-PX 0
+.	\}
+..
+.de txt:print
+\\$*
+..
+.\"""""""""""""""""""""""""""""""""""""
+.\" headings
+.de H1
+.	txt:break
+.	txt:print # \\$* #
+.	sp 1v
+..
+.de H2
+.	txt:break
+.	txt:print ## \\$* ##
+.	sp 1v
+..
+.de H3
+.	txt:break
+.	txt:print ### \\$* ###
+.	sp 1v
+..
+.de H4
+.	txt:break
+.	txt:print #### \\$* ####
+.	sp 1v
+..
+.als H0 var:null
+.als H* var:null
+.\"""""""""""""""""""""""""""""""""""""
+.\" paragraphs
+.de PP
+.	txt:break
+..
+.de PQ
+.	txt:break
+.	txt:print >
+..
+.de PI
+.	if \\n[txt-PI]=0 \{\
+.		txt:break
+.		nr txt-PI 1
+.	\}
+.	txt:conf
+.	char _ \" needed to avoid fonts problems
+.	txt:print - \\$
+.	rchar _
+..
+.als PL PP
+.als PR PP
+.de PX
+.	txt:break
+.	\"txt:print ```
+.	in 4
+.	nr txt-PX 1
+.	nf
+..
+.als vS PX
+.als vE PP
+.\"""""""""""""""""""""""""""""""""""""
+.\" notes
+.nr txt-note 0 1
+.ds * ^\\n+[txt-note]^
+.de txt:printnote
+.	br
+.	sp 1v
+.	ev note
+.	txt:conf
+.	txt:note
+.	br
+.	ev
+.	rm txt:note
+..
+.de NS
+.	ev note
+.	br
+.	da txt:note
+.	br
+.	sp 1v
+.	txt:conf
+.	txt:print ^\\n[txt-note]^
+..
+.de NE
+.	br
+.	di
+.	ev
+..
+.als NT NS
+.als NB NS
+.\"""""""""""""""""""""""""""""""""""""
+.\" fonts
+.\" define only bold and italic
+.nr font-num 0
+.ds font-0
+.ds font-1 __
+.ds B __\\R'font-num 1'
+.ds font-2 _
+.ds I _\\R'font-num 2'
+.ds P \\*[font-\\n[font-num]]\R'font-num 0'
+.ds R \\*[font-\\n[font-num]]\R'font-num 0'
+.ds e \e\e
+.ds -- \(en
+.ds *) \e*
+.\"""""""""""""""""""""""""""""""""""""
+.\" start
+.so \V[TROFFMACS]/\V[HLMLANG]	\" French
+.txt:conf
+.lang:xmlchar
