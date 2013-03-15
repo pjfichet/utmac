@@ -1,0 +1,333 @@
+.\" ux: translate to xml.
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.do xflag 3
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" strings definition
+.ig
+Since we use .char to translate "<" , ">" and "&", and since
+";" might be translated to "\~;", we can't these glyphs to
+build the xml file. We use #[ #] to define xml tags, and #(
+#) to define chars.
+
+Since troff usually print tags after a newline, we indicate
+the newlines that need to be removed by #-
+
+The dxml post processor will make a clean xml file from
+this.
+..
+.ds xml-deline #-
+.ds xml-tagbeg #[
+.ds xml-tagend #]
+.ds xml-glybeg #(
+.ds xml-glyend #)
+.ds xml-tag \\*[xml-tagbeg]\\$*\\*[xml-tagend]
+.ds xml-gly \\*[xml-glybeg]\\$*\\*[xml-glyend]
+.char < \\*[xml-gly lt]
+.char > \\*[xml-gly gt]
+.char & \\*[xml-gly amp]
+.char - \-
+.\" the detag pre-processor replace by strings
+.\" tags inserted by the user. Escape these tags.
+.ds #[ #~[
+.ds #] #~]
+.ds #( #~(
+.ds #) #~)
+.ds #- #~-
+.ds #~ #~~
+.de xml:print
+.	\" print xml
+.	br
+.	fi
+.	lang:xmlrchar
+\&\\$*
+.	br
+.	lang:xmlchar
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" start and stop
+.de xml:start
+.	\" start xml file
+.	em xml:stop
+.	pl 1v
+.	ll 60
+.	na \" don't adjust
+.	nh \" don't hyphenate
+.	xml:print \\*[xml-tag ?xml version="1.0" encoding="UTF-8"?]
+.	xml:print \\*[xml-tag HLM]
+.	\" format date
+.	ie \\n[mo]<10 .lds month 0\\n[mo]
+.	el .lds month \\n[mo]
+.	ie \\n[dy]<10 .lds day 0\\n[dy]
+.	el .lds  day \\n[dy]
+.	ie \\n[hours]<10 .lds hours 0\\n[hours]
+.	el .lds hours \\n[hours]
+.	ie \\n[minutes]<10 .lds minutes 0\\n[mo]
+.	el .lds minutes \\n[minutes]
+.	ie \\n[seconds]<10 .lds seconds 0\\n[seconds]
+.	el .lds seconds \\n[seconds]
+.	lds data-date1 \\n[year]-\\*[month]-\\*[day]
+.	lds data-date2 \\*[hours]:\\*[minutes]:\\*[seconds]
+.	xml:print \\*[xml-tag DD]\\*[data-date1]\
+T\\*[data-date2]\\*[xml-tag /DD]
+.	xml:print \\*[xml-tag DG]heirloom \
+nroff -ml-xml\\*[xml-tag /DG]
+..
+.de xml:stop
+.	\" stop xml file
+.	pl \\n(nlu +3v
+.	if d xml-block \{\
+.		xml:print \\*[xml-deline]
+.		xml:print \\*[xml-block]
+.	\}
+.	xml:print \\*[xml-tag /HLM]
+.	pl \\n(nlu
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" block macros
+.de xml:block1
+.	\" multine line block
+.	while \\n(.$ \{\
+.		de \\$1
+.			if d xml-block \{\
+.			xml:print \\*[xml-deline]
+.			xml:print \\\\*[xml-block]
+.			\}
+.			sp 1v
+.			xml:print \\*[xml-tag \\$1]
+.			xml:print \\*[xml-deline]
+.			ds xml-block \\*[xml-tag /\\$1]
+\\..
+.		shift
+.	\}
+..
+.de xml:block2
+.	\" single line block
+.	while \\n(.$ \{\
+.		de \\$1
+.			ie d xml-block \{\
+.			xml:print \\*[xml-deline]
+.			xml:print \\\\*[xml-block]
+.			rm xml-block
+.			\}
+.			sp 1v
+.			xml:print \\*[xml-tag \\$1]\\\\$*\\*[xml-tag /\\$1]
+\\..
+.		shift
+.	\}
+..
+.xml:block1 PP PQ PL PR
+.xml:block2 DA DF DK DS DT H1 H2 H3 H4
+.de PX
+.	if d xml-block \{\
+.	xml:print \\*[xml-deline]
+.	xml:print \\\\*[xml-block]
+.	\}
+.	sp 1v
+.	xml:print \\*[xml-tag PX]
+.	xml:print \\*[xml-deline]
+.	ds xml-block \\*[xml-tag /PX]
+.	lang:xmlrchar
+.	nf
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Lists
+.de PI
+.	ie d xml-block \{\
+.		ie '\\*[xml-block]'\\*[xml-tag /PI]\\*[xml-tag /LI]' \{\
+.			xml:print \\*[xml-deline]
+.			xml:print \\*[xml-tag /PI]
+.		\}
+.		el \{\
+.			xml:print \\*[xml-deline]
+.			xml:print \\\\*[xml-block]
+.			sp 1v
+.			xml:print \\*[xml-tag LI]
+.			xml:print \\*[xml-deline]
+.		\}
+.	\}
+.	el \{\
+.		sp 1v
+.		xml:print \\*[xml-tag LI]
+.		xml:print \\*[xml-deline]
+.	\}
+.	xml:print \\*[xml-tag PI]
+.	xml:print \\*[xml-deline]
+.	if \\n(.$ \\$*:
+.	ds xml-block \\*[xml-tag /PI]\\*[xml-tag /LI]
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Notes
+.nr margin-num 0 1
+.	\" print an unbreakable thin space before number
+.ds * \U'202F'\\*[xml-tagbeg]NN num=\'\\n+[margin-num]\'/\\*[xml-tagend]
+.de NT
+.	nr note-in 1
+.	xml:print \\*[xml-deline]
+.	xml:print \\*[xml-tag NT]
+.	xml:print \\*[xml-deline]
+.	ds xml-line \\*[xml-tag /NT]
+..
+.de NB
+.	nr note-in 1
+.	xml:print \\*[xml-deline]
+.	xml:print \\*[xml-tag NB]
+.	xml:print \\*[xml-deline]
+.	ds xml-line \\*[xml-tag /NB]
+..
+.de NS
+.	nr note-in 1
+.	xml:print \\*[xml-deline]
+.	ie \\n(.$ .xml:print \\*[xml-tag NS]
+.	el .xml:print \\*[xml-tagbeg]NS\ num=\'\\n[margin-num]\'\\*[xml-tagend]
+.	xml:print \\*[xml-deline]
+.	ds xml-line \\*[xml-tag /NS]
+..
+.de NE
+.	nr note-in 0
+.	xml:print \\*[xml-deline]
+.	xml:print \\*[xml-line]
+.	rm xml-line
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" fonts
+.de xml:font
+.	while \\n(.$ \{\
+.		ds \\$1 \\*[xml-tagbeg]F\ name=\'\\$1\'\\*[xml-tagend]
+.		shift
+.	\}
+..
+.ds P \\*[xml-tag /F]
+.ds R \\*[xml-tag /F]
+.ds { \\*[xml-tagbeg]F\ name\'U\'\\*[xml-tagend]
+.ds } \\*[xml-tag /F]
+.xml:font B I BI
+.xml:font A BA IA BIA
+.xml:font C BC IC BIC
+.xml:font U BU IU BIU
+.xml:font F BF IF BIF
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" vgrind
+.de xml:vgrind
+.	\" build fonts used by vgrind
+.	while \\n(.$ \{\
+.		ds +\\$1 \\*[xml-tagbeg]F\ name=\'code\\$1\'\\*[xml-tagend]
+.		ds -\\$1 \\*[xml-tag /F]
+.		shift
+.	\}
+..
+.xml:vgrind K V C S
+.\"char - \[u002D] \" for groff
+.ds - \-
+.ds _ _
+.ds e \e
+.de vS
+.	br
+.	xml:print \\*[xml-tag PX name=\'\\$1\']
+.	lang:xmlrchar
+.	nf
+..
+.de vE
+.	br
+.	xml:print \\*[xml-tag /PX]
+.	fi
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Index macros
+.nr idx-args 0
+.de XP
+.	\" text to print
+.	ds idx-text \\$1
+.	ds idx-end \\$2
+.	ds idx-beg \\$3
+.	nr idx-args \\n(.$
+..
+.de idx:print
+.	\" print text defined by XP macro
+.	lds idx-tag \\$1
+.	shift
+.	lds idx-name \\*[idx-tag] name=\'\\$*\'
+.	shift
+.	if \\n[idx-args]=0 \{\
+.		xml:print \\*[xml-tag \\*[idx-name]/]
+.	\}
+.	if \\n[idx-args]=1 \{\
+.		xml:print \\*[xml-tag \\*[idx-name]]\
+\\*[idx-text]\\*[xml-tag /\\*[idx-tag]]
+.	\}
+.	if \\n[idx-args]=2 \{\
+.	xml:print \\*[xml-tag \\*[idx-name]]\
+\\*[idx-text]\\*[xml-tag /\\*[idx-tag]]\\*[idx-end]
+.	\}
+.	if \\n[idx-args]>2 \{\
+.	xml:print \\*[idx-beg]\\*[xml-tag \\*[idx-name]]\
+\\*[idx-text]\\*[xml-tag /\\$*[idx-tag]]\\*[idx-end]
+.	\}
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+..
+.de idx:build
+.	while \\n(.$ \{\
+.		de X\\$1
+.			idx:print X\\$1 \\\\$*
+\\..
+.		shift
+.	\}
+..
+.idx:build A C D E I K L M N H O S T U W
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" var
+.de var:print
+\\$*
+..
+.de var:null
+..
+.warn w
+.so \V[TROFFMACS]/hlm-ref
+.ie "\V[HLMTMAC]"" .so \V[TROFFMACS]/hlm-en
+.el .so \V[HLMTMAC]
+.RO \" remove opcit
+.als H0 var:null
+.als H* var:null
+.als S1 var:null
+.als S2 var:null
+.als S3 var:null
+.als S4 var:null
+.als S* var:null
+.als page:num var:null
+.als AR var:null
+.als AT var:null
+.xml:start
+.\""""""""""""""""""""""""""""""""""""""""""""""""
