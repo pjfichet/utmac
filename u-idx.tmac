@@ -1,0 +1,247 @@
+.\" u-idx: build indexes (need idx).
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" idx: index words
+.
+.\" trap number
+.nr idx-trap 0 1
+.
+.de idx:do
+.	\" use a trap to get real page number
+.	\" $1 key, $n words
+.	de idx:\\n+[idx-trap]
+.		\" add the trap number to args
+.		\" to delete the trap later
+.		idx:rec \\$*
+\\..
+.	var:print \\P[idx:\\n[idx-trap]]\\c
+..
+.de idx:rec
+.	\" record the page number
+.	\" $1 key, $n words
+.	\" idx-keys: list of keys
+.	lds idx-key \\$1
+.	shift 1
+.	if !d idx:\\*[idx-key] .as idx-keys \\*[idx-key] \"
+.	am idx:\\*[idx-key]
+\\*[idx-key]> \\$*:: \\n%
+\\..
+..
+.de idx:del
+.	\" delete called macro
+.	\" TODO: find place to put this
+.	\" (not before diverted notes are printed)
+.	if \\n[idx-trap]>0 \{\
+.		while \\n-[idx-trap]>0 \{\
+.			if d idx:\\n[idx-trap] .rm idx:\\n[idx-trap]
+.		\}
+.	\}
+.	nr idx-trap 0 1
+..
+.de idx:writem
+.	\" write macro for each arg
+.	while \\n(.$ \{\
+.		writem idx-f idx:\\$1
+.		shift
+.	\}
+..
+.de AI
+.	\" print index
+.	\" $n: keys of index to print
+.	\" print all indexes by default.
+.	open idx-f \\*[data-file]-idx.idx
+.	ie \\n(.$>0 .idx:writem \\$*
+.	el .idx:writem \\*[idx-keys]
+.	close idx-f
+.	\" delete EOF = \004 in octal = ^D in vim
+.	\" .pso need \\\\004, .sy need \\004
+.	pso tr -d '\\\\004' < \\*[data-file]-idx.idx | idx
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Default macros
+.nr idx-args 0
+.de XP
+.	\" text to print
+.	ds idx-text \\$1
+.	ds idx-end \\$2
+.	ds idx-beg \\$3
+.	nr idx-args \\n(.$
+..
+.de idx:print
+.	\" print text defined by .p macro
+.	\" $1 before, $2 after
+.	if \\n[idx-args]=1 .var:print \\*[idx-text]
+.	if \\n[idx-args]=2 .var:print \\*[idx-text]\\*[idx-end]
+.	if \\n[idx-args]>2 .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+..
+.de idx:build
+.	\" build macros
+.	de X\\$1
+.		\" index words
+.		idx:do \\$1 \\\\$@
+.		idx:print
+\\..
+.	de \\$1<
+.		\" print index title
+.		H3 \\$2
+.		H* \\$2
+.		H0 \\$2
+\\..
+.	de \\$1>
+.		\" print words and list of pages
+.		PP
+.		ie \\n(.$=5 \{\
+.			lds idx-s \\\\$1
+.			shift
+.			ie \\\\n(.$=0 .var:print "\\$3\\\\*[idx-s]\\$4:"
+.			el .var:print "\\$3\\\\*[idx-s]\\$4, \\\\$*:"
+.		\}
+.		el .var:print "\\$3\\\\$*\\$4:"
+.		var:print \\\\*(<P.
+\\..
+..
+.idx:build A "Index des acronymes" \\\\*A \\\\*P 1
+.\"idx:build C "Index des commandes"
+.\"idx:build D "Index des dates"
+.\"idx:build E "Index des erreurs"
+.\"idx:build I "Index des images"
+.\"idx:build L "Index des liens"
+.\"idx:build M "Index des adresses mel"
+.idx:build N "Index des noms" \\\\*A \\\\*P 1
+.idx:build H "Index des noms" \\\\*A \\\\*P 1
+.idx:build O "Index des choses" \" objets
+.\"idx:build Q "Index des citations" « »
+.idx:build T "Index des ouvrages" \\\\*I \\\\*P
+.\"idx:build U "Index des url"
+.idx:build W "Index des mots"
+.
+.
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Links
+.de XK
+.	\" insert keyword to link
+.	as idx-list \\$1 \"
+.	nr idx-K\\$1 \\n% \" if no break before link
+.	de idx:K\\$1
+.		\" Trap to get page number
+.		nr idx-K\\$1 \\\\n%
+\\..
+.	\" Print link and text
+.	var:print \\P[idx:K\\$1]\A'\\$1'\\c
+.	idx:print
+..
+.de XL
+.	\" Link to a defined keyword
+.	ie r idx-K\\$1 .ds idx-note \\**
+.	el .ds idx-note 
+.	if \\n[idx-args]=1 \
+.	var:print \T'\\$*'\\*[idx-text]\T\\*[idx-note]
+.	if \\n[idx-args]=2 \
+.	var:print \T'\\$*'\\*[idx-text]\T\
+\\*[idx-end]\\*[idx-note]
+.	if \\n[idx-args]=3 \
+.	var:print \\*[idx-beg]\T'\\$*'\\*[idx-text]\T\
+\\*[idx-note]\\*[idx-end]
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+.	ie r idx-K\\$1 \{\
+.		NS
+.		var:print \T'\\$1'Voir p.\~\\n[idx-K\\$1].\T
+.		NE
+.	\}
+.	el .if \\n(RH .var:tm Wait next pass for \\$0 \\$1
+..
+.de XM
+.	\" email
+.	if \\n[idx-args]=1 \
+.	var:print \W'mailto:\\$1'\\*[idx-text]\W\\**
+.	if \\n[idx-args]=2 \
+.	var:print \W'mailto:\\$1'\\*[idx-text]\W\\*[idx-end]\\**
+.	if \\n[idx-args]=3 \
+.	var:print \\*[idx-beg]\W'mailto:\\$1'\\*[idx-text]\W\\**\\*[idx-end]
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+.	NS
+.	var:print \W'mailto:\\$1'\\$1\W
+.	NE
+..
+.de XU
+.	\" url
+.	if \\n[idx-args]=1 \
+.	var:print \W'\\$1'\\*[idx-text]\W\\**
+.	if \\n[idx-args]=2 \
+.	var:print \W'\\$1'\\*[idx-text]\W\\*[idx-end]\\**
+.	if \\n[idx-args]=3 \
+.	var:print \\*[idx-beg]\W'\\$1'\\*[idx-text]\W\\**\\*[idx-end]
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+.	NS
+.	var:print <\\W'\\$1'\\$1\\W>
+.	NE
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Record links for next pass
+.de idx:out
+.	\" output recorded links in file for next pass
+.	\" $1 = idx-list : list of keywords
+.	open idx-out \\*[data-file]-idx.tr
+.	while \\n(.$ \{\
+.		write idx-out .nr idx-K\\$1 \\n[idx-K\\$1]
+.		shift
+.	\}
+.	close idx-out
+..
+.de idx:input
+.	\" insert summary from previous pass
+.	\" Create file in case it doesn't exist
+.	opena idx-in \\*[data-file]-idx.tr
+.	close idx-in
+.	\" delete EOF = \004 in octal = ^D in vim
+.	pso tr -d '\\\\004' < \\*[data-file]-idx.tr
+.	\"so \\*[data-file]-idx.tr
+..
+.am doc:end
+.	if d idx-list .idx:out \\*[idx-list]
+..
+.idx:input
