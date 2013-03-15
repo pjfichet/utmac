@@ -1,0 +1,154 @@
+.\" um: translate to manual page.
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.do xflag 3
+.nf
+.na
+.\"""""""""""""""""""""""""""""""""""""
+.de man:null
+..
+.de man:print
+.	br
+\\&\\$*
+.	br
+..
+.de man:sep
+.	man:print .
+.	man:print .
+.	man:print .
+..
+.de man:block
+.	if d man-close .man:print \\*[man-close]
+.	rm man-close
+..
+.de man:close
+.	pl \\n(nlu
+..
+.em man:close
+.man:print .\e"
+.\"""""""""""""""""""""""""""""""""""""
+.\" build date
+.	ie \n[mo]<10 .ds month 0\n[mo]
+.	el .ds month \n[mo]
+.	ie \n[dy]<10 .ds day 0\n[dy]
+.	el .ds  day \n[dy]
+.	ie \n[hours]<10 .ds hours 0\n[hours]
+.	el .ds hours \n[hours]
+.	ie \n[minutes]<10 .ds minutes 0\n[mo]
+.	el .ds minutes \n[minutes]
+.	ie \n[seconds]<10 .ds seconds 0\n[seconds]
+.	el .ds seconds \n[seconds]
+.	ds data-date \n[year]-\*[month]-\*[day]\"T\*[hours]:\*[minutes]:\*[seconds]
+.\"""""""""""""""""""""""""""""""""""""
+.\" Headings
+.de H2
+.	man:block
+.	man:sep
+.	man:print .TH \\$*: \'\' \'\\*[data-date]\'
+..
+.de H3
+.	man:block
+.	man:sep
+.	man:print .SH \\$*
+..
+.de H4
+.	man:block
+.	man:sep
+.	man:print .SS \\$*
+.	man:print .RS 3
+..
+.\"""""""""""""""""""""""""""""""""""""
+.\" Paragraphs
+.de PI
+.	\" PI "" -> TQ
+.	\" PI xx -> TQ xx
+.	\" PI -> IP \(bu
+.	man:block
+.	ie \\n(.$>0 \{\
+.		ie '\\$1'' .man:print .TQ
+.		el \{\
+.		man:print .TP
+.		man:print \\$*
+.		\}
+.	\}
+.	el .man:print .IP \e(bu
+..
+.de PL
+.	man:block
+.	man:print .HP
+..
+.de PP
+.	man:block
+.	man:print .PP
+..
+.de PQ
+.	man:block
+.	man:print .TQ
+..
+.de PX
+.	man:block
+.	man:print .PP
+.	man:print .EX
+.	ds man-close .EE
+..
+.als vS PX
+.als vE man:null
+.\"""""""""""""""""""""""""""""""""""""
+.\" Fonts
+.de man:font
+.	while \\n(.$ \{\
+.		ds \\$1 \\ef\\$1
+.		shift
+.	\}
+..
+.man:font P R B I BI
+.man:font A BA IA BIA
+.man:font C BC IC BIC
+.man:font U BU IU BIU
+.man:font F BF IF BIF
+.\"""""""""""""""""""""""""""""""""""""
+.\" vgrind
+.ds +K \\*B
+.ds +V \\*B
+.ds +C \\*I
+.ds +S \\*I
+.ds -K \\*R
+.ds -V \\*P
+.ds -C \\*R
+.ds -S \\*R
+.ds - \-
+.ds _ _
+.ds e \\\\e
+.ds -- \e(en
+.ds *) *
+.ds deslash "\\$*
