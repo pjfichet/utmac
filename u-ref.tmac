@@ -1,0 +1,534 @@
+.\" u-ref: refer support.
+.ig
+$Id$
+
+Copyright (c) 2012
+Pierre-Jean Fichet. All rights reserved.
+
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the
+following conditions are met:
+
+  1. Redistributions of source code must retain the above
+     copyright notice, this list of conditions and the
+     following disclaimer.
+  2. Redistributions in binary form must reproduce the
+     above copyright notice, this list of conditions and the
+     following disclaimer in the documentation and/or other
+     materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+..
+.
+.
+.
+.ig
+Refer support for heirloom library macros
+which respect the iso 690 standart
+
+$Id: hlm-ref,v 0.11 2013/02/14 16:05:18 pj Exp pj $
+..
+.ig
+iso-690 default:
+
+books:   Q A   S V T E B w   U H C I D   P M N O x y z G
+journal: Q A T S   V J w N   E U H P C I D M O x y z G
+
+refer adaptation to iso-690:
+
+book:    Q A E S V T     w     U H   C I D   P M N O x y z G
+inbook:  Q A T E S V B   w   P U H   C I D     M N O x y z G
+serie:   Q A E S   T     w   P U H   C I D V P M N O x y z G
+journal: Q A T S V J     w N E U H P C I D     M   O x y z G
+report: like book
+
+With:
+	book: E may be the first author
+	inbook: T is before E S V B
+	serie: V is the total number of volumes
+
+If in serie we use P to define the number of volumes,
+serie is like books. Finally, we've got three definitions:
+
+iso--book: Q A E S V T     w     U H   C I D   P M N O x y z G
+iso--inbo: Q A T E S V B   w   P U H   C I D     M N O x y z G
+iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" fonts for hrefer
+.\"ds C \*C
+.\"ds P \*P
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.ig
+We need to know which punctuation must be used. In some
+circumstances, the punctuation is defined by what is before,
+in other, it is defined by what is after. The difficult task
+is that we want do avoid most of the tests.
+By default, punctuation is defined with the field.
+But, it may be changed later, with the key:pun macro.
+For parenthesis, we use key:beg and key:end macros.
+
+iso--book: Q A E S V T     w     U H   C I D   P M N O x y z G
+iso--inbo: Q A T E S V B   w   P U H   C I D     M N O x y z G
+iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
+
+..
+.de ref:coll-1
+.	\" journal-article
+.	\" Q A T S V J w N E U H P C I D M O x y z G
+.	key:prt "" Q "" .
+.	key:prt "" A "" .
+.	key:prt "\\*I" T "\\*R" .
+.	if \\n([A>0 .key:pun
+.	key:prt "\\*I" S "\\*R" .
+.	key:prt "Vol. " V "" :
+.	key:prt "«" J "»" .
+.	key:pun . \" needed if J is not defined.
+.	key:prt "[" w "]" .
+.	key:prt "n\\*Uo\\*R\~" N "" .
+.	key:prt "Sous la dir. de " E "" .
+.	key:prt "" U "" .
+.	key:prt "" H "" .
+.	key:prt "P.\~" P "" .
+.	key:prt "" C "" :
+.	key:prt "" I "" ,
+.	key:prt "" D "" .
+.	key:pun . \" needed if I or D are not defined.
+.	key:prt "Col. " M "" .
+.	key:prt "" O "" .
+.	key:prt "Sur <" x ">" .
+.	key:prt "Mis à jour le " y "" .
+.	key:prt "Consulté le " z "" .
+.	key:prt "ISBN: " G "" .
+.	key:lst .
+..
+.de ref:text-1
+.	\" journal-article
+.	\" Q A T S V J w N E U H P C I D M O x y z G
+.	key:prt "" Q "" ,
+.	key:prt "" A "" ,
+.	key:prt "\\*I" T "\\*R" ,
+.	key:prt "\\*I" S "\\*R" ,
+.	key:prt "vol. " V "" :
+.	key:prt "«" J "»" ,
+.	key:beg (
+.	key:prt "\\*Iop. cit.\\*P " % "" ,
+.	key:prt "[" w "]" ,
+.	key:prt "n\\*Uo\\*P\~" N "" ,
+.	key:prt "Sous la dir. de " E "" ,
+.	key:prt "" C "" :
+.	key:prt "" I "" ,
+.	key:prt "" D "" ,
+.	key:end )
+.	key:pun ,
+.	key:prt "" h "" ,
+.	key:prt "p.\~" p "" ,
+.	key:beg (
+.	key:prt "sur <" x ">" ,
+.	key:prt "mis à jour le " y "" ,
+.	key:prt "consulté le " z "" .
+.	key:end )
+.	key:lst .
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.de ref:coll-3
+.	\" article-in-book
+.	\" Q A T E S V B w P U H C I D M N O x y z G
+.	key:prt "" Q "" .
+.	key:prt "" A "" .
+.	if \\n([A>0 .key:pun
+.	key:prt "\\*I" T "\\*R" .
+.	key:pun ". In"
+.	key:prt "" E " (éd.)" .
+.	key:prt "\\*I" S "\\*R" .
+.	key:prt "Vol. " V "" :
+.	key:prt "\\*I" B "\\*R" .
+.	key:pun . \" needed if B is not defined.
+.	key:prt "[" w "]" .
+.	key:prt "P.\~" P "" .
+.	key:prt "" U "" .
+.	key:prt "" H "" .
+.	key:prt "" C "" :
+.	key:prt "" I "" ,
+.	key:prt "" D "" .
+.	key:pun . \" needed if I or D are not defined.
+.	key:prt "Col. " M "" .
+.	key:prt "" O "" .
+.	key:prt "Sur <" x ">" .
+.	key:prt "Mis à jour le " y "" .
+.	key:prt "Consulté le " z "" .
+.	key:prt "ISBN: " G "" .
+.	key:lst .
+..
+.de ref:text-3
+.	\" article-in-book
+.	\" Q A T E S V B w P U H C I D M N O x y z G
+.	key:prt "" Q "" ,
+.	key:prt "" A "" ,
+.	key:prt "\\*I" T "\\*R" ,
+.	key:pun ", in"
+.	key:prt "" E " (éd.)" ,
+.	key:prt "\\*I" S "\\*R" ,
+.	key:prt "vol. " V "" :
+.	key:prt "\\*I" B "\\*R" ,
+.	key:beg (
+.	key:prt "\\*Iop. cit.\\*P " % "" ,
+.	key:prt "[" w "]" ,
+.	key:prt "" C "" :
+.	key:prt "" I "" ,
+.	key:prt "" D "" ,
+.	key:end )
+.	key:pun ,
+.	key:prt "" h "" ,
+.	key:prt "p.\~" p "" ,
+.	key:beg (
+.	key:prt "sur <" x ">" ,
+.	key:prt "mis à jour le " y "" ,
+.	key:prt "consulté le " z "" .
+.	key:end )
+.	key:lst .
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.de ref:coll-2
+.	\" book
+.	\" Q A E S V T w U H C I D P M N O x y z G
+.	key:prt "" Q "" .
+.	key:prt "" A "" .
+.	if \\n([A>0 .key:pun
+.	key:prt "" E " (éd.)" .
+.	key:prt "\\*I" S "\\*R" .
+.	key:prt "Vol. " V "" :
+.	key:prt "\\*I" T "\\*R" .
+.	key:pun .
+.	key:prt "[" w "]" .
+.	key:prt "" U "" .
+.	key:prt "" H "" .
+.	key:prt "" C "" :
+.	key:prt "" I "" ,
+.	key:prt "" D "" .
+.	key:pun .
+.	key:prt "" P "\~p."
+.	key:prt "Col. " M "" .
+.	key:prt "" O "" .
+.	key:prt "Sur <" x ">" .
+.	key:prt "Mis à jour le " y "" .
+.	key:prt "Consulté le " z "" .
+.	key:prt "ISBN: " G "" .
+.	key:lst .
+..
+.de ref:text-2
+.	\" book
+.	\" Q A E S V T w U H C I D P M N O x y z G
+.	key:prt "" Q "" ,
+.	key:prt "" A "" ,
+.	key:prt "" E " (éd.)" ,
+.	key:prt "\\*I" S "\\*R" ,
+.	key:prt "vol. " V "" :
+.	key:prt "\\*I" T "\\*R" ,
+.	key:beg (
+.	key:prt "\\*Iop. cit.\\*P " % "" ,
+.	key:prt "[" w "]" ,
+.	key:prt "" C "" :
+.	key:prt "" I "" ,
+.	key:prt "" D "" ,
+.	key:end )
+.	key:pun ,
+.	key:prt "" h "" ,
+.	key:prt "p.\~" p "" ,
+.	key:beg (
+.	key:prt "sur <" x ">" ,
+.	key:prt "mis à jour le " y "" ,
+.	key:prt "consulté le " z "" .
+.	key:end )
+.	key:lst .
+..
+.als ref:coll-0 ref:coll-2 \" other
+.als ref:text-0 ref:text-2
+.als ref:coll-4 ref:coll-2 \" tech-report
+.als ref:text-4 ref:text-2
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" Key
+.de key:prt
+.	\" if current key is defined, build it
+.	\" and print previous key
+.	\" format is:
+.	\" \\*[key-beg]\\*[key-field]\\*[key-end]\\*[key-pun]
+.	\" so we can change punctuation without changing parenthesis
+.	\" key-beg and key-end: for parenthesis
+.	\" key-grp >0 if field is defined
+.	\" key-pun (string): punctuation
+.	\" key-pun (number): 0 to disallow change of punctuation
+.	if d [\\$2 .if !"\\*([\\$2"" \{\
+.		if \\n[ref-idm]>0 .idm:\\*[ref-loc] \\$2
+.		if \\n[key-do]>0 \{\
+.			if d key-field \{\
+.			var:print \\*[key-field]\\*[key-end]\\*[key-pun]
+.			\}
+.			ds key-field \\*[key-beg]\\$1\\*([\\$2\\$3
+.			ds key-pun \\$4
+.			ds key-beg
+.			ds key-end
+.			nr key-grp +1
+.			nr key-pun 1
+.		\}
+.	\}
+..
+.de key:lst
+.	\" print last key
+.	\" $1: punctuation
+.	\" key-pun 0 if key-pun is not allowed 
+.	if d key-field \{\
+.		ie \\n[key-pun]=1 .ds key-pun \\$1
+.		el .ds key-pun
+.		var:print \\*[key-field]\\*[key-end]\\*[key-pun]
+.	\}
+..
+.de key:pun
+.	\" define key-pun
+.	if \\n[key-pun]=1 .ds key-pun \\$*
+..
+.de key:nopun
+.	\" don't allow punctuation
+.	nr key-pun 0
+.	ds key-pun
+..
+.de key:beg
+.	\" define key-beg
+.	\" and remove punctuation
+.	ds key-beg \\$*
+.	if \\n[key-pun]=1 .ds key-pun
+.	nr key-grp 0
+..
+.de key:end
+.	\" define key-end
+.	\" if key-grp > 0
+.	ds key-beg
+.	if \\n[key-grp]>0 .ds key-end \\$*
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" idem
+.ig
+RI is user defined
+ref-idm is initialized at RI for each reference
+	O: do not do idem
+	1: do idem
+	2: idem done
+key-do: 1 to print key-field
+idm:text replace fields by idem
+if not only first field is idem
+..
+.de idm:num
+.	\" set numbers
+.	nr ref-idm \\$1
+.	nr key-do \\$2
+..
+.de idm:text
+.	ie d ]\\$1 \{\
+.		lang:rchar \" Needed for string comparison
+.		ie "\\*([\\$1"\\*(]\\$1" \{\
+.			ie \\n[ref-idm]>1 \{\
+.				ds key-field \\*IIdem.\\*P
+.				nr key-pun 0
+.				ds key-pun ,
+.				\"key:nopun
+.				ref:remove %
+.				idm:num +1 0
+.			\}
+.			el .idm:num +1 1
+.		\}
+.		el .idm:num 0 1
+.		lang:char
+.	\}
+.	el .idm:num 0 1
+..
+.de idm:PL
+.	PL
+.	idm:num 0 1
+..
+.de idm:coll
+.	ie \\n[ref-idm]=2 .idm:num 0 1
+.	el \{\
+.	ie d ]\\$1 \{\
+.		lang:rchar \" Needed for string comparison
+.		ie "\\*([\\$1"\\*(]\\$1" \{\
+.			key:nopun
+.			idm:num +1 0
+.			char + \v"-0.25m"\h"1v"\D"l 1.5v 0"\v"0.25m"
+.			PI +
+.			rchar +
+.		\}
+.		el .idm:PL
+.		lang:char
+.	\}
+.	el .idm:PL
+.	\}
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" op. cit.
+.nr opc-trap 0 1
+.de opc:text
+.	if d [L \{\
+.	ie r opc-\\*([L \{\
+.		ref:remove C D E G H I M N Q R
+.		ref:remove U W X Y Z w x y z
+.		ie \\n[opc-\\*([L]=\\n% .ds [% ci-dessus
+.		el .ds [% p.\~\\n[opc-\\*([L]
+.	\}
+.	el \{\
+.		\" use a temporary definition
+.		\" and use output line trap to get correct page
+.		nr opc-\\*([L \\n%
+.		lnr opc-tmp \\n[opc-trap]
+.		de opc:trap\\n+[opc-trap]
+.			nr opc-\\*([L \\\\n%
+.			rm opc:trap\\n[opc-tmp]
+\\..
+.		var:print \\P[opc:trap\\n[opc-trap]]\\c
+.	\}
+.	\}
+..
+.als opc:coll var:null
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" idx
+.de idx:text
+.	\" index some key
+.		\"if d [A .XH \\*([A
+.		\"if d [E .XH \\*([E
+.		if d [T .XT "\\*([T"
+.		if d [B .XT "\\*([B"
+.		if d [J .XT "\\*([J"
+.		if d [S .XT "\\*([S"
+..
+.als idx:coll var:null
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" Print paragraph macros
+.
+.de ref:text-start
+.	\" test if we print start note macro or not
+.	ie \\n(RN .if \\n[note-in]=0 \{\
+.		\"var:print \\P[page:num]\\c
+.		NS
+.		nr note-inref 1
+.	\}
+.	el .PQ
+..
+.de ref:text-stop
+.	\" test if we print stop note macro or not
+.	if \\n(RN .if \\n[note-inref]=1 \{\
+.		NE
+.		nr note-inref 0
+.	\}
+..
+.\" idem:coll do it for collected references
+.als ref:coll-start var:null
+.als ref:coll-stop var:null
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Refer macros
+.de ref:rename
+.	while \\n(.$ \{\
+.		if d ]\\$1 .rm ]\\$1
+.		if d [\\$1 .rn [\\$1 ]\\$1
+.		shift
+.\}
+..
+.de ref:remove
+.	while \\n(.$ \{\
+.		if d [\\$1 .rm [\\$1
+.		shift
+.	\}
+..
+.de ref:init
+.	\" initialize variables
+.	ds key-beg
+.	if d key-field .rm key-field
+.	ds key-end
+.	ds key-pun
+.	nr key-grp 0 \" check if keys are printed
+.	nr ref-idm \\n(RI
+.	nr key-do 1
+.	ref:remove A B C D E G H h I J L M N O P
+.	ref:remove p Q R S T U V W X Y Z w x y z
+.	ref:remove %
+.	nr [E 0
+.	nr [A 0
+..
+.de ]-
+.	\" initialize a reference
+.	if \\n(RI \{\
+.		ref:rename A B C D E G H h I J L M N O P
+.		ref:rename p Q R S T U V W X Y Z w x y z
+.	\}
+.	ref:init
+..
+.ds ref-loc text
+.	\" or coll for collected references
+.de ][
+.	\" print reference
+.	\" if J, 		$1=1, $2 journal-article 
+.	\" elif B,		$1=3, $2 article-in-book
+.	\" elif G or R,	$1=4, $2 tech-report
+.	\" elif I		$1=2, $2 book
+.	\" else			$1=0, $2 other
+.	nr ref-type \\$1
+.	ref:\\*[ref-loc]-start
+.	if \\n(RO .opc:\\*[ref-loc]
+.	idx:\\*[ref-loc]
+.	ref:\\*[ref-loc]-\\n[ref-type]
+.	ref:\\*[ref-loc]-stop
+..
+.de ]<
+.	\" start collected references
+.	ref:init
+.	ds ref-loc coll
+.	H3 Bibliographie
+.	H* Bibliographie
+.	H0
+..
+.de ]>
+.	\" end collected references
+.	ref:init
+.	ds ref-loc text
+..
+.als @ var:null
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" User macros
+.de AB
+.	\" Append bibliography list
+.	\"pso /opt/hlm/bin/hrefer -B -sA+E+BJST -cAE \\$1
+.	\"pso /opt/hlm/bin/hrefer -B -sA+STE+BJ -cAE \\$1
+.	]<
+.	pso /opt/hlm/bin/hrefer -B -cAE \\$1
+.	\"pso ref -i -B -a -dAE \\$1
+.	]>
+..
+.de AR
+.	\" Append index of references
+.	AI T
+..
+.if !r RI .nr RI 1
+.if !r RO .nr RO 1
+.if !r RN .nr RN 1
+.de RI
+.	\" Reverse idem (first use will remove it)
+.	nr RI 1-\\n(RI
+..
+.de RO
+.	\" Reverse op. cit. (first use will remove it)
+.	nr RO 1-\\n(RO
+..
+.de RN
+.	\" Reverse usage of notes (first use will remove it)
+.	nr RN 1-\\n(RN
+..
