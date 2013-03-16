@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id$
+$Id: us,v 0.1 2013/03/15 20:31:11 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -34,8 +34,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .do xflag 3
 .\""""""""""""""""""""""""""""""""""""""
 .\" default variables
-.ds data-tmac hlm-t
-.ds data-file /tmp/t-tmp
+.ds data-tmac us
+.ds data-file /tmp/us-tmp
 .nr page-head 3
 .nr page-foot 57 \" 44
 .nr page-box \n[page-foot]+4
@@ -883,12 +883,12 @@ file(page):height,width,yoff,xoff:flags
 .warn w
 .\""""""""""""""""""""""""""""""""""""""
 .\" Here we go!
-.so \V[TROFFMACS]/hlm-ref			\" Refer
-.so \V[TROFFMACS]/hlm-grind			\" Grind
-.so \V[TROFFMACS]/hlm-idx			\" Index
-.ie "\V[HLMTMAC]"" \{\
-.	so \V[TROFFMACS]/hlm-en			\" Lang
-.	so \V[TROFFMACS]/hlm-libertine	\" Font
+.so \V[TROFFMACS]/u-ref			\" Refer
+.so \V[TROFFMACS]/u-grind			\" Grind
+.so \V[TROFFMACS]/u-idx			\" Index
+.ie "\V[UTMAC]"" \{\
+.	so \V[TROFFMACS]/u-en			\" Lang
+.	so \V[TROFFMACS]/u-libertine	\" Font
 .\}
-.el .so \V[HLMTMAC]					\" Locale
+.el .so \V[UTMAC]					\" Locale
 .doc:start
