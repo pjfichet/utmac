@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id$
+$Id: u-ref,v 0.1 2013/03/15 20:31:11 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: hlm-ref,v 0.11 2013/02/14 16:05:18 pj Exp pj $
+$Id: u-ref,v 0.1 2013/03/15 20:31:11 pj Exp pj $
 ..
 .ig
 iso-690 default:
@@ -85,6 +85,16 @@ iso--inbo: Q A T E S V B   w   P U H   C I D     M N O x y z G
 iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 
 ..
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" troff.fr refer strings:
+.ds +F \\*C
+.ds -F \\*R
+.ds +L \\*C
+.ds -L \\*R
+.ds +J
+.ds -J
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Format fields
 .de ref:coll-1
 .	\" journal-article
 .	\" Q A T S V J w N E U H P C I D M O x y z G
@@ -506,12 +516,9 @@ if not only first field is idem
 .\" User macros
 .de AB
 .	\" Append bibliography list
-.	\"pso /opt/hlm/bin/hrefer -B -sA+E+BJST -cAE \\$1
-.	\"pso /opt/hlm/bin/hrefer -B -sA+STE+BJ -cAE \\$1
-.	]<
-.	pso /opt/hlm/bin/hrefer -B -cAE \\$1
-.	\"pso ref -i -B -a -dAE \\$1
-.	]>
+.	\" need a special version of refer,
+.	\" available on troff.fr
+.	pso @UPATH@/refer -i -B -a -dAE \\$1
 ..
 .de AR
 .	\" Append index of references
