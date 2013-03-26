@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id: u-ref.tmac,v 0.2 2013/03/20 11:15:32 pj Exp pj $
+$Id: u-ref.tmac,v 0.3 2013/03/26 17:51:04 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: u-ref.tmac,v 0.2 2013/03/20 11:15:32 pj Exp pj $
+$Id: u-ref.tmac,v 0.3 2013/03/26 17:51:04 pj Exp pj $
 ..
 .ig
 iso-690 default:
@@ -103,25 +103,25 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "\\*I" T "\\*R" .
 .	if \\n([A>0 .key:pun
 .	key:prt "\\*I" S "\\*R" .
-.	key:prt "Vol. " V "" :
+.	key:prt "\\*[lang-Vol]. " V "" :
 .	key:prt "«" J "»" .
 .	key:pun . \" needed if J is not defined.
 .	key:prt "[" w "]" .
-.	key:prt "n\\*Uo\\*R\~" N "" .
-.	key:prt "Sous la dir. de " E "" .
+.	key:prt "\\*[lang-No]\~" N "" .
+.	key:prt "\\*[lang-Dir] " E "" .
 .	key:prt "" U "" .
 .	key:prt "" H "" .
-.	key:prt "P.\~" P "" .
+.	key:prt "\\*[lang-P]\~" P "" .
 .	key:prt "" C "" :
 .	key:prt "" I "" ,
 .	key:prt "" D "" .
 .	key:pun . \" needed if I or D are not defined.
-.	key:prt "Col. " M "" .
+.	key:prt "\\*[lang-Col] " M "" .
 .	key:prt "" O "" .
-.	key:prt "Sur <" x ">" .
-.	key:prt "Mis à jour le " y "" .
-.	key:prt "Consulté le " z "" .
-.	key:prt "ISBN: " G "" .
+.	key:prt "\\*[lang-On] <" x ">" .
+.	key:prt "\\*[lang-Update] " y "" .
+.	key:prt "\\*[lang-Seen] " z "" .
+.	key:prt "\\*[lang-ISBN]: " G "" .
 .	key:lst .
 ..
 .de ref:text-1
@@ -131,24 +131,24 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" A "" ,
 .	key:prt "\\*I" T "\\*R" ,
 .	key:prt "\\*I" S "\\*R" ,
-.	key:prt "vol. " V "" :
+.	key:prt "\\*[lang-vol] " V "" :
 .	key:prt "«" J "»" ,
 .	key:beg (
-.	key:prt "\\*Iop. cit.\\*P " % "" ,
+.	key:prt "\\*[lang-opcit] " % "" ,
 .	key:prt "[" w "]" ,
-.	key:prt "n\\*Uo\\*P\~" N "" ,
-.	key:prt "Sous la dir. de " E "" ,
+.	key:prt "\\*[lang-no]\~" N "" ,
+.	key:prt "\\*[lang-dir] " E "" ,
 .	key:prt "" C "" :
 .	key:prt "" I "" ,
 .	key:prt "" D "" ,
 .	key:end )
 .	key:pun ,
 .	key:prt "" h "" ,
-.	key:prt "p.\~" p "" ,
+.	key:prt "\\*[lang-p]\~" p "" ,
 .	key:beg (
-.	key:prt "sur <" x ">" ,
-.	key:prt "mis à jour le " y "" ,
-.	key:prt "consulté le " z "" .
+.	key:prt "\\*[lang-on] <" x ">" ,
+.	key:prt "\\*[lang-update] " y "" ,
+.	key:prt "\\*[lang-seen] " z "" .
 .	key:end )
 .	key:lst .
 ..
@@ -160,26 +160,26 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" A "" .
 .	if \\n([A>0 .key:pun
 .	key:prt "\\*I" T "\\*R" .
-.	key:pun ". In"
-.	key:prt "" E " (éd.)" .
+.	key:pun ". \\*[lang-In]"
+.	key:prt "" E " (\\*[lang-ed\\n([E])" .
 .	key:prt "\\*I" S "\\*R" .
-.	key:prt "Vol. " V "" :
+.	key:prt "\\*[lang-Vol] " V "" :
 .	key:prt "\\*I" B "\\*R" .
 .	key:pun . \" needed if B is not defined.
 .	key:prt "[" w "]" .
-.	key:prt "P.\~" P "" .
+.	key:prt "\\*[lang-P]\~" P "" .
 .	key:prt "" U "" .
 .	key:prt "" H "" .
 .	key:prt "" C "" :
 .	key:prt "" I "" ,
 .	key:prt "" D "" .
 .	key:pun . \" needed if I or D are not defined.
-.	key:prt "Col. " M "" .
+.	key:prt "\\*[lang-Col] " M "" .
 .	key:prt "" O "" .
-.	key:prt "Sur <" x ">" .
-.	key:prt "Mis à jour le " y "" .
-.	key:prt "Consulté le " z "" .
-.	key:prt "ISBN: " G "" .
+.	key:prt "\\*[lang-On] <" x ">" .
+.	key:prt "\\*[lang-Update] " y "" .
+.	key:prt "\\*[lang-Seen] " z "" .
+.	key:prt "\\*[lang-ISBN]: " G "" .
 .	key:lst .
 ..
 .de ref:text-3
@@ -188,13 +188,13 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" Q "" ,
 .	key:prt "" A "" ,
 .	key:prt "\\*I" T "\\*R" ,
-.	key:pun ", in"
-.	key:prt "" E " (éd.)" ,
+.	key:pun ", \\*[lang-in]"
+.	key:prt "" E " (\\*[lang-ed\\n([E])" ,
 .	key:prt "\\*I" S "\\*R" ,
-.	key:prt "vol. " V "" :
+.	key:prt "\\*[lang-vol] " V "" :
 .	key:prt "\\*I" B "\\*R" ,
 .	key:beg (
-.	key:prt "\\*Iop. cit.\\*P " % "" ,
+.	key:prt "\\*[lang-opcit] " % "" ,
 .	key:prt "[" w "]" ,
 .	key:prt "" C "" :
 .	key:prt "" I "" ,
@@ -202,11 +202,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:end )
 .	key:pun ,
 .	key:prt "" h "" ,
-.	key:prt "p.\~" p "" ,
+.	key:prt "\\*[lang-p]\~" p "" ,
 .	key:beg (
-.	key:prt "sur <" x ">" ,
-.	key:prt "mis à jour le " y "" ,
-.	key:prt "consulté le " z "" .
+.	key:prt "\\*[lang-on] <" x ">" ,
+.	key:prt "\\*[lang-update] " y "" ,
+.	key:prt "\\*[lang-seen] " z "" .
 .	key:end )
 .	key:lst .
 ..
@@ -217,9 +217,9 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" Q "" .
 .	key:prt "" A "" .
 .	if \\n([A>0 .key:pun
-.	key:prt "" E " (éd.)" .
+.	key:prt "" E " (\\*[lang-ed\\n([E])" .
 .	key:prt "\\*I" S "\\*R" .
-.	key:prt "Vol. " V "" :
+.	key:prt "\\*[lang-Vol] " V "" :
 .	key:prt "\\*I" T "\\*R" .
 .	key:pun .
 .	key:prt "[" w "]" .
@@ -229,13 +229,13 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" I "" ,
 .	key:prt "" D "" .
 .	key:pun .
-.	key:prt "" P "\~p."
-.	key:prt "Col. " M "" .
+.	key:prt "" P "\~\\*[lang-p]"
+.	key:prt "\\*[lang-Col] " M "" .
 .	key:prt "" O "" .
-.	key:prt "Sur <" x ">" .
-.	key:prt "Mis à jour le " y "" .
-.	key:prt "Consulté le " z "" .
-.	key:prt "ISBN: " G "" .
+.	key:prt "\\*[lang-On] <" x ">" .
+.	key:prt "\\*[lang-Update] " y "" .
+.	key:prt "\\*[lang-Seen] " z "" .
+.	key:prt "\\*[lang-ISBN]: " G "" .
 .	key:lst .
 ..
 .de ref:text-2
@@ -243,12 +243,12 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	\" Q A E S V T w U H C I D P M N O x y z G
 .	key:prt "" Q "" ,
 .	key:prt "" A "" ,
-.	key:prt "" E " (éd.)" ,
+.	key:prt "" E " (\\*[lang-ed\\n([E])" ,
 .	key:prt "\\*I" S "\\*R" ,
-.	key:prt "vol. " V "" :
+.	key:prt "\\*[lang-vol] " V "" :
 .	key:prt "\\*I" T "\\*R" ,
 .	key:beg (
-.	key:prt "\\*Iop. cit.\\*P " % "" ,
+.	key:prt "\\*[lang-opcit] " % "" ,
 .	key:prt "[" w "]" ,
 .	key:prt "" C "" :
 .	key:prt "" I "" ,
@@ -256,11 +256,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:end )
 .	key:pun ,
 .	key:prt "" h "" ,
-.	key:prt "p.\~" p "" ,
+.	key:prt "\\*[lang-p]\~" p "" ,
 .	key:beg (
-.	key:prt "sur <" x ">" ,
-.	key:prt "mis à jour le " y "" ,
-.	key:prt "consulté le " z "" .
+.	key:prt "\\*[lang-on] <" x ">" ,
+.	key:prt "\\*[lang-update] " y "" ,
+.	key:prt "\\*[lang-seen] " z "" .
 .	key:end )
 .	key:lst .
 ..
@@ -349,7 +349,7 @@ if not only first field is idem
 .		lang:rchar \" Needed for string comparison
 .		ie "\\*([\\$1"\\*(]\\$1" \{\
 .			ie \\n[ref-idm]>1 \{\
-.				ds key-field \\*IIdem.\\*P
+.				ds key-field \\*[lang-Idem]
 .				nr key-pun 0
 .				ds key-pun ,
 .				\"key:nopun
@@ -393,8 +393,8 @@ if not only first field is idem
 .	ie r opc-\\*([K \{\
 .		ref:remove C D E G H I M N Q R
 .		ref:remove U W X Y Z w x y z
-.		ie \\n[opc-\\*([K]=\\n% .ds [% ci-dessus
-.		el .ds [% p.\~\\n[opc-\\*([K]
+.		ie \\n[opc-\\*([K]=\\n% .ds [% \\*[lang-before]
+.		el .ds [% \\*[lang-p]\~\\n[opc-\\*([K]
 .	\}
 .	el \{\
 .		\" use a temporary definition
