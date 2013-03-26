@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.2 2013/03/20 11:15:32 pj Exp pj $
+$Id: u-idx.tmac,v 0.3 2013/03/26 18:44:00 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -182,7 +182,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	nr idx-args 0
 .	ie r idx-K\\$1 \{\
 .		NS
-.		var:print \T'\\$1'\\*[idx-see] \\*[idx-p]\~\\n[idx-K\\$1].\T
+.		var:print \T'\\$1'\\*[lang-See] \\*[idx-p]\~\\n[idx-K\\$1].\T
 .		NE
 .	\}
 .	el .if \\n(RH .var:tm \\*[lang-wait] \\$0 \\$1
