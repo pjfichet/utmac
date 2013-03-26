@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: ux.tmac,v 0.2 2013/03/16 15:34:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -84,7 +84,7 @@ this.
 .	na \" don't adjust
 .	nh \" don't hyphenate
 .	xml:print \\*[xml-tag ?xml version="1.0" encoding="UTF-8"?]
-.	xml:print \\*[xml-tag HLM]
+.	xml:print \\*[xml-tag UTMAC]
 .	\" format date
 .	ie \\n[mo]<10 .lds month 0\\n[mo]
 .	el .lds month \\n[mo]
@@ -101,7 +101,7 @@ this.
 .	xml:print \\*[xml-tag DD]\\*[data-date1]\
 T\\*[data-date2]\\*[xml-tag /DD]
 .	xml:print \\*[xml-tag DG]heirloom \
-nroff -ml-xml\\*[xml-tag /DG]
+nroff -mux\\*[xml-tag /DG]
 ..
 .de xml:stop
 .	\" stop xml file
@@ -110,7 +110,7 @@ nroff -ml-xml\\*[xml-tag /DG]
 .		xml:print \\*[xml-deline]
 .		xml:print \\*[xml-block]
 .	\}
-.	xml:print \\*[xml-tag /HLM]
+.	xml:print \\*[xml-tag /UTMAC]
 .	pl \\n(nlu
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
