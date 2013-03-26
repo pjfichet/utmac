@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.3 2013/03/26 18:44:00 pj Exp pj $
+$Id: u-idx.tmac,v 0.4 2013/03/26 19:43:12 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -135,19 +135,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .		var:print \\\\*(<P.
 \\..
 ..
-.idx:build A "\\*[lang-Idxa]" \\\\*A \\\\*P 1
-.\"idx:build C "\\*[lang-Idxc]"
-.\"idx:build D "\\*[lang-Idxd]"
-.\"idx:build E "\\*[lang-Idxe]"
-.\"idx:build I "\\*[lang-Idxi]"
-.\"idx:build L "\\*[lang-Idxl]"
-.\"idx:build M "\\*[lang-Idxm]"
-.idx:build N "\\*[lang-Idxn]" \\\\*A \\\\*P 1
-.idx:build O "\\*[lang-Idxo]" \" objets
-.\"idx:build Q "\\*[lang-Idxq]" « »
-.idx:build T "\\*[lang-Idxt]" \\\\*I \\\\*P
-.\"idx:build U "\\*[lang-Idxu]"
-.idx:build W "\\*[lang-idxw]"
+.idx:build A "\\\\*[lang-Idxa]" \\\\*A \\\\*P 1
+.\"idx:build C "\\\\*[lang-Idxc]"
+.\"idx:build D "\\\\*[lang-Idxd]"
+.\"idx:build E "\\\\*[lang-Idxe]"
+.\"idx:build I "\\\\*[lang-Idxi]"
+.\"idx:build L "\\\\*[lang-Idxl]"
+.\"idx:build M "\\\\*[lang-Idxm]"
+.idx:build N "\\\\*[lang-Idxn]" \\\\*A \\\\*P 1
+.idx:build O "\\\\*[lang-Idxo]" \" objets
+.\"idx:build Q "\\\\*[lang-Idxq]" « »
+.idx:build T "\\\\*[lang-Idxt]" \\\\*I \\\\*P
+.\"idx:build U "\\\\*[lang-Idxu]"
+.idx:build W "\\\\*[lang-idxw]"
 .
 .
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -181,9 +181,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	rm idx-end
 .	nr idx-args 0
 .	ie r idx-K\\$1 \{\
-.		NS
-.		var:print \T'\\$1'\\*[lang-See] \\*[idx-p]\~\\n[idx-K\\$1].\T
-.		NE
+.		ie \\n[note-in]=0 \{\
+.			NS
+.			var:print \T'\\$1'\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1].\T
+.			NE
+.		\}
+.		el .var:print \T'\\$1'\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1].\T
 .	\}
 .	el .if \\n(RH .var:tm \\*[lang-wait] \\$0 \\$1
 ..
@@ -199,9 +202,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	rm idx-beg
 .	rm idx-end
 .	nr idx-args 0
-.	NS
-.	var:print \W'mailto:\\$1'\\$1\W
-.	NE
+.	ie \\n[note-in]=0 \{\
+.		NS
+.		var:print \W'mailto:\\$1'\\$1\W
+.		NE
+.	\}
+.	el .var:print \W'mailto:\\$1'\\$1\W
 ..
 .de XU
 .	\" url
@@ -215,9 +221,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	rm idx-beg
 .	rm idx-end
 .	nr idx-args 0
-.	NS
-.	var:print <\\W'\\$1'\\$1\\W>
-.	NE
+.	ie \\n[note-in]=0 \{\
+.		NS
+.		var:print <\\W'\\$1'\\$1\\W>
+.		NE
+.	\}
+.	el .var:print <\\W'\\$1'\\$1\\W>
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Record links for next pass
