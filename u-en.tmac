@@ -1,6 +1,6 @@
 .\" u-en: english locale.
 .ig
-$Id$
+$Id: u-en.tmac,v 0.1 2013/03/15 20:31:11 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -52,11 +52,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds » \|\[guilsinglright]
 .ds lq \[guilsinglleft]\|
 .ds rq \|\[guilsinglright]
-.ds lang-widow Widow
-.ds lang-blank Blank
-.ds lang-orphan Orphan
-.ds lang-line line
+.
+.
+.
 .\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" uh, us verbose mode
+.ds lang-Widow Wido
+.ds lang-Blank Blank
+.ds lang-Orphan Orphan
+.ds lang-line line
+.ds lang-file file
+.ds lang-page page
+.ds lang-Toc Table of content
+.ds lang-divert1 Divert notes to next page
+.ds lang-divert2 Divert diverted notes
+.ds lang-wait Wait next pass for
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" xml
 .\" xml
 .de lang:xmlchar
 .	char - \-
@@ -81,30 +93,44 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	rchar « » : ; ? ! \"< >
 ..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
-.\" toc
-.ds lang-toc Table of contents
-.\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" ref
+.ds lang-before hereinbefore
+.ds lang-Col Col.
+.ds lang-Dir Under the dir. of
+.ds lang-dir under the dir. of
 .ds lang-ed0 éd.
 .ds lang-ed1 éds.
-.ds lang-vol vol.
-.ds lang-col col.
-.ds lang-on on
-.ds lang-update update the
-.ds lang-seen seen the
+.ds lang-Idem Idem.
+.ds lang-In In
+.ds lang-in in
+.ds lang-ISBN ISBN
+.ds lang-No N\\*Uo\\*R
+.ds lang-no N\\*Uo\\*R
 .ds lang-opcit \\*Iop. cit.\\*P
-.ds lang-before herein before
-.ds lang-idem \\*Iidem.\\*P
-.ds lang-num n\\*Uo\\*P
+.ds lang-On On
+.ds lang-on on
+.ds lang-P P.
+.ds lang-p p.
+.ds lang-Seen Seen the
+.ds lang-seen seen the
+.ds lang-Update Update the
+.ds lang-update update the
+.ds lang-Vol Vol.
+.ds lang-vol vol.
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" idx
-.ds lang-HA Index of acronyms
-.ds lang-HC Index of binaries
-.ds lang-HD Index of dates
-.ds lang-HE Index of errors
-.ds lang-HH Index of names
-.ds lang-HN Index of things
-.ds lang-HT Index of books
-.ds lang-HW Index of words
-.ds lang-see See
+.ds lang-Idxa Index of acronyms
+.ds lang-Idxc Index of commands
+.ds lang-Idxd Index of dates
+.ds lang-Idxe Index of errors
+.ds lang-Idxi Index of images
+.ds lang-Idxl Index of links
+.ds lang-Idxm Index of emails
+.ds lang-Idxn Index of names
+.ds lang-Idxo Index of things
+.ds lang-Idxq Index of quotations
+.ds lang-Idxt Index of books
+.ds lang-Idxu Index of urls
+.ds lang-Idxw Index of words
+.ds lang-See See
 .\"""""""""""""""""""""""""""""""""""""""""""""""
