@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id: u-ref,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: u-ref.tmac,v 0.2 2013/03/20 11:15:32 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: u-ref,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: u-ref.tmac,v 0.2 2013/03/20 11:15:32 pj Exp pj $
 ..
 .ig
 iso-690 default:
@@ -389,20 +389,20 @@ if not only first field is idem
 .\" op. cit.
 .nr opc-trap 0 1
 .de opc:text
-.	if d [L \{\
-.	ie r opc-\\*([L \{\
+.	if d [K \{\
+.	ie r opc-\\*([K \{\
 .		ref:remove C D E G H I M N Q R
 .		ref:remove U W X Y Z w x y z
-.		ie \\n[opc-\\*([L]=\\n% .ds [% ci-dessus
-.		el .ds [% p.\~\\n[opc-\\*([L]
+.		ie \\n[opc-\\*([K]=\\n% .ds [% ci-dessus
+.		el .ds [% p.\~\\n[opc-\\*([K]
 .	\}
 .	el \{\
 .		\" use a temporary definition
 .		\" and use output line trap to get correct page
-.		nr opc-\\*([L \\n%
+.		nr opc-\\*([K \\n%
 .		lnr opc-tmp \\n[opc-trap]
 .		de opc:trap\\n+[opc-trap]
-.			nr opc-\\*([L \\\\n%
+.			nr opc-\\*([K \\\\n%
 .			rm opc:trap\\n[opc-tmp]
 \\..
 .		var:print \\P[opc:trap\\n[opc-trap]]\\c
