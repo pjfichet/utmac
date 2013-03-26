@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: us.tmac,v 0.2 2013/03/16 15:34:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -284,13 +284,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\" inform about orphans
 .	if \\n(RH \{\
 .	if \\n[inform-orphan] .if \\n(nl=\\n[typo-orphan]v \{\
-.		var:tm Orphan
+.		var:tm \\*[lang-Orphan]
 .	\}
 .	if \\n(nl=\\n[typo-widow]v \{\
-.		var:tm Widow
+.		var:tm \\*[lang-Widow]
 .	\}
 .	if \\n(nl=\\n[typo-blank]v \{\
-.		var:tm Blank
+.		var:tm \\*[lang-Blank]
 .	\}
 .	nr inform-orphan 1
 .	\}
@@ -357,7 +357,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	head:num \\ni
 .	head:data \\ni \\$*
 .	pdf:anchor \\*[head-level]
-.	pdf:anchor \\*[head-beg]\\*[head-end]
+.	\"pdf:anchor \\*[head-beg]\\*[head-end]
 .	pdf:link TOC "\\*[head-beg]\\*F\\*[head-end]\\*P"
 .	var:print \\P[page:num]
 .	br
@@ -443,8 +443,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de AT
 .	\" print table of contents
-.	H3 Table des matières
-.	H* Table des matières
+.	H3 \\*[lang-Toc]
+.	H* \\*[lang-Toc]
 .	H0
 .	sp -1v
 .	var:print \A'TOC'
@@ -877,14 +877,15 @@ file(page):height,width,yoff,xoff:flags
 ..
 .de var:tm
 .	\" print to stderr
-.	tm \t\\$*, line \\n(.c, file \\n(.F; page \\n%.
+.	tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
+\&\\n(.F; \\*[lang-page] \\n%.
 ..
 .\"warn w all mac
 .warn w
 .\""""""""""""""""""""""""""""""""""""""
 .\" Here we go!
 .so \V[TROFFMACS]/u-ref			\" Refer
-.so \V[TROFFMACS]/u-grind			\" Grind
+.so \V[TROFFMACS]/u-grind		\" Grind
 .so \V[TROFFMACS]/u-idx			\" Index
 .ie "\V[UTMAC]"" \{\
 .	so \V[TROFFMACS]/u-en			\" Lang
