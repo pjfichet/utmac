@@ -1,6 +1,6 @@
 .\" uh: for humanities.
 .ig
-$Id: uh,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: uh.tmac,v 0.2 2013/03/16 15:34:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -270,13 +270,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\" inform about orphans
 .	if \\n(RH \{\
 .	if \\n[inform-orphan] .if \\n(nl=\\n[typo-orphan]v \{\
-.		var:tm Orphan
+.		var:tm \\*[lang-Orphan]
 .	\}
 .	if \\n(nl=\\n[typo-widow]v \{\
-.		var:tm Widow
+.		var:tm \\*[lang-Widow]
 .	\}
 .	if \\n(nl=\\n[typo-blank]v \{\
-.		var:tm Blank
+.		var:tm \\*[lang-Blank]
 .	\}
 .	nr inform-orphan 1
 .	\}
@@ -343,7 +343,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	head:num \\ni
 .	head:data \\ni \\$*
 .	pdf:anchor \\*[head-level]
-.	pdf:anchor \\*[head-beg]\\*[head-end]
+.	\"pdf:anchor \\*[head-beg]\\*[head-end]
 .	pdf:link TOC "\\*[head-beg]\\*F\\*[head-end]\\*P"
 .	var:print \\P[page:num]
 .	br
@@ -664,8 +664,8 @@ and call the macro sum:in/\\n[head-1]/
 .de note:trap
 .	\" divert overfull notes
 .	nr note-trap 1
-.	ie d note:divpre .if \\n(RH .var:tm Divert diverted notes
-.	el .if \\n(RH .var:tm Divert notes to next page
+.	ie d note:divpre .if \\n(RH .var:tm \\*[lang-divert2]
+.	el .if \\n(RH .var:tm \\*[lang-divert1]
 .	di note:divtmp
 ..
 .\""""""""""""""""""""""""""""""""""""""
@@ -778,7 +778,8 @@ file(page):height,width,yoff,xoff:flags
 ..
 .de var:tm
 .	\" print to stderr
-.	tm \t\\$*, line \\n(.c, file \\n(.F; page \\n%.
+.	tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
+\\n(.F; \\*[lang-page] \\n%.
 ..
 .\"warn w all mac
 .warn w
