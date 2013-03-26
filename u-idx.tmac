@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.4 2013/03/26 19:43:12 pj Exp pj $
+$Id: u-idx.tmac,v 0.5 2013/03/26 20:11:40 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -166,13 +166,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de XL
 .	\" Link to a defined keyword
-.	ie r idx-K\\$1 .ds idx-note \\**
-.	el .ds idx-note 
+.	lds idx-note
+.	if r idx-K\\$1 .if \\n[note-in]=0 .lds idx-note \\**
 .	if \\n[idx-args]=1 \
 .	var:print \T'\\$*'\\*[idx-text]\T\\*[idx-note]
 .	if \\n[idx-args]=2 \
-.	var:print \T'\\$*'\\*[idx-text]\T\
-\\*[idx-end]\\*[idx-note]
+.	var:print \T'\\$*'\\*[idx-text]\T\\*[idx-note]\
+\\*[idx-end]
 .	if \\n[idx-args]=3 \
 .	var:print \\*[idx-beg]\T'\\$*'\\*[idx-text]\T\
 \\*[idx-note]\\*[idx-end]
@@ -192,12 +192,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de XM
 .	\" email
+.	ie \\n[note-in]=0 .lds idx-note \\**
+.	el .lds idx-note
 .	if \\n[idx-args]=1 \
-.	var:print \W'mailto:\\$1'\\*[idx-text]\W\\**
+.	var:print \W'mailto:\\$1'\\*[idx-text]\W\\*[idx-note]
 .	if \\n[idx-args]=2 \
-.	var:print \W'mailto:\\$1'\\*[idx-text]\W\\*[idx-end]\\**
+.	var:print \W'mailto:\\$1'\\*[idx-text]\W\\*[idx-note]\\*[idx-end]
 .	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg]\W'mailto:\\$1'\\*[idx-text]\W\\**\\*[idx-end]
+.	var:print \\*[idx-beg]\W'mailto:\\$1'\\*[idx-text]\W\
+\\*[idx-note]\\*[idx-end]
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
@@ -211,12 +214,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de XU
 .	\" url
+.	ie \\n[note-in]=0 .lds idx-note \\**
+.	el .lds idx-note
 .	if \\n[idx-args]=1 \
-.	var:print \W'\\$1'\\*[idx-text]\W\\**
+.	var:print \W'\\$1'\\*[idx-text]\W\\*[idx-note]
 .	if \\n[idx-args]=2 \
-.	var:print \W'\\$1'\\*[idx-text]\W\\*[idx-end]\\**
+.	var:print \W'\\$1'\\*[idx-text]\W\\*[idx-note]\\*[idx-end]
 .	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg]\W'\\$1'\\*[idx-text]\W\\**\\*[idx-end]
+.	var:print \\*[idx-beg]\W'\\$1'\\*[idx-text]\W\
+\\*[idx-note]\\*[idx-end]
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
