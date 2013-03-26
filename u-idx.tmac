@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.7 2013/03/26 21:14:18 pj Exp pj $
+$Id: u-idx.tmac,v 0.8 2013/03/26 21:15:44 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -135,6 +135,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .		var:print \\\\*(<P.
 \\..
 ..
+.\" Acronym, command, date, error, image,
+.\" link, email, name, object, quotation,
+.\" url, word.
 .idx:build A "\\\\*[lang-Idxa]" \\\\*A \\\\*P 1
 .\"idx:build C "\\\\*[lang-Idxc]"
 .\"idx:build D "\\\\*[lang-Idxd]"
@@ -142,7 +145,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"idx:build I "\\\\*[lang-Idxi]"
 .\"idx:build L "\\\\*[lang-Idxl]"
 .\"idx:build M "\\\\*[lang-Idxm]"
-.idx:build N "\\\\*[lang-Idxn]" \\\\*A \\\\*P 1
+.\"idx:build N "\\\\*[lang-Idxn]" \\\\*C \\\\*P 1
 .idx:build O "\\\\*[lang-Idxo]" \" objets
 .\"idx:build Q "\\\\*[lang-Idxq]" « »
 .idx:build T "\\\\*[lang-Idxt]" \\\\*I \\\\*P
@@ -150,6 +153,53 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .idx:build W "\\\\*[lang-Idxw]"
 .
 .
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Special formatting
+.
+.\" name: reverse lastname before indexing
+.de N<
+.	\" print index title
+.	H3 \\*[lang-Idxn]
+.	H* \\*[lang-Idxn]
+.	H0 \\*[lang-Idxn]
+..
+.de XN
+.	\" input: firstname lastname, jr
+.	\" output: lastname, firstname jr
+.   lnr N-pre \\n(.$-1
+.   lds N-firstname \\$\\n[N-pre]
+.   lds N-comma \\*[N-firstname]
+.   substring N-comma -1 -1
+.   ie "\\*[N-comma]"," \{\
+.       ds N-jr \\$\\n(.$
+.       chop N-firstname
+.   \}
+.   el \{\
+.       ds N-firstname \\$\\n(.$
+.       nr N-pre \\n(.$
+.   \}
+.   if \\n(.$>1 .as N-firstname ,
+.   nr i 0 1
+.   while \\n+i<\\n[N-pre] \{\
+.       as N-firstname " \\$1
+.       shift
+.   \}
+.   if d N-jr .as N-firstname " \\*[N-jr]
+.	idx:do N \\*[N-firstname]
+.	idx:print
+..
+.de N>
+.	PP
+.	var:print \\*C\\$1\\*R
+.	shift
+.	lnr i 1 1
+.	while \\n+i<\\n(.$ \{\
+.		var:print \\$1
+.		shift
+.	\}
+.	var:print \\$1:
+.	var:print \\*(<P.
+..
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Links
 .de XK
