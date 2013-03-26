@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: u-idx.tmac,v 0.2 2013/03/20 11:15:32 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -135,20 +135,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .		var:print \\\\*(<P.
 \\..
 ..
-.idx:build A "Index des acronymes" \\\\*A \\\\*P 1
-.\"idx:build C "Index des commandes"
-.\"idx:build D "Index des dates"
-.\"idx:build E "Index des erreurs"
-.\"idx:build I "Index des images"
-.\"idx:build L "Index des liens"
-.\"idx:build M "Index des adresses mel"
-.idx:build N "Index des noms" \\\\*A \\\\*P 1
-.idx:build H "Index des noms" \\\\*A \\\\*P 1
-.idx:build O "Index des choses" \" objets
-.\"idx:build Q "Index des citations" « »
-.idx:build T "Index des ouvrages" \\\\*I \\\\*P
-.\"idx:build U "Index des url"
-.idx:build W "Index des mots"
+.idx:build A "\\*[lang-Idxa]" \\\\*A \\\\*P 1
+.\"idx:build C "\\*[lang-Idxc]"
+.\"idx:build D "\\*[lang-Idxd]"
+.\"idx:build E "\\*[lang-Idxe]"
+.\"idx:build I "\\*[lang-Idxi]"
+.\"idx:build L "\\*[lang-Idxl]"
+.\"idx:build M "\\*[lang-Idxm]"
+.idx:build N "\\*[lang-Idxn]" \\\\*A \\\\*P 1
+.idx:build O "\\*[lang-Idxo]" \" objets
+.\"idx:build Q "\\*[lang-Idxq]" « »
+.idx:build T "\\*[lang-Idxt]" \\\\*I \\\\*P
+.\"idx:build U "\\*[lang-Idxu]"
+.idx:build W "\\*[lang-idxw]"
 .
 .
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -183,10 +182,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	nr idx-args 0
 .	ie r idx-K\\$1 \{\
 .		NS
-.		var:print \T'\\$1'Voir p.\~\\n[idx-K\\$1].\T
+.		var:print \T'\\$1'\\*[idx-see] \\*[idx-p]\~\\n[idx-K\\$1].\T
 .		NE
 .	\}
-.	el .if \\n(RH .var:tm Wait next pass for \\$0 \\$1
+.	el .if \\n(RH .var:tm \\*[lang-wait] \\$0 \\$1
 ..
 .de XM
 .	\" email
