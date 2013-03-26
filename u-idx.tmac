@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.5 2013/03/26 20:11:40 pj Exp pj $
+$Id: u-idx.tmac,v 0.6 2013/03/26 20:30:57 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -86,7 +86,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	close idx-f
 .	\" delete EOF = \004 in octal = ^D in vim
 .	\" .pso need \\\\004, .sy need \\004
-.	pso tr -d '\\\\004' < \\*[data-file]-idx.idx | @UPATH@/idx
+.	pso @UPATH@/idx -d \\*[data-file]-idx.idx
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Default macros
