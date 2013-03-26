@@ -1,6 +1,6 @@
 .\" u-fr: french locale.
 .ig
-$Id: u-fr.tmac,v 0.2 2013/03/26 18:20:30 pj Exp pj $
+$Id: u-fr.tmac,v 0.3 2013/03/26 18:28:14 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -52,15 +52,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds » \|\[guilsinglright]
 .ds lq \[guilsinglleft]\|
 .ds rq \|\[guilsinglright]
+.
+.
+.
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" uh, us verbose mode
 .ds lang-Widow Veuve
 .ds lang-Blank Blanc
 .ds lang-Orphan Orpheline
 .ds lang-line ligne
 .ds lang-file fichier
 .ds lang-page page
-.\# Divert diverted notes, divert notes to next page
+.ds lang-Toc Table des matières
+.\" Divert diverted notes, divert notes to next page
 .ds lang-divert1 Notes reportées page suivante
 .ds lang-divert2 Notes reportées une seconde fois
+.\" Wait next pass for
+.ds lang-wait Attend la seconde passe pour
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" xml
 .de lang:xmlchar
@@ -87,7 +95,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" toc
-.ds lang-toc Table des matières
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" ref
 .ds lang-before ci-dessus
@@ -115,13 +122,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds lang-vol vol.
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" idx
-.ds lang-HA Index des acronymes
-.ds lang-HC Index des commandes
-.ds lang-HD Index des dates
-.ds lang-HE Index des erreurs
-.ds lang-HH Index des noms
-.ds lang-HN Index des choses
-.ds lang-HT Index des ouvrages
-.ds lang-HW Index des mots
+.ds lang-Idxa Index des acronymes
+.ds lang-Idxc Index des commandes
+.ds lang-Idxd Index des dates
+.ds lang-Idxe Index des erreurs
+.ds lang-Idxi Index des images
+.ds lang-Idxl Index des liens
+.ds lang-Idxm Index des adresses mel
+.ds lang-Idxn Index des noms
+.ds lang-Idxo Index des choses
+.ds lang-Idxq Index des citations
+.ds lang-Idxt Index des ouvrages
+.ds lang-Idxu Index des urls
+.ds lang-Idxw Index des mots
 .ds lang-see Voir
 .\"""""""""""""""""""""""""""""""""""""""""""""""
