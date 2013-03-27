@@ -1,6 +1,6 @@
 .\" u-libertine: libertine font.
 .ig
-$Id$
+$Id: u-libertine.tmac,v 0.1 2013/03/15 20:31:11 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -115,19 +115,23 @@ To embolden a whole set of font, we use some macros.
 .	ds C \f[\\*[font-weight0]\\*[font-style0]C]
 .	ds BC \f[\\*[font-weight1]\\*[font-style0]C]
 .	ds BIC \f[\\*[font-weight1]\\*[font-style1]C]
+.	ds IC \f[\\*[font-weight0]\\*[font-style1]C]
 .	\" acronyms
 .	ds A \f[\\*[font-weight0]\\*[font-style0]C]
 .	ds BA \f[\\*[font-weight1]\\*[font-style0]C]
 .	ds BIA \f[\\*[font-weight1]\\*[font-style1]C]
+.	ds IA \f[\\*[font-weight0]\\*[font-style1]C]
 .	\" superscript
 .	ds U \f[\\*[font-weight0]\\*[font-style0]U]
 .	ds BU \f[\\*[font-weight1]\\*[font-style0]U]
 .	ds BIU \f[\\*[font-weight1]\\*[font-style1]U]
+.	ds IU \f[\\*[font-weight0]\\*[font-style1]U]
 .	\" Final glyphs
 .	\" Since there's no final glyphs, map to N
 .	ds F \f[\\*[font-weight0]\\*[font-style0]N]
 .	ds BF \f[\\*[font-weight1]\\*[font-style0]N]
 .	ds BIF \f[\\*[font-weight1]\\*[font-style1]N]
+.	ds IF \f[\\*[font-weight0]\\*[font-style1]N]
 .	\" usefull shortcuts
 .	ds { \f[RRU]
 .	ds } \f[RRN]
@@ -151,23 +155,23 @@ To embolden a whole set of font, we use some macros.
 .de font:note
 .	\" font for small text
 .	\" book, extra, roman, italic
-.	ds font-weight0 K
+.	ds font-weight0 R
 .	ds font-weight1 B
 .	ds font-style0 R
 .	ds font-style1 I
 .	font:strings
-.	ft KRN
+.	ft RRN
 .	lang:char
 ..
 .de font:note-it
 .	\" small text, reverse italic
 .	\" book, extra, italic, roman
-.	ds font-weight0 K
+.	ds font-weight0 R
 .	ds font-weight1 B
 .	ds font-style0 I
 .	ds font-style1 R
 .	font:strings
-.	ft KIN
+.	ft RIN
 .	lang:char
 ..
 .de font:head
@@ -277,8 +281,8 @@ To embolden a whole set of font, we use some macros.
 .nr z 11 1 \" position 9 and 10 are reserved
 .font:mount RR LinLibertine_R
 .font:mount RI LinLibertine_RI
-.font:mount KR LinLibertine_RZ
-.font:mount KI LinLibertine_RZI
+.\"font:mount KR LinLibertine_RZ
+.\"font:mount KI LinLibertine_RZI
 .font:mount BR LinLibertine_RB
 .font:mount BI LinLibertine_RBI
 .\" No extra font on LinLibertine
