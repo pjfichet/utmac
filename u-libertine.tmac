@@ -1,6 +1,6 @@
 .\" u-libertine: libertine font.
 .ig
-$Id: u-libertine.tmac,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: u-libertine.tmac,v 0.2 2013/03/27 10:35:02 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -245,7 +245,7 @@ To embolden a whole set of font, we use some macros.
 .	\"flig \\$1 .. \[doublepoint] ... \[ellipsis]
 ..
 .de font:noliga
-.	fdeferlig \\$1 ff ffi ffl
+.	fdeferlig \\$1 ff ffi ffl fl fi
 ..
 .\""""""""""""""""""""""""""""
 .\" Mount fonts for text
@@ -284,7 +284,9 @@ To embolden a whole set of font, we use some macros.
 .\"font:mount KR LinLibertine_RZ
 .\"font:mount KI LinLibertine_RZI
 .font:mount BR LinLibertine_RB
+.font:noliga BRN
 .font:mount BI LinLibertine_RBI
+.font:noliga BRI
 .\" No extra font on LinLibertine
 .\" Monospace font
 .fp \nz RRM LinBiolinum_R otf
