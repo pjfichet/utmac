@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.5 2013/03/28 21:27:09 pj Exp pj $
+$Id: us.tmac,v 0.6 2013/03/28 21:28:13 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -169,29 +169,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	par:init
 .	typo:inform
 ..
-.de par:space
-.	\" insert space if not after H4
-.	if \\n[head-H4]=0 .sp 1v
-.	nr head-H4 0
-..
 .de PP
 .	par:start
-.	par:space
+.	sp 1v
 ..
 .de PQ
 .	par:start
 .	in 3v
-.	ti 4v
-.	par:space
+.	sp 1v
 ..
 .de PI
 .	par:start
 .	in 3v
-.	ti 1v
-.	ta 2v
+.	ti 0
+.	ta 3v
 .	ie \\n(.$ .ds par-bullet \\$*
 .	el .ds par-bullet \(em
-.	ie \w'\\*[par-bullet]u'>=2v \{\
+.	ie \w'\\*[par-bullet]u'>=3v \{\
 .		var:print "\\*[par-bullet]"
 .		br
 .	\}
@@ -201,24 +195,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	par:start
 .	in 3v
 .	ti 0
-.	par:space
+.	sp 1v
 ..
 .de PR
 .	par:start
 .	ad r
-.	par:space
+.	sp 1v
 ..
 .de PC
 .	par:start
 .	ad c
-.	par:space
+.	sp 1v
 ..
 .de PX
 .	par:start
 .	nf
 .	ti 0
 .	in 3v
-.	par:space
+.	sp 1v
 ..
 .de par:toc
 .	\" table of content paragraph
@@ -369,13 +363,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	sum:record \\ni \\$*
 .	hy \\n[text-hyphen]
 .	nr inform-orphan 0
-.	nr head-H4 0
 ..
 .de H1
 .	bp
 .	rs
 .	par:init
-.	sp 8v
+.	sp 5v
 .	ps 25p
 .	ad c
 .	vs \\n[text-line]u*2u
@@ -384,6 +377,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	br
 .	par:init
 .	sp 5v
+.	ns
 ..
 .de H2
 .	if \\n[head-2]>0 .head:orn
@@ -408,8 +402,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ad l
 .	font:head
 .	head:print 3 \\$*
+.	ns
 ..
-.nr head-H4 0
 .de H4
 .	par:init
 .	br
@@ -417,7 +411,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ad l
 .	font:head
 .	head:print 4 \\$*
-.	nr head-H4 1
+.	ns
 ..
 .de H0
 .	ds page-title-tmp \\$*
@@ -449,12 +443,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	H3 \\*[lang-Toc]
 .	H* \\*[lang-Toc]
 .	H0
-.	sp -1v
 .	var:print \A'TOC'
 .	br
+.	rs
+.	sp -1v
 .	ev toc
 .	par:init \" par:toc don't reset paragraph
-.	sp 1v
 .	par:toc 0
 .	nf
 .	toc:print
