@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.6 2013/03/28 21:28:13 pj Exp pj $
+$Id: us.tmac,v 0.7 2013/03/28 21:29:58 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -536,11 +536,12 @@ and call the macro sum:in/\\n[head-1]/
 .	de sum:out\\$2
 \\..
 .	br
-.	NS no
+.	sp 1v
+.	note:start-sum
 .	par:toc
 .	ie d sum:in\\$2 .sum:in\\$2
 .	el .if \\n(RH .var:tm Wait next pass for \\$1
-.	NE
+.	note:stop-sum
 .	br \" break after note trap ending with \c
 ..
 .de S1
@@ -647,8 +648,69 @@ and call the macro sum:in/\\n[head-1]/
 .	font:note
 .	typo:note
 ..
+.de note:start-intext
+.	br
+.	nr note-in 1
+.	par:init
+.	typo:inform
+.	in 3v
+.	ll \\n[text-length]u-3v
+.	als NE note:stop-intext
+..
+.de note:stop-intext
+.	nr note-in 0
+.	PP
+..
+.als NT note:start-intext
+.de NB
+.	note:start-intext
+.	ad r
+..
+.de note:start-sum
+.	nr note-in 1
+.	br
+.	ev ev-note
+.	note:init
+.	ll \\n[note-length]u-3v
+.	di note:trap-sum
+..
+.de note:stop-sum
+.	br
+.	di
+.	\" place or move a trap for notes
+.	\" number of lines in last diversion:
+.	lnr note-lines \\n(dnu/\\n[note-line]u
+.	\" size of each column
+.	lnr note-divide \\n[note-lines]/2
+.	\" rest of division:
+.	lnr note-modulo \\n[note-lines]%2
+.	\" if modulo, add one line to size of column:
+.	ie \\n[note-modulo]>0 .nr note-divide +1
+.	wh \\n(nlu+\\n[note-divide]v note:return-sum
+.	mk note-sum
+.	po \\n[note-offset]u+3v
+.	if \\n(RV .if e .po \\n[note-offset-e]u+3v
+.	nf
+.	note:trap-sum
+.	\" flow pass throught note:return-sum
+.	br
+.	ev
+.	if r note-sum2 .rt \\n[note-sum2]u
+.	po \\n[text-offset]u
+.	if \\n(RV=1 .if e .po \\n[text-offset-e]u
+.	nr note-in 0
+.	PP
+.	font:text
+..
+.de note:return-sum
+.	mk note-sum2
+.	rt \\n[note-sum]u
+.	po +\\n[note-length]u-3v+\\n[note-blank]u
+.	ch note:return-sum
+..
 .de NS
 .	nr note-in 1
+.	als NE note:stop-NS
 .	\" start a note
 .	\" Do not append text of note to note:div
 .	\" before that line is printed.
@@ -679,18 +741,12 @@ and call the macro sum:in/\\n[head-1]/
 .	di note:plt-\\n[note-olt]
 .		if \\n(.$=0 .var:print \\*(BU\\n*\\*R
 ..
-.de NE
+.de note:stop-NS
 .	br
 .	di
 .	ev
 .	font:text
 .	nr note-in 0
-..
-.de NT
-.	NS no
-..
-.de NB
-.	NS no
 ..
 .de note:mvtrap
 .	\" place or move a trap for notes
