@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.2 2013/03/16 15:34:01 pj Exp pj $
+$Id: us.tmac,v 0.3 2013/03/26 18:34:14 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -36,18 +36,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\" default variables
 .ds data-tmac us
 .ds data-file /tmp/us-tmp
-.nr page-head 3
-.nr page-foot 57 \" 44
-.nr page-box \n[page-foot]+4
-.nr text-offset 3c
-.nr text-offset-e 3c
-.nr text-length 15c
+.nr page-head 5
+.nr page-foot 61 \" 44
+.nr page-box 2 \"\n[page-foot]+4
+.nr text-offset 3.5c
+.nr text-offset-e 3.5c
+.nr text-length 14c
 .nr text-hyphen 14
 .nr text-font 10p
 .nr text-line 13p \" change page-foot if you change this!
 .nr note-offset \n[text-offset]u
 .nr note-offset-e \n[text-offset-e]u
-.nr note-length 7c
+.nr note-length 6.5c
 .nr note-blank 1c
 .nr note-hyphen \n[text-hyphen]
 .nr note-font 10p
@@ -113,6 +113,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\" print footer
 .	ev ev-foot
 .	br
+.	var:print \s+(80\D'l \\n[box-length]u'\s-(80
 .	if \\n%=1 .if d data:write .data:write
 .	par:init
 .	br
@@ -134,12 +135,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ie \\n(RP .nr page-num \\n%
 .	el .nr page-num
 .	ie d page-title-tmp \{\
-.		tl "\\*[col-grey]\T'TOC'\\*[page-title-tmp]\T"\
-"\\*C\\n[page-num]\\*R\\*[col-black]"
+.		tl "\T'TOC'\\*[page-title-tmp]\T"\
+"\\*C\\n[page-num]\\*R"
 .		rm page-title-tmp
 .	\}
-.	el .tl "\\*[col-grey]\T'TOC'\\*[page-title]\T"\
-"\\*C\\n[page-num]\\*R\\*[col-black]"
+.	el .tl "\T'TOC'\\*[page-title]\T"\
+"\\*C\\n[page-num]\\*R"
+.	var:print \s+(80\D'l \\n[box-length]u'\s-(80
 ..
 .de page:num
 .	\" get real page number in padj mode
@@ -720,8 +722,6 @@ and call the macro sum:in/\\n[head-1]/
 ..
 .de note:print
 .	ti 0
-.	var:print \D'l \\n[note-length]u'
-.	\"sp 1v
 .	br
 .	mk note-top
 .	po \\n[note-offset]u
@@ -815,11 +815,6 @@ and call the macro sum:in/\\n[head-1]/
 .		pdf:mark Keywords \\$*
 \\..
 ..
-.\""""""""""""""""""""""""""""""""""""""
-.\" Colors
-.ds col-lgrey \X'SetColor .8 .8 .8 rgb'
-.ds col-grey \X'SetColor .2 .2 .2 rgb'
-.ds col-black \X'SetColor black'
 .\""""""""""""""""""""""""""""""""""""""
 .\" Set locale
 .de RL
