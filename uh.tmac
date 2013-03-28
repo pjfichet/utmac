@@ -1,6 +1,6 @@
 .\" uh: for humanities.
 .ig
-$Id: uh.tmac,v 0.3 2013/03/26 18:27:53 pj Exp pj $
+$Id: uh.tmac,v 0.4 2013/03/26 18:35:16 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -109,12 +109,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de page:foot
 .	\" print footer
+.	ch page:foot
+.	code:foot
 .	ev ev-foot
 .	br
 .	if \\n%=1 .if d data:write .data:write
 .	par:init
 .	br
-.	ch page:foot
 .	if \\n(RP \{\
 .		sp |\\n[page-foot]v+2v
 .		ie \\n(RV=1 \{\
