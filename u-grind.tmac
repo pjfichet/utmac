@@ -1,6 +1,6 @@
 .\" u-grind: grind support.
 .ig
-$Id$
+$Id: u-grind.tmac,v 0.1 2013/03/15 20:31:11 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -39,26 +39,42 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	nr ev-code 1
 .	par:init
 .	sp 1v
+.	nr code-top \\n(nl
+.	ds code-name \\$1
 .	nf
 .	in 3v
 .	font:code
-.	lpfx \h'-2v'\X'SetColor .8 .8 .8 rgb'\
-\s+(30\D'l 0 1v'\s-(30\
-\h'2v'\X'SetColor .3 .3 .3 rgb'
 ..
 .de vE
 .	br
+.	code:line
 .	ev
-.	var:print \X'SetColor black'\\c
 .	rr ev-code
 .	par:init
 .	font:text
 .	sp 1v
 ..
+.de code:line
+.	br
+.	nr code-bot \\n(nl
+.	lnr code-line \\n[code-bot]-\\n[code-top]-0.5v
+.	sp -1v
+.	var:print \h'-1v'\X'SetColor .3 .3 .3 rgb'\
+\s+(60\D'l 0 -\\n[code-line]u'\s-(60\X'SetColor black'
+.	br
+.	rr code-line
+.	rr code-bot
+.	rr code-top
+..
+.de code:foot
+.	if r ev-code .if r code-top .code:line
+..
+.	
 .de code:init
 .	\" reset style code after header
 .	if r ev-code \{\
 .		font:code
+.	nr code-top \\n(nl
 .	\}
 ..
 .de vF
@@ -78,8 +94,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds +C \X'SetColor blue'
 .ds +S \\*I
 .ds -K \\*R
-.ds -V \X'SetColor .3 .3 .3 rgb'\\*P
-.ds -C \X'SetColor .3 .3 .3 rgb'
+.ds -V \X'SetColor black'\\*P
+.ds -C \X'SetColor black'
 .ds -S \\*R
 .ds e \e
 .ds - \-
