@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.4 2013/03/28 21:26:16 pj Exp pj $
+$Id: us.tmac,v 0.5 2013/03/28 21:27:09 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -133,15 +133,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	po \\n[box-offset]u
 .	lt \\n[box-length]u
 .	if \\n(RV=1 .if e .po \\n[note-offset-e]u
-.	ie \\n(RP .nr page-num \\n%
-.	el .nr page-num
+.	ie \\n(RP .ds page-num \\n%
+.	el .ds page-num
 .	ie d page-title-tmp \{\
 .		tl "\T'TOC'\\*[page-title-tmp]\T"\
-"\\*C\\n[page-num]\\*R"
+"\\*C\\*[page-num]\\*R"
 .		rm page-title-tmp
 .	\}
 .	el .tl "\T'TOC'\\*[page-title]\T"\
-"\\*C\\n[page-num]\\*R"
+"\\*C\\*[page-num]\\*R"
 .	var:print \s+(80\D'l \\n[box-length]u'\s-(80
 ..
 .de page:num
@@ -874,7 +874,7 @@ file(page):height,width,yoff,xoff:flags
 .de var:tm
 .	\" print to stderr
 .	tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
-\&\\n(.F; \\*[lang-page] \\n%.
+\\n(.F; \\*[lang-page] \\n%.
 ..
 .\"warn w all mac
 .warn w
