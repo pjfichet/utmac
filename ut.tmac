@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.2 2013/03/24 21:03:00 pj Exp pj $
+$Id: ut.tmac,v 0.3 2013/03/30 16:37:41 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -49,7 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	lpfx
 ..
 .de txt:break
-.	txt:note
+.	if d txt:note .txt:note
 .	br
 .	sp 1v
 .	txt:conf
@@ -154,7 +154,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	sp 1v
 .	ev note
 .	txt:conf
-.	txt:note
+.	if d txt:note .txt:note
 .	br
 .	ev
 .	rm txt:note
