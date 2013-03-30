@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.1 2013/03/15 20:31:11 pj Exp $
+$Id: ut.tmac,v 0.2 2013/03/24 21:03:00 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -32,6 +32,8 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .do xflag 3
+.\"warn w all mac
+.warn w
 .nr txt-length 65
 .de doc:end
 .	pl \\n(nlu
@@ -201,6 +203,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds e \e
 .ds -- \(en
 .ds *) *
+.\"""""""""""""""""""""""""""""""""""""
+.de txt:null
+.	while \\n(.$ \{\
+.		als \\$1 var:null
+.		shift
+.	\}
+..
+.txt:null DA DT DS DK DI
 .\"""""""""""""""""""""""""""""""""""""
 .\" start
 .txt:conf

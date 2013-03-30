@@ -1,6 +1,6 @@
 .\" uw: translate to markdown wiki syntax.
 .ig
-$Id$
+$Id: uw.tmac,v 0.1 2013/03/15 20:31:11 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -39,6 +39,8 @@ TODO: a preprocessor is needed to move argument
 of PI to next line (to avoid problems with fonts).
 ..
 .do xflag 3
+.\"warn w all mac
+.warn w
 .nr txt-length 9999999c
 .de doc:end
 '	txt:note
@@ -165,6 +167,14 @@ of PI to next line (to avoid problems with fonts).
 .ds e \e\e
 .ds -- \(en
 .ds *) \e*
+.\"""""""""""""""""""""""""""""""""""""
+.de txt:null
+.	while \\n(.$ \{\
+.		als \\$1 var:null
+.		shift
+.	\}
+..
+.txt:null DA DT DS DK DI
 .\"""""""""""""""""""""""""""""""""""""
 .\" start
 .so \V[TROFFMACS]/\V[HLMLANG]	\" French
