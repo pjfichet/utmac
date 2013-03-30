@@ -1,6 +1,6 @@
 .\" uh: for humanities.
 .ig
-$Id: uh.tmac,v 0.4 2013/03/26 18:35:16 pj Exp pj $
+$Id: uh.tmac,v 0.5 2013/03/28 21:40:38 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -65,6 +65,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	char \[repeat-char] \h'0.5m'.\h'0.5m'
 .	lc \[repeat-char]
 .\}
+.\""""""""""""""""""""""""""""""""""""""
+.\" Various macros
+.de var:null
+.	\" do nothing
+..
+.de var:print
+.	\" print args
+\\$*
+..
+.de var:tm
+.	\" print to stderr
+.	tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
+\\n(.F; \\*[lang-page] \\n%.
+..
+.\"warn w all mac
+.warn w
 .\""""""""""""""""""""""""""""""""""""""
 .\" Document
 .de doc:start
@@ -702,26 +718,35 @@ and call the macro sum:in/\\n[head-1]/
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\"	Meta datas
-.de DA
+.de data:author
 .	am data:write
-.		pdf:mark Author \\$*
+.	pdf:mark Author \\$*
 \\..
+.	als DA var:null
 ..
-.de DT
+.de data:title
 .	am data:write
 .		pdf:mark Title \\$*
 \\..
+.	als DT var:null
 ..
-.de DS
+.de data:subject
 .	am data:write
 .		pdf:mark Subject \\$*
 \\..
+.	als DS var:null
 ..
-.de DK
+.de data:keywords
 .	am data:write
 .		pdf:mark Keywords \\$*
 \\..
+.	als DK var:null
 ..
+.als DA data:author
+.als DT data:title
+.als DS data:subject
+.als DK data:keywords
+.als DI var:null
 .\""""""""""""""""""""""""""""""""""""""
 .\" Set locale
 .de RL
@@ -768,22 +793,6 @@ file(page):height,width,yoff,xoff:flags
 \\X'PI:\\n[img-o]:\\n(.i:\\n(.l:\\n(.t:\
 \\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
 ..
-.\""""""""""""""""""""""""""""""""""""""
-.\" Various macros
-.de var:null
-.	\" do nothing
-..
-.de var:print
-.	\" print args
-\\$*
-..
-.de var:tm
-.	\" print to stderr
-.	tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
-\\n(.F; \\*[lang-page] \\n%.
-..
-.\"warn w all mac
-.warn w
 .\""""""""""""""""""""""""""""""""""""""
 .\" Here we go!
 .so \V[TROFFMACS]/u-ref			\" Refer
