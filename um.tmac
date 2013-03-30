@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id$
+$Id: um.tmac,v 0.1 2013/03/15 20:31:11 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -34,6 +34,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .do xflag 3
 .nf
 .na
+.\"warn w all mac
+.warn w
 .\"""""""""""""""""""""""""""""""""""""
 .de man:null
 ..
@@ -74,7 +76,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de H2
 .	man:block
 .	man:sep
-.	man:print .TH \\$*: \'\' \'\\*[data-date]\'
+.	man:print .TH \\$1: \\$2 \'\\*[data-date]\'
 ..
 .de H3
 .	man:block
@@ -123,6 +125,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .als vS PX
 .als vE man:null
+.\"""""""""""""""""""""""""""""""""""""
+.de man:comment
+.	man:print .\\e" \\$0 \\$*
+..
+.als DA man:comment
+.als DT man:comment
+.als DS man:comment
+.als DK man:comment
+.als DI man:comment
 .\"""""""""""""""""""""""""""""""""""""
 .\" Fonts
 .de man:font
