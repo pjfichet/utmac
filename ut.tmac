@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.5 2013/03/31 08:25:43 pj Exp pj $
+$Id: ut.tmac,v 0.6 2013/03/31 08:31:44 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -34,6 +34,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .do xflag 3
 .\"warn w all mac
 .warn w
+.\"""""""""""""""""""""""""""""""""""""
+.\" Various macros
+.de var:print
+\\$*
+..
+.de var:null
+..
+.\"""""""""""""""""""""""""""""""""""""
+.\" Initialize
 .nr txt-length 65
 .de doc:end
 .	pl \\n(nlu
@@ -45,13 +54,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	na
 .	fi
 .	nh
-.	in 0
+'	in 0
 .	lpfx
 ..
 .nr txt-PI 0
 .nr txt-PX 0
 .de txt:break
-.	if d txt:note .txt:note
+.	if d txt:printnote .txt:printnote
 .	br
 .	sp 1v
 .	txt:conf
@@ -64,8 +73,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de txt:print
 \\$*
 ..
-.de var:null
-..
 .\"""""""""""""""""""""""""""""""""""""
 .\" headings
 .de H1
@@ -74,8 +81,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	lds head-string #
 .	while \\n-[head-width] .as head-string #
 .	txt:print \\*[head-string]
+.	br
 .	tl '#'\\$*'#'
-.	txt:print \\*[string]
+.	txt:print \\*[head-string]
 .	sp 1v
 ..
 .de H2
@@ -137,6 +145,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	txt:break
 .	in 4
 .	ti -4
+..
 .de PR
 .	txt:break
 .	ad r
@@ -152,7 +161,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"""""""""""""""""""""""""""""""""""""
 .\" notes
 .nr txt-note 0 1
-.ds * ^\\n+[txt-note]^
+.ds * " (\\n+[txt-note])
+.nr note-in 0
 .de txt:printnote
 .	br
 .	sp 1v
@@ -163,50 +173,55 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ev
 .	rm txt:note
 ..
-.de NS
+.de txt:note-start
+.	als NE txt:note-end
+.	nr note-in 1
 .	ev note
 .	br
 .	da txt:note
 .	br
 .	sp 1v
 .	txt:conf
-.	txt:print ^\\n[txt-note]^
+.	txt:print (\\n[txt-note])
 ..
-.de NE
+.de txt:note-end
+.	nr note-in 0
 .	br
 .	di
 .	ev
 ..
-.als NT NS
-.als NB NS
+.als NS txt:note-start
+.de NT
+.	als NE PP
+.	PQ
+..
+.de NB
+.	als NE PP
+.	PQ
+..
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
 .\" define only bold and italic
-.ig
-.de font:init
-.	nr font-num 0
-.	ds font-0
-.	ds font-1 * 
-.	ds B *\\R'font-num 1'
-.	ds font-2 _
-.	ds I _\\R'font-num 2'
-.	ds P \\*[font-\\n[font-num]]\R'font-num 0'
-.	ds R \\*[font-\\n[font-num]]\R'font-num 0'
-..
-.de rdm:font
+.de txt:font
 .	while \\n(.$ \{\
 .		ds \\$1
 .		shift
 .	\}
 ..
-.rdm:font P R B I BI
-.rdm:font A BA IA BIA
-.rdm:font C BC IC BIC
-.rdm:font U BU IU BIU
-.rdm:font F BF IF BIF
+.txt:font P R B I BI
+.txt:font A BA IA BIA
+.txt:font C BC IC BIC
+.txt:font U BU IU BIU
+.txt:font F BF IF BIF
+.txt:font +F +L +J
+.txt:font -F -L -J
+.txt:font +K +V +C +S
+.txt:font -K -V -C -S
 .ds e \e
 .ds -- \(en
 .ds *) *
+.ds - \-
+.ds _ _
 .\"""""""""""""""""""""""""""""""""""""
 .de txt:null
 .	while \\n(.$ \{\
@@ -215,6 +230,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\}
 ..
 .txt:null DA DT DS DK DI
+.txt:null RV RH RP
+.txt:null H0 H*
+.txt:null S1 S2 S3 S4 S*
+.txt:null page:num AR
+.txt:null AT
 .\"""""""""""""""""""""""""""""""""""""
 .\" start
+.so \V[TROFFMACS]/u-ref
+.ie "\V[UTMAC]"" .so \V[TROFFMACS]/u-en
+.el .so \V[UTMAC]
+.RO \" Remove opcit
+.ns
 .txt:conf
