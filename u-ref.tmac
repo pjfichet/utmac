@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id: u-ref.tmac,v 0.3 2013/03/26 17:51:04 pj Exp pj $
+$Id: u-ref.tmac,v 0.4 2013/03/26 18:20:06 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: u-ref.tmac,v 0.3 2013/03/26 17:51:04 pj Exp pj $
+$Id: u-ref.tmac,v 0.4 2013/03/26 18:20:06 pj Exp pj $
 ..
 .ig
 iso-690 default:
@@ -414,12 +414,12 @@ if not only first field is idem
 .\" idx
 .de idx:text
 .	\" index some key
-.		\"if d [A .XH \\*([A
-.		\"if d [E .XH \\*([E
-.		if d [T .XT "\\*([T"
-.		if d [B .XT "\\*([B"
-.		if d [J .XT "\\*([J"
-.		if d [S .XT "\\*([S"
+.		\"if d [A .LN \\*([A
+.		\"if d [E .LN \\*([E
+.		if d [T .LT "\\*([T"
+.		if d [B .LT "\\*([B"
+.		if d [J .LT "\\*([J"
+.		if d [S .LT "\\*([S"
 ..
 .als idx:coll var:null
 .\"""""""""""""""""""""""""""""""""""""""""""""""
@@ -514,15 +514,15 @@ if not only first field is idem
 .als @ var:null
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" User macros
-.de AB
+.de XB
 .	\" Append bibliography list
 .	\" need a special version of refer,
 .	\" available on troff.fr
 .	pso @UPATH@/refer -i -B -a -dAE \\$1
 ..
-.de AR
+.de XR
 .	\" Append index of references
-.	AI T
+.	XI T
 ..
 .if !r RI .nr RI 1
 .if !r RO .nr RO 1
