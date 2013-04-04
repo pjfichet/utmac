@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.6 2013/04/04 09:01:13 pj Exp pj $
+$Id: ux.tmac,v 0.7 2013/04/04 09:10:10 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -273,7 +273,7 @@ nroff -mux\\*[xml-tag /DG]
 .	nr idx-args \\n(.$
 ..
 .de idx:print
-.	\" print text defined by XP macro
+.	\" print text defined by LP macro
 .	lds idx-tag \\$1
 .	shift
 .	lds idx-name \\*[idx-tag] name=\'\\$*\'
@@ -301,7 +301,7 @@ nroff -mux\\*[xml-tag /DG]
 .de idx:build
 .	while \\n(.$ \{\
 .		de L\\$1
-.			idx:print X\\$1 \\\\$*
+.			idx:print L\\$1 \\\\$*
 \\..
 .		shift
 .	\}
