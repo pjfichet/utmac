@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.8 2013/04/04 08:57:44 pj Exp $
+$Id: ut.tmac,v 0.9 2013/04/04 09:14:22 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -32,8 +32,9 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .do xflag 3
-.\"warn w all mac
 .warn w
+.ds data-tmac ut
+.ds data-file /tmp/ut-tmp
 .\"""""""""""""""""""""""""""""""""""""
 .\" Various macros
 .de var:print
@@ -171,7 +172,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	rm txt:note
 ..
 .de txt:note-start
-.	als NE txt:note-end
+.	als NE txt:note-stopdiv
 .	nr note-in 1
 .	ev note
 .	br
@@ -181,20 +182,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	txt:conf
 .	var:print (\\n[txt-note])
 ..
-.de txt:note-end
+.de txt:note-stopdiv
 .	nr note-in 0
 .	br
 .	di
 .	ev
 ..
+.de txt:note-stop
+.	nr note-in 0
+.	PP
+..
 .als NS txt:note-start
 .de NT
-.	als NE PP
-.	PQ
+.	nr note-in 1
+.	als NE txt:note-stop
 ..
 .de NB
-.	als NE PP
-.	PQ
+.	nr note-in 1
+.	als NE txt:note-stop
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
@@ -220,12 +225,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds - \-
 .ds _ _
 .\"""""""""""""""""""""""""""""""""""""
+.\" source
+.so \V[TROFFMACS]/u-idx
+.so \V[TROFFMACS]/u-ref
+.RO \" Remove opcit
+.ie "\V[UTMAC]"" .so \V[TROFFMACS]/u-en
+.el .so \V[UTMAC]
+.\"""""""""""""""""""""""""""""""""""""
 .de txt:null
 .	while \\n(.$ \{\
 .		als \\$1 var:null
 .		shift
 .	\}
 ..
+.nr RH 0
 .txt:null DA DT DS DK DI
 .txt:null RV RH RP
 .txt:null H0 H*
@@ -233,10 +246,5 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .txt:null page:num XR
 .txt:null XT
 .\"""""""""""""""""""""""""""""""""""""
-.\" start
-.so \V[TROFFMACS]/u-ref
-.ie "\V[UTMAC]"" .so \V[TROFFMACS]/u-en
-.el .so \V[UTMAC]
-.RO \" Remove opcit
 .ns
 .txt:conf
