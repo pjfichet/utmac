@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.5 2013/03/30 18:31:50 pj Exp pj $
+$Id: ux.tmac,v 0.6 2013/04/04 09:01:13 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -164,7 +164,7 @@ nroff -mux\\*[xml-tag /DG]
 .\" Lists
 .de PI
 .	ie d xml-block \{\
-.		ie '\\*[xml-block]'\\*[xml-tag /PI]\\*[xml-tag /LI]' \{\
+.		ie '\\*[xml-block]'\\*[xml-tag /PI]\\*[xml-tag /PLIST]' \{\
 .			xml:print \\*[xml-deline]
 .			xml:print \\*[xml-tag /PI]
 .		\}
@@ -172,19 +172,19 @@ nroff -mux\\*[xml-tag /DG]
 .			xml:print \\*[xml-deline]
 .			xml:print \\\\*[xml-block]
 .			sp 1v
-.			xml:print \\*[xml-tag LI]
+.			xml:print \\*[xml-tag PLIST]
 .			xml:print \\*[xml-deline]
 .		\}
 .	\}
 .	el \{\
 .		sp 1v
-.		xml:print \\*[xml-tag LI]
+.		xml:print \\*[xml-tag PLIST]
 .		xml:print \\*[xml-deline]
 .	\}
 .	xml:print \\*[xml-tag PI]
 .	xml:print \\*[xml-deline]
 .	if \\n(.$ \\$*:
-.	ds xml-block \\*[xml-tag /PI]\\*[xml-tag /LI]
+.	ds xml-block \\*[xml-tag /PI]\\*[xml-tag /PLIST]
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Notes
