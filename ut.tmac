@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.6 2013/03/31 08:31:44 pj Exp pj $
+$Id: ut.tmac,v 0.7 2013/04/02 19:12:41 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -70,9 +70,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .		nr txt-PX 0
 .	\}
 ..
-.de txt:print
-\\$*
-..
 .\"""""""""""""""""""""""""""""""""""""
 .\" headings
 .de H1
@@ -80,10 +77,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	lnr head-width \\n[txt-length] 1
 .	lds head-string #
 .	while \\n-[head-width] .as head-string #
-.	txt:print \\*[head-string]
+.	var:print \\*[head-string]
 .	br
 .	tl '#'\\$*'#'
-.	txt:print \\*[head-string]
+.	var:print \\*[head-string]
 .	sp 1v
 ..
 .de H2
@@ -92,9 +89,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	lnr head-width \\n[head-tmp] 1
 .	lds head-string #####
 .	while \\n-[head-width] .as head-string #
-.	txt:print # \\$*
+.	var:print # \\$*
 .	br
-.	txt:print \\*[head-string]
+.	var:print \\*[head-string]
 .	\"tl ''\\*[head-string]''
 .	\"tl ''# \\$* #''
 .	\"tl ''\\*[head-string]''
@@ -105,9 +102,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	lnr head-width \\n[head-tmp] 1
 .	lds head-string ===
 .	while \\n-[head-width] .as head-string =
-.	txt:print # \\$*
+.	var:print # \\$*
 .	br
-.	txt:print \\*[head-string]
+.	var:print \\*[head-string]
 ..
 .de H4
 .	txt:break
@@ -115,9 +112,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	lnr head-width \\n[head-tmp] 1
 .	lds head-string ---
 .	while \\n-[head-width] .as head-string -
-.	txt:print # \\$*
+.	var:print # \\$*
 .	br
-.	txt:print \\*[head-string]
+.	var:print \\*[head-string]
 ..
 .als H0 var:null
 .als H* var:null
@@ -138,8 +135,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	txt:conf
 .	in 4
 .	ti -4
-.	ie \\n(.$ .txt:print \ \ \\$*
-.	el .txt:print \ \ - \\$*
+.	ie \\n(.$ .var:print \ \ \\$*
+.	el .var:print \ \ - \\$*
 ..
 .de PL
 .	txt:break
@@ -182,7 +179,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	br
 .	sp 1v
 .	txt:conf
-.	txt:print (\\n[txt-note])
+.	var:print (\\n[txt-note])
 ..
 .de txt:note-end
 .	nr note-in 0
