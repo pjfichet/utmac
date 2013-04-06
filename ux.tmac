@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.7 2013/04/04 09:10:10 pj Exp $
+$Id: ux.tmac,v 0.8 2013/04/04 10:52:33 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -148,18 +148,20 @@ nroff -mux\\*[xml-tag /DG]
 ..
 .xml:block1 PP PC PQ PL PR
 .xml:block2 DA DF DI DK DS DT H1 H2 H3 H4
-.de PX
+.de xml:PX
 .	if d xml-block \{\
 .	xml:print \\*[xml-deline]
 .	xml:print \\\\*[xml-block]
 .	\}
 .	sp 1v
-.	xml:print \\*[xml-tag PX]
+.	ie \\n(.$=0 .xml:print \\*[xml-tag PX]
+.	el .xml:print \\*[xml-tag PX name=\'\\$1\'] 
 .	xml:print \\*[xml-deline]
 .	ds xml-block \\*[xml-tag /PX]
 .	lang:xmlrchar
 .	nf
 ..
+.als PX xml:PX
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Lists
 .de PI
@@ -251,15 +253,12 @@ nroff -mux\\*[xml-tag /DG]
 .ds - \-
 .ds _ _
 .ds e \e
-.de vS
-.	br
-.	xml:print \\*[xml-tag PX name=\'\\$1\']
-.	lang:xmlrchar
-.	nf
-..
+.als vS xml:PX
 .de vE
 .	br
+.	xml:print \\*[xml-deline]
 .	xml:print \\*[xml-tag /PX]
+.	rm xml-block
 .	fi
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
