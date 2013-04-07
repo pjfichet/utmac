@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id: um.tmac,v 0.2 2013/03/30 16:37:41 pj Exp pj $
+$Id: um.tmac,v 0.3 2013/04/07 17:04:00 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -39,11 +39,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"""""""""""""""""""""""""""""""""""""
 .de man:null
 ..
+.als var:null man:null
 .de man:print
 .	br
 \\&\\$*
 .	br
 ..
+.als var:print man:print
 .de man:comment
 .	man:print .\\e" \\$0 \\$*
 ..
@@ -211,16 +213,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds deslash "\\$*
 .\"""""""""""""""""""""""""""""""""""""
 .\" Unused macros
-.de txt:null
+.de man:makenull
 .	while \\n(.$ \{\
-.		als \\$1 var:null
+.		als \\$1 man:null
 .		shift
 .	\}
 ..
-.txt:null RV RH RP
-.txt:null H0 H*
-.txt:null S2 S3 S4 S*
-.txt:null TD TI
-.txt:null vF vH vO vC
-.txt:null page:num
-.txt:null XI XT
+.txt:makenull RV RH RP
+.txt:makenull H0 H*
+.txt:makenull S2 S3 S4 S*
+.txt:makenull TD TI
+.txt:makenull vF vH vO vC
+.txt:makenull page:num
+.txt:makenull XI XT
