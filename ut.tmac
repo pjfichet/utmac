@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.10 2013/04/04 10:40:51 pj Exp pj $
+$Id: ut.tmac,v 0.11 2013/04/07 17:05:47 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -296,21 +296,29 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ie "\V[UTMAC]"" .so \V[TROFFMACS]/u-en
 .el .so \V[UTMAC]
 .\"""""""""""""""""""""""""""""""""""""
-.\" Unused macros
-.de txt:null
-.	while \\n(.$ \{\
-.		als \\$1 var:null
-.		shift
-.	\}
-..
-.txt:null DA DI DK DS DT
-.txt:null RV RH RP
-.txt:null H0 H*
-.txt:null S2 S3 S4 S*
-.txt:null TD TI
-.txt:null vF vH vO vC
-.txt:null page:num
-.txt:null XI XT
+.als DA var:null
+.als DI var:null
+.als DK var:null
+.als DS var:null
+.als DT var:null
+.als RV var:null
+.als RH var:null
+.als RP var:null
+.als H0 var:null
+.als H* var:null
+.als S2 var:null
+.als S3 var:null
+.als S4 var:null
+.als S* var:null
+.als TD var:null
+.als TI var:null
+.als vF var:null
+.als vH var:null
+.als vO var:null
+.als vC var:null
+.als page:num var:null
+.als XI var:null
+.als XT var:null
 .\"""""""""""""""""""""""""""""""""""""
 .\" start
 .ns
