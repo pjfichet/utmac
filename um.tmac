@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id: um.tmac,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: um.tmac,v 0.2 2013/03/30 16:37:41 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -44,6 +44,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \\&\\$*
 .	br
 ..
+.de man:comment
+.	man:print .\\e" \\$0 \\$*
+..
 .de man:sep
 .	man:print .
 .	man:print .
@@ -73,6 +76,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ds data-date \n[year]-\*[month]-\*[day]\"T\*[hours]:\*[minutes]:\*[seconds]
 .\"""""""""""""""""""""""""""""""""""""
 .\" Headings
+.als H1 man:comment
 .de H2
 .	man:block
 .	man:sep
@@ -105,7 +109,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\}
 .	el .man:print .IP \e(bu
 ..
-.de PL
+.de PB
 .	man:block
 .	man:print .HP
 ..
@@ -113,6 +117,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	man:block
 .	man:print .PP
 ..
+.als PL PP
+.als PR PP
+.als PC PP
 .de PQ
 .	man:block
 .	man:print .TQ
@@ -126,9 +133,48 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .als vS PX
 .als vE man:null
 .\"""""""""""""""""""""""""""""""""""""
-.de man:comment
-.	man:print .\\e" \\$0 \\$*
+.\" Idx
+.nr idx-args 0
+.de LP
+.	\" text to print
+.	ds idx-text \\$1
+.	ds idx-end \\$2
+.	ds idx-beg \\$3
+.	nr idx-args \\n(.$
 ..
+.de idx:print
+.	\" print text defined by .p macro
+.	\" $1 before, $2 after
+.	if \\n[idx-args]=1 .man:print \\*[idx-text]
+.	if \\n[idx-args]=2 .man:print \\*[idx-text]\\*[idx-end]
+.	if \\n[idx-args]>2 .man:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+..
+.de idx:url
+.	if \\n[idx-args]=1 .man:print \\*[idx-text] <\\$1>
+.	if \\n[idx-args]=2 .man:print \\*[idx-text] <\\$1>\\*[idx-end]
+.	if \\n[idx-args]>2 .man:print \\*[idx-beg]\\*[idx-text] \
+<\\$1>\\*[idx-end]
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+..
+.als LA idx:print
+.als LD idx:print
+.als LE idx:print
+.als LK man:comment
+.als LL idx:print
+.als LM idx:url
+.als LN idx:print
+.als LO idx:print
+.als LT idx:print
+.als LU idx:url
+.als LW idx:print
+.\"""""""""""""""""""""""""""""""""""""
 .als DA man:comment
 .als DT man:comment
 .als DS man:comment
@@ -163,3 +209,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds -- \e(en
 .ds *) *
 .ds deslash "\\$*
+.\"""""""""""""""""""""""""""""""""""""
+.\" Unused macros
+.de txt:null
+.	while \\n(.$ \{\
+.		als \\$1 var:null
+.		shift
+.	\}
+..
+.txt:null RV RH RP
+.txt:null H0 H*
+.txt:null S2 S3 S4 S*
+.txt:null TD TI
+.txt:null vF vH vO vC
+.txt:null page:num
+.txt:null XI XT
