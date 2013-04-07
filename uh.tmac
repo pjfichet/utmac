@@ -1,6 +1,6 @@
 .\" uh: for humanities.
 .ig
-$Id: uh.tmac,v 0.6 2013/03/30 16:37:41 pj Exp $
+$Id: uh.tmac,v 0.7 2013/04/04 09:16:09 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -184,6 +184,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	typo:inform
 .	sp 1v
 ..
+.de PB
+.	par:start
+.	in 3v
+.	ti 0
+..
+.de PC
+.	par:start
+.	ad c
+..
 .de PP
 .	par:start
 ..
@@ -203,16 +212,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de PL
 .	par:start
-.	in 3v
-.	ti 0
+.	ad l
 ..
 .de PR
 .	par:start
 .	ad r
-..
-.de PC
-.	par:start
-.	ad c
 ..
 .de PX
 .	par:start
