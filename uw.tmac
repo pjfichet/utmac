@@ -1,6 +1,6 @@
 .\" uw: translate to markdown wiki syntax.
 .ig
-$Id: uw.tmac,v 0.3 2013/03/30 21:16:02 pj Exp pj $
+$Id: uw.tmac,v 0.4 2013/04/06 22:08:02 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -31,38 +31,20 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
-.
-.
-.
 .ig
 TODO: a preprocessor is needed to move argument
 of PI to next line (to avoid problems with fonts).
 ..
-.do xflag 3
-.\"warn w all mac
-.warn w
-.\"""""""""""""""""""""""""""""""""""""
-.\" Various macros
-.de var:print
-\\$*
-..
-.de var:null
-..
-.\"""""""""""""""""""""""""""""""""""""
-.\" doc
+.so \V[TROFFMACS]/ut
+.ds data-tmac uw
 .nr txt-length 9999999c
-.de doc:end
-'	if d txt:note 'txt:note
-.	pl \\n(nlu
-..
-.em doc:end
 .de txt:conf
 .	ll \\n[txt-length]u
 .	lt \\n[txt-length]u
 .	na
 .	fi
 .	nh
-.	in 0
+'	in 0
 .	lpfx
 ..
 .de txt:break
@@ -71,45 +53,38 @@ of PI to next line (to avoid problems with fonts).
 .	txt:conf
 .	if \\n[txt-PI]=1 .nr txt-PI 0
 .	if \\n[txt-PX]=1 \{\
-.		\"txt:print ```
+.		var:print \'\'\'
+.		br
 .		nr txt-PX 0
 .	\}
-..
-.de txt:print
-\\$*
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" headings
 .de H1
 .	txt:break
-.	txt:print # \\$* #
+.	var:print # \\$* #
 .	sp 1v
 ..
 .de H2
 .	txt:break
-.	txt:print ## \\$* ##
+.	var:print ## \\$* ##
 .	sp 1v
 ..
 .de H3
 .	txt:break
-.	txt:print ### \\$* ###
+.	var:print ### \\$* ###
 .	sp 1v
 ..
 .de H4
 .	txt:break
-.	txt:print #### \\$* ####
+.	var:print #### \\$* ####
 .	sp 1v
 ..
-.als H0 var:null
-.als H* var:null
 .\"""""""""""""""""""""""""""""""""""""
 .\" paragraphs
-.de PP
-.	txt:break
-..
 .de PQ
 .	txt:break
-.	txt:print >
+.	var:print >
 ..
 .de PI
 .	if \\n[txt-PI]=0 \{\
@@ -118,53 +93,70 @@ of PI to next line (to avoid problems with fonts).
 .	\}
 .	txt:conf
 .	char _ \" needed to avoid fonts problems
-.	txt:print - \\$
+.	var:print - \\$
 .	rchar _
 ..
+.als PB PP
 .als PL PP
 .als PR PP
+.als PC PP
 .de PX
 .	txt:break
-.	\"txt:print ```
+.	var:print \'\'\' \\$1
 .	in 4
 .	nr txt-PX 1
 .	nf
 ..
-.als vS PX
-.als vE PP
 .\"""""""""""""""""""""""""""""""""""""
 .\" notes
-.nr txt-note 0 1
 .ds * ^\\n+[txt-note]^
-.de txt:printnote
-.	br
-.	sp 1v
-.	ev note
-.	txt:conf
-.	if d txt:note .txt:note
-.	br
-.	ev
-.	rm txt:note
-..
-.de NS
+.de txt:note-start
+.	als NE txt:note-stopdiv
+.	nr note-in 1
 .	ev note
 .	br
 .	da txt:note
 .	br
 .	sp 1v
 .	txt:conf
-.	txt:print ^\\n[txt-note]^
+.	var:print ^\\n[txt-note]^
 ..
-.de NE
-.	br
-.	di
-.	ev
+.\"""""""""""""""""""""""""""""""""""""
+.\" idx
+.de idx:url
+.	\" url
+.	if \\n[idx-args]=0 \{\
+.		lang:xmlrchar
+.		var:print [\\$1](\\$1)
+.		lang:xmlchar
+.	\}
+.	if \\n[idx-args]=1 \{\
+.		var:print [\\*[idx-text]]\c
+.		lang:xmlrchar
+.		var:print (\\$1)
+.		lang:xmlchar
+.	\}
+.	if \\n[idx-args]=2 \{\
+.		var:print [\\*[idx-text]]\c
+.		lang:xmlrchar
+.		var:print (\\$1)\c
+.		lang:xmlchar
+.		var:print \\*[idx-end]
+.	\}
+.	if \\n[idx-args]=3 \{\
+.		var:print \\*[idx-beg][\\*[idx-text]]\c
+.		lang:xmlrchar
+.		var:print (\\$1)\c
+.		lang:xmlchar
+.		var:print \\*[idx-end]
+.	\}
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
 ..
-.als NT NS
-.als NB NS
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
-.\" define only bold and italic
 .nr font-num 0
 .ds font-0
 .ds font-1 __
@@ -176,39 +168,4 @@ of PI to next line (to avoid problems with fonts).
 .ds e \e\e
 .ds -- \(en
 .ds *) \e*
-.\""""""""""""""""""""""""""""""""""""""""""""""""
-.\" Index macros
-.nr idx-args 0
-.de LP
-.	\" text to print
-.	ds idx-text \\$1
-.	ds idx-end \\$2
-.	ds idx-beg \\$3
-.	nr idx-args \\n(.$
-..
-.de LU
-.	\" url
-.	if \\n[idx-args]=1 \
-.	var:print [\\*[idx-text]](\\$1)
-.	if \\n[idx-args]=2 \
-.	var:print [\\*[idx-text]](\\$1)\\*[idx-end]
-.	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg][\\*[idx-text]](\\$1)\\*[idx-end]
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
-.	nr idx-args 0
-..
-.\"""""""""""""""""""""""""""""""""""""
-.de txt:null
-.	while \\n(.$ \{\
-.		als \\$1 var:null
-.		shift
-.	\}
-..
-.txt:null DA DT DS DK DI
-.\"""""""""""""""""""""""""""""""""""""
-.\" start
-.so \V[TROFFMACS]/\V[HLMLANG]	\" French
-.txt:conf
-.lang:xmlchar
+.ds - \-
