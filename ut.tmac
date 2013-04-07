@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.9 2013/04/04 09:14:22 pj Exp $
+$Id: ut.tmac,v 0.10 2013/04/04 10:40:51 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -34,7 +34,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .do xflag 3
 .warn w
 .ds data-tmac ut
-.ds data-file /tmp/ut-tmp
 .\"""""""""""""""""""""""""""""""""""""
 .\" Various macros
 .de var:print
@@ -43,9 +42,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de var:null
 ..
 .\"""""""""""""""""""""""""""""""""""""
-.\" Initialize
+.\" doc
 .nr txt-length 65
 .de doc:end
+'	if d txt:printnote 'txt:printnote
 .	pl \\n(nlu
 ..
 .em doc:end
@@ -61,13 +61,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .nr txt-PI 0
 .nr txt-PX 0
 .de txt:break
-.	if d txt:printnote .txt:printnote
 .	br
 .	sp 1v
 .	txt:conf
 .	if \\n[txt-PI]=1 .nr txt-PI 0
 .	if \\n[txt-PX]=1 \{\
-.		\"txt:print ```
 .		nr txt-PX 0
 .	\}
 ..
@@ -93,9 +91,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	var:print # \\$*
 .	br
 .	var:print \\*[head-string]
-.	\"tl ''\\*[head-string]''
-.	\"tl ''# \\$* #''
-.	\"tl ''\\*[head-string]''
 ..
 .de H3
 .	txt:break
@@ -117,10 +112,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	br
 .	var:print \\*[head-string]
 ..
-.als H0 var:null
-.als H* var:null
 .\"""""""""""""""""""""""""""""""""""""
 .\" paragraphs
+.de PB
+.	txt:break
+.	in 4
+.	ti 0
+..
 .de PP
 .	txt:break
 ..
@@ -135,14 +133,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\}
 .	txt:conf
 .	in 4
-.	ti -4
+.	ti 0
 .	ie \\n(.$ .var:print \ \ \\$*
 .	el .var:print \ \ - \\$*
 ..
+.de PC
+.	txt:break
+.	ad c
+..
 .de PL
 .	txt:break
-.	in 4
-.	ti -4
+.	ad l
 ..
 .de PR
 .	txt:break
@@ -159,7 +160,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"""""""""""""""""""""""""""""""""""""
 .\" notes
 .nr txt-note 0 1
-.ds * " (\\n+[txt-note])
+.ds * \U'00A0'(\\n+[txt-note])
 .nr note-in 0
 .de txt:printnote
 .	br
@@ -201,6 +202,70 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	nr note-in 1
 .	als NE txt:note-stop
 ..
+.\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Index macros
+.nr idx-args 0
+.de LP
+.	\" text to print
+.	ds idx-text \\$1
+.	ds idx-end \\$2
+.	ds idx-beg \\$3
+.	nr idx-args \\n(.$
+..
+.de idx:print
+.	\" print text defined by .p macro
+.	\" $1 before, $2 after
+.	if \\n[idx-args]=1 .var:print \\*[idx-text]
+.	if \\n[idx-args]=2 .var:print \\*[idx-text]\\*[idx-end]
+.	if \\n[idx-args]>2 .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+..
+.de idx:url
+.	\" url
+.	if \\n[idx-args]=0 \{\
+.		lang:xmlrchar
+.		var:print (\\$1)
+.		lang:xmlchar
+.	\}
+.	if \\n[idx-args]=1 \{\
+.		var:print \\*[idx-text]
+.		lang:xmlrchar
+.		var:print <\\$1>
+.		lang:xmlchar
+.	\}
+.	if \\n[idx-args]=2 \{\
+.		var:print \\*[idx-text]
+.		lang:xmlrchar
+.		var:print <\\$1>\c
+.		lang:xmlchar
+.		var:print \\*[idx-end]
+.	\}
+.	if \\n[idx-args]=3 \{\
+.		var:print \\*[idx-beg]\\*[idx-text]
+.		lang:xmlrchar
+.		var:print <\\$1>\c
+.		lang:xmlchar
+.		var:print \\*[idx-end]
+.	\}
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
+..
+.als LA idx:print
+.als LD idx:print
+.als LE idx:print
+.als LK var:null
+.als LL idx:print
+.als LM idx:url
+.als LN idx:print
+.als LO idx:print
+.als LT idx:print
+.als LU idx:url
+.als LW idx:print
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
 .\" define only bold and italic
@@ -226,25 +291,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds _ _
 .\"""""""""""""""""""""""""""""""""""""
 .\" source
-.so \V[TROFFMACS]/u-idx
 .so \V[TROFFMACS]/u-ref
 .RO \" Remove opcit
 .ie "\V[UTMAC]"" .so \V[TROFFMACS]/u-en
 .el .so \V[UTMAC]
 .\"""""""""""""""""""""""""""""""""""""
+.\" Unused macros
 .de txt:null
 .	while \\n(.$ \{\
 .		als \\$1 var:null
 .		shift
 .	\}
 ..
-.nr RH 0
-.txt:null DA DT DS DK DI
+.txt:null DA DI DK DS DT
 .txt:null RV RH RP
 .txt:null H0 H*
-.txt:null S1 S2 S3 S4 S*
-.txt:null page:num XR
-.txt:null XT
+.txt:null S2 S3 S4 S*
+.txt:null TD TI
+.txt:null vF vH vO vC
+.txt:null page:num
+.txt:null XI XT
 .\"""""""""""""""""""""""""""""""""""""
+.\" start
 .ns
 .txt:conf
+.lang:xmlchar
