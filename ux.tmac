@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.9 2013/04/06 17:03:48 pj Exp pj $
+$Id: ux.tmac,v 0.10 2013/04/07 17:08:33 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -320,15 +320,24 @@ nroff -mux\\*[xml-tag /DG]
 .el .so \V[UTMAC]
 .RO \" remove opcit
 .\""""""""""""""""""""""""""""""""""""""""""""""""
-.\" Unused macros
-.de xml:null
-.	while \\n(.$ \{\
-.		als \\$1 var:null
-.		shift
-.	\}
-..
-.xml:null H0 H* S1 S2 S3 S4 S*
-.xml:null RV RH RP TD TI XI XT
-.xml:null page:num vF vH vO vC
+.als H0 var:null
+.als H* var:null
+.als S1 var:null
+.als S2 var:null
+.als S3 var:null
+.als S4 var:null
+.als S* var:null
+.als RV var:null
+.als RH var:null
+.als RP var:null
+.als TD var:null
+.als TI var:null
+.als XI var:null
+.als XT var:null
+.als page:num var:null
+.als vF var:null
+.als vH var:null
+.als vO var:null
+.als vC var:null
 .xml:start
 .\""""""""""""""""""""""""""""""""""""""""""""""""

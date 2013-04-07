@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id: um.tmac,v 0.3 2013/04/07 17:04:00 pj Exp pj $
+$Id: um.tmac,v 0.4 2013/04/07 17:10:58 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -212,17 +212,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds *) *
 .ds deslash "\\$*
 .\"""""""""""""""""""""""""""""""""""""
-.\" Unused macros
-.de man:makenull
-.	while \\n(.$ \{\
-.		als \\$1 man:null
-.		shift
-.	\}
-..
-.txt:makenull RV RH RP
-.txt:makenull H0 H*
-.txt:makenull S2 S3 S4 S*
-.txt:makenull TD TI
-.txt:makenull vF vH vO vC
-.txt:makenull page:num
-.txt:makenull XI XT
+.als RV man:null
+.als RH man:null
+.als RP man:null
+.als H0 man:null
+.als H* man:null
+.als S2 man:null
+.als S3 man:null
+.als S4 man:null
+.als S* man:null
+.als TD man:null
+.als TI man:null
+.als vF man:null
+.als vH man:null
+.als vO man:null
+.als vC man:null
+.als page:num man:null
+.als XI man:null
+.als XT man:null
