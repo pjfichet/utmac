@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.10 2013/04/04 09:16:09 pj Exp pj $
+$Id: us.tmac,v 0.12 2013/04/08 12:01:02 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -203,15 +203,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de PI
 .	par:start
 .	in 3v
-.	ti 0
+.	ti 2v
 .	ta 3v
-.	ie \\n(.$ .ds par-bullet \\$*
-.	el .ds par-bullet \(em
-.	ie \w'\\*[par-bullet]u'>=3v \{\
-.		var:print "\\*[par-bullet]"
-.		br
+.	ie \\n(.$ \{\
+.		ds par-bullet \\$*
+.		ti 0
+.		ie \w'\\*[par-bullet]u'>=3v \{\
+.			var:print "\\*[par-bullet]"
+.			br
+.		\}
+.		el .var:print \\*[par-bullet]\
+\h"3v-\w'\\*[par-bullet]'u"\c
 .	\}
-.	el .var:print \\*[par-bullet]\t\c
+.	el .var:print \(en\h"1v-\w'\(en'u"\c
 ..
 .de PL
 .	par:start
