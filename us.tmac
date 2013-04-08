@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.12 2013/04/08 12:01:02 pj Exp pj $
+$Id: us.tmac,v 0.12 2013/04/08 16:26:03 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -142,15 +142,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ev
 .	code:init
 ..
-.de page:box
-.	par:init
-.	in 0
-.	sp |\\n[page-box]v
-.	po \\n[box-offset]u
-.	lt \\n[box-length]u
-.	if \\n(RV=1 .if e .po \\n[note-offset-e]u
-.	ie \\n(RP .ds page-num \\n%
-.	el .ds page-num
+.de page:boxeven
+.	ie d page-title-tmp \{\
+.		tl "\\*C\\*[page-num]\\*R"\
+"\T'TOC'\\*[page-title-tmp]\T"
+.		rm page-title-tmp
+.	\}
+.	el .tl "\\*C\\*[page-num]\\*R"\
+"\T'TOC'\\*[page-title]\T"
+..
+.de page:boxodd
 .	ie d page-title-tmp \{\
 .		tl "\T'TOC'\\*[page-title-tmp]\T"\
 "\\*C\\*[page-num]\\*R"
@@ -158,6 +159,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\}
 .	el .tl "\T'TOC'\\*[page-title]\T"\
 "\\*C\\*[page-num]\\*R"
+..
+.de page:box
+.	par:init
+.	in 0
+.	sp |\\n[page-box]v
+.	po \\n[box-offset]u
+.	lt \\n[box-length]u
+.	ie \\n(RP .ds page-num \\n%
+.	el .ds page-num
+.	ie \\n(RV=1 \{\
+.		ie e .page:boxeven
+.		el .page:boxodd
+.	\}
+.	el .page:boxodd
 .	var:print \s+(80\D'l \\n[box-length]u'\s-(80
 ..
 .de page:num
