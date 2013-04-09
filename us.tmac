@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.14 2013/04/08 18:39:18 pj Exp pj $
+$Id: us.tmac,v 0.15 2013/04/08 20:48:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -114,10 +114,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de page:head
 .	\" put a vacuum header
 .	wh \\n[page-foot]v page:foot
-.	if !"\\n(.F"\\*[page-file]" \{\
-.		pdf:anchor \\n(.F
-.		ds page-file \\n(.F
-.	\}
 .	sp |\\n[page-head]v
 .	ns
 .	\" place a trap if note are diverted to this page
@@ -393,6 +389,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	in 0
 .	head:num \\ni
 .	head:data \\ni \\$*
+.	if !"\\n(.F"\\*[page-file]" \{\
+.		ds page-file \\n(.F
+.		LK \\n(.F
+.	\}
 .	pdf:anchor \\*[head-level]
 .	\"pdf:anchor \\*[head-beg]\\*[head-end]
 .	pdf:link TOC "\\*[head-beg]\\*F\\*[head-end]\\*P"
