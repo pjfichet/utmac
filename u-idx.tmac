@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.10 2013/04/04 09:01:13 pj Exp $
+$Id: u-idx.tmac,v 0.11 2013/04/04 10:39:47 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -202,17 +202,40 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Links
-.de LK
+.nr idx-keyexist 0
+.de idx:keytest
+.	\" Test if key exist
+.	nr idx-keyexist 0
+.	lds idx-newkey \\$1
+.	shift
+.	while \\n(.$ \{\
+.		if "\\*[idx-newkey]"\\$1" \{\
+.			nr idx-keyexist 1
+.			break
+.		\}
+.		shift
+.	\}
+..
+.de idx:putkeyword
 .	\" insert keyword to link
-.	as idx-list \\$1 \"
-.	nr idx-K\\$1 \\n% \" if no break before link
-.	de idx:K\\$1
-.		\" Trap to get page number
-.		nr idx-K\\$1 \\\\n%
+.	if d idx-list .idx:keytest \\$1 \\*[idx-list]
+.	if \\n[idx-keyexist]=0 \{\
+.		as idx-list \\$1 \"
+.		nr idx-K\\$1 \\n% \" if no break before link
+.		de idx:K\\$1
+.			\" Trap to get page number
+.			nr idx-K\\$1 \\\\n%
 \\..
-.	\" Print link and text
-.	var:print \\P[idx:K\\$1]\A'\\$1'\\c
-.	idx:print
+.		\" Print link and text
+.		var:print \\P[idx:K\\$1]\A'\\$1'\\c
+.		idx:print
+.	\}
+..
+.de LK
+.	\" User macro to insert keyword to link
+.	idx:putkeyword \\$1
+.	if \\n[idx-keyexist] \
+.	if \\n(RH .var:tm \\*[lang-keyexist \\$1]]
 ..
 .de LL
 .	\" Link to a defined keyword
