@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.17 2013/04/09 19:05:08 pj Exp pj $
+$Id: us.tmac,v 0.18 2013/04/09 19:33:59 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -604,7 +604,7 @@ and call the macro sum:in/\\n[head-1]/
 .\" Notes in no padj mode
 .nr * 0 1
 .ds * \|\fU\\n+*\fP
-.nr note-size 3
+.nr note-size 2 \" one space
 .de note:init
 .	ad b
 .	fi
@@ -653,7 +653,7 @@ and call the macro sum:in/\\n[head-1]/
 .	fi
 .	ev
 .	rm note:div
-.	nr note-size 3
+.	nr note-size 2
 ..
 .de note:print2
 .	rt
@@ -671,7 +671,7 @@ and call the macro sum:in/\\n[head-1]/
 .\" Notes in padj mode
 .nr * 0 1
 .ds * \|\\*U\\n+*\\*P
-.nr note-size 3 \" size of diversion
+.nr note-size 2 \" size of diversion
 .\" deal with output line traps:
 .nr note-olt 0 1 \" output line trap number
 .de note:init
@@ -823,7 +823,7 @@ and call the macro sum:in/\\n[head-1]/
 .	nf
 .	note:div
 .	rm note:div
-.	nr note-size 3
+.	nr note-size 2
 .	if r note-trap .note:endtrap
 .	br
 .	ev
