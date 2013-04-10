@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.11 2013/04/07 17:05:47 pj Exp pj $
+$Id: ut.tmac,v 0.12 2013/04/07 17:26:51 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .do xflag 3
 .warn w
 .ds data-tmac ut
+.nr data-ut 1
 .\"""""""""""""""""""""""""""""""""""""
 .\" Various macros
 .de var:print
@@ -289,6 +290,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds *) *
 .ds - \-
 .ds _ _
+.\""""""""""""""""""""""""""""""""""""""
+.\" Usefull tests
+.de US
+.	\" execute command depending of used macro
+.	ie "\\$1"!" \{\
+.		shift
+.		if !r data-\\$1 \{\
+.			shift
+\\$*
+.		\}
+.	\}
+.	el .if r data-\\$1 \
+.		if \\n[data-\\$1]>0 \{\
+.			shift
+\\$*
+.		\}
+..
 .\"""""""""""""""""""""""""""""""""""""
 .\" source
 .so \V[TROFFMACS]/u-ref

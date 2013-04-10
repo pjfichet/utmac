@@ -1,6 +1,6 @@
 .\" uw: translate to markdown wiki syntax.
 .ig
-$Id: uw.tmac,v 0.4 2013/04/06 22:08:02 pj Exp pj $
+$Id: uw.tmac,v 0.5 2013/04/07 17:07:35 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -37,6 +37,8 @@ of PI to next line (to avoid problems with fonts).
 ..
 .so \V[TROFFMACS]/ut
 .ds data-tmac uw
+.nr data-uw 1
+.rr data-ut
 .nr txt-length 9999999c
 .de txt:conf
 .	ll \\n[txt-length]u

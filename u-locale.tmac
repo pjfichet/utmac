@@ -1,6 +1,6 @@
 .\" u-locale: example of locale file
 .ig
-$Id: u-locale,v 0.1 2013/03/15 20:31:11 pj Exp pj $
+$Id: u-locale.tmac,v 0.2 2013/03/16 15:34:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -31,12 +31,9 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
+.nr data-u-locale 1
 .hw phé-no-mé-no-lo-gie dé-cou-vrant élé-men-tal phé-no-mé-nal
 .hw chr-ist-ia-ni-sme im-ma-nen-ce
 .so \V[TROFFMACS]/u-fr \" Lang
-.if d data-tmac \{\
-.	ie "\*[data-tmac]"uh" \
-.		so \V[TROFFMACS]/u-apolline \" Font
-.	el .if "\*[data-tmac]"us" \
-.		so \V[TROFFMACS]/u-libertine \" Font
-.\}
+.US uh .so \V[TROFFMACS]/u-apolline
+.US us .so \V[TROFFMACS]/u-libertine
