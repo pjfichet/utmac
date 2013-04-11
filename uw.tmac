@@ -1,6 +1,6 @@
 .\" uw: translate to markdown wiki syntax.
 .ig
-$Id: uw.tmac,v 0.5 2013/04/07 17:07:35 pj Exp pj $
+$Id: uw.tmac,v 0.6 2013/04/10 10:46:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -159,14 +159,18 @@ of PI to next line (to avoid problems with fonts).
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
+.\" \E define a \ which is not interpreted
+.\" in copy mode so that font are not
+.\" interpreted when passed in arguments,
+.\" but after.
 .nr font-num 0
 .ds font-0
 .ds font-1 __
-.ds B __\\R'font-num 1'
+.ds B __\\ER'font-num 1'
 .ds font-2 _
-.ds I _\\R'font-num 2'
-.ds P \\*[font-\\n[font-num]]\R'font-num 0'
-.ds R \\*[font-\\n[font-num]]\R'font-num 0'
+.ds I _\\ER'font-num 2'
+.ds P \\E*[font-\\En[font-num]]\\ER'font-num 0'
+.ds R \\E*[font-\\En[font-num]]\\ER'font-num 0'
 .ds e \e\e
 .ds -- \(en
 .ds *) \e*
