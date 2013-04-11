@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.12 2013/04/09 19:05:08 pj Exp pj $
+$Id: u-idx.tmac,v 0.13 2013/04/10 10:46:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -277,16 +277,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	if \\n[idx-args]=3 \
 .	var:print \\*[idx-beg]\W'mailto:\\$1'\\*[idx-text]\W\
 \\*[idx-note]\\*[idx-end]
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
-.	nr idx-args 0
 .	ie \\n[note-in]=0 \{\
 .		NS
 .		var:print \W'mailto:\\$1'\\$1\W
 .		NE
 .	\}
-.	el .var:print \W'mailto:\\$1'\\$1\W
+.	\" if inside a note, print url only if there's nothing
+.	\" else  text to print
+.	el .if \\n[idx-args]=0 .var:print \W'mailto:\\$1'\\$1\W
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
 ..
 .de LU
 .	\" url
@@ -299,16 +301,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	if \\n[idx-args]=3 \
 .	var:print \\*[idx-beg]\W'\\$1'\\*[idx-text]\W\
 \\*[idx-note]\\*[idx-end]
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
-.	nr idx-args 0
 .	ie \\n[note-in]=0 \{\
 .		NS
 .		var:print <\\W'\\$1'\\$1\\W>
 .		NE
 .	\}
-.	el .var:print <\\W'\\$1'\\$1\\W>
+.	\" if inside a note, print url only if there's nothing
+.	\" else  text to print
+.	el .if \\n[idx-args]=0 .var:print <\\W'\\$1'\\$1\\W>
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
+.	nr idx-args 0
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Record links for next pass
