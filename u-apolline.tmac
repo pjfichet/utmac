@@ -1,6 +1,6 @@
 .\" u-apolline: apolline font.
 .ig
-$Id: u-apolline.tmac,v 0.3 2013/03/28 21:40:13 pj Exp pj $
+$Id: u-apolline.tmac,v 0.4 2013/04/10 10:46:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -105,33 +105,35 @@ To embolden a whole set of font, we use some macros.
 .nr data-u-apolline 1
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" Strings
+.\" (Use \E to define a "\" which is not interpreted
+.\" in copy mode, to may use fonts as macro argument)
 .de font:strings
 .	\" normal form
-.	ds P \f[\\*[font-weight0]\\*[font-style0]N]
-.	ds R \f[\\*[font-weight0]\\*[font-style0]N]
-.	ds B \f[\\*[font-weight1]\\*[font-style0]N]
-.	ds I \f[\\*[font-weight0]\\*[font-style1]N]
-.	ds BI \f[\\*[font-weight1]\\*[font-style1]N]
+.	ds P \f[\\E*[font-weight0]\\E*[font-style0]N]
+.	ds R \f[\\E*[font-weight0]\\E*[font-style0]N]
+.	ds B \f[\\E*[font-weight1]\\E*[font-style0]N]
+.	ds I \f[\\E*[font-weight0]\\E*[font-style1]N]
+.	ds BI \f[\\E*[font-weight1]\\E*[font-style1]N]
 .	\" small caps form
-.	ds C \f[\\*[font-weight0]\\*[font-style0]C]
-.	ds BC \f[\\*[font-weight1]\\*[font-style0]C]
-.	ds BIC \f[\\*[font-weight1]\\*[font-style1]C]
-.	ds IC \f[\\*[font-weight0]\\*[font-style1]C]
+.	ds C \f[\\E*[font-weight0]\\E*[font-style0]C]
+.	ds BC \f[\\E*[font-weight1]\\E*[font-style0]C]
+.	ds BIC \f[\\E*[font-weight1]\\E*[font-style1]C]
+.	ds IC \f[\\E*[font-weight0]\\E*[font-style1]C]
 .	\" acronyms
-.	ds A \f[\\*[font-weight0]\\*[font-style0]A]
-.	ds BA \f[\\*[font-weight1]\\*[font-style0]A]
-.	ds BIA \f[\\*[font-weight1]\\*[font-style1]A]
-.	ds IA \f[\\*[font-weight0]\\*[font-style1]A]
+.	ds A \f[\\E*[font-weight0]\\E*[font-style0]A]
+.	ds BA \f[\\E*[font-weight1]\\E*[font-style0]A]
+.	ds BIA \f[\\E*[font-weight1]\\E*[font-style1]A]
+.	ds IA \f[\\E*[font-weight0]\\E*[font-style1]A]
 .	\" superscript
-.	ds U \f[\\*[font-weight0]\\*[font-style0]U]
-.	ds BU \f[\\*[font-weight1]\\*[font-style0]U]
-.	ds BIU \f[\\*[font-weight1]\\*[font-style1]U]
-.	ds IU \f[\\*[font-weight0]\\*[font-style1]U]
+.	ds U \f[\\E*[font-weight0]\\E*[font-style0]U]
+.	ds BU \f[\\E*[font-weight1]\\E*[font-style0]U]
+.	ds BIU \f[\\E*[font-weight1]\\E*[font-style1]U]
+.	ds IU \f[\\E*[font-weight0]\\E*[font-style1]U]
 .	\" Final glyphs
-.	ds F \f[\\*[font-weight0]\\*[font-style0]F]
-.	ds BF \f[\\*[font-weight1]\\*[font-style0]F]
-.	ds BIF \f[\\*[font-weight1]\\*[font-style1]F]
-.	ds IF \f[\\*[font-weight0]\\*[font-style1]F]
+.	ds F \f[\\E*[font-weight0]\\E*[font-style0]F]
+.	ds BF \f[\\E*[font-weight1]\\E*[font-style0]F]
+.	ds BIF \f[\\E*[font-weight1]\\E*[font-style1]F]
+.	ds IF \f[\\E*[font-weight0]\\E*[font-style1]F]
 .	\" usefull shortcuts
 .	ds { \f[RRU]
 .	ds } \f[RRN]
