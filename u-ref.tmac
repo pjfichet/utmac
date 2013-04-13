@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id: u-ref.tmac,v 0.7 2013/04/08 12:02:41 pj Exp pj $
+$Id: u-ref.tmac,v 0.8 2013/04/10 10:46:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: u-ref.tmac,v 0.7 2013/04/08 12:02:41 pj Exp pj $
+$Id: u-ref.tmac,v 0.8 2013/04/10 10:46:01 pj Exp pj $
 ..
 .ig
 iso-690 default:
@@ -514,14 +514,15 @@ if not only first field is idem
 .	ref:init
 .	ds ref-loc text
 ..
+.\" For philia from http://utroff.org
 .als @ var:null
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" User macros
 .de XB
 .	\" Append bibliography list
 .	\" need a special version of refer,
-.	\" available on troff.fr
-.	pso @UPATH@/refer -i -B -a -dAE \\$1
+.	\" available on http://utroff.org
+.	pso refer -i -B -a -dAE \\$1
 ..
 .de XR
 .	\" Append index of references
