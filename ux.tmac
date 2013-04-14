@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.11 2013/04/07 17:28:07 pj Exp pj $
+$Id: ux.tmac,v 0.12 2013/04/10 10:46:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -203,6 +203,7 @@ nroff -mux\\*[xml-tag /DG]
 .nr margin-num 0 1
 .	\" print an unbreakable thin space before number
 .ds * \U'202F'\\*[xml-tagbeg]NN num=\'\\n+[margin-num]\'/\\*[xml-tagend]
+.nr note-in 0
 .de NT
 .	nr note-in 1
 .	xml:print \\*[xml-deline]
