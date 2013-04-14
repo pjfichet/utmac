@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.21 2013/04/10 10:46:01 pj Exp pj $
+$Id: us.tmac,v 0.22 2013/04/10 16:17:57 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -673,6 +673,7 @@ and call the macro sum:in/\\n[head-1]/
 .\" Notes in padj mode
 .nr * 0 1
 .ds * \|\\*U\\n+*\\*P
+.nr note-in 0
 .nr note-size 2 \" size of diversion
 .\" deal with output line traps:
 .nr note-olt 0 1 \" output line trap number
