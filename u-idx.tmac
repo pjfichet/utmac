@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.14 2013/04/11 14:43:33 pj Exp pj $
+$Id: u-idx.tmac,v 0.15 2013/04/13 09:52:16 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -172,33 +172,33 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .   lds N-comma \\*[N-firstname]
 .   substring N-comma -1 -1
 .   ie "\\*[N-comma]"," \{\
-.       ds N-jr \\$\\n(.$
+.       lds N-jr \\$\\n(.$
 .       chop N-firstname
 .   \}
 .   el \{\
-.       ds N-firstname \\$\\n(.$
-.       nr N-pre \\n(.$
+.       lds N-firstname \\$\\n(.$
+.       lnr N-pre \\n(.$
 .   \}
 .   if \\n(.$>1 .as N-firstname ,
-.   nr i 0 1
+.   lnr i 0 1
 .   while \\n+i<\\n[N-pre] \{\
 .       as N-firstname " \\$1
 .       shift
 .   \}
-.   if d N-jr .as N-firstname " \\*[N-jr]
+.   if d N-jr .as N-firstname ", \\*[N-jr]
 .	idx:do N \\*[N-firstname]
 .	idx:print
 ..
 .de N>
 .	PP
-.	var:print \\*C\\$1\\*R
+.	ie \\n(.$=1 .var:print \\*C\\$1\\*R:
+.	el .var:print \\*C\\$1\\*R
 .	shift
-.	lnr i 1 1
-.	while \\n+i<\\n(.$ \{\
+.	while \\n(.$>1 \{\
 .		var:print \\$1
 .		shift
 .	\}
-.	var:print \\$1:
+.	if \\n(.$ .var:print \\$1:
 .	var:print \\*(<P.
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
