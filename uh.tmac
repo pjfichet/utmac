@@ -1,6 +1,6 @@
 .\" uh: for humanities.
 .ig
-$Id: uh.tmac,v 0.12 2013/04/14 15:46:29 pj Exp pj $
+$Id: uh.tmac,v 0.13 2013/04/16 17:14:11 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -216,12 +216,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de PI
 .	par:start
 .	in 3v
-.	ti 0
+.	ti 2v
 .	ta 3v
-.	ie \\n(.$ .ds par-bullet \\$*
-.	el .ds par-bullet \(em
-.	ie \w'\\*[par-bullet]u'>=3v .var:print \\*[par-bullet]\t
-.	el .var:print \\*[par-bullet]\t\c
+.	ie \\n(.$ \{\
+.		ds par-bullet \\$*
+.		ti 0
+.		ie \w'\\*[par-bullet]u'>=3v \{\
+.			var:print "\\*[par-bullet]"
+.			br
+.		\}
+.		el .var:print \\*[par-bullet]\
+\h"3v-\w'\\*[par-bullet]'u"\c
+.	\}
+.	el .var:print \(em\h"1v-\w'\(em'u"\c
 ..
 .de PL
 .	par:start
