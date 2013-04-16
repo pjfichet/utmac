@@ -1,6 +1,6 @@
 .\" uh: for humanities.
 .ig
-$Id: uh.tmac,v 0.11 2013/04/10 10:46:01 pj Exp pj $
+$Id: uh.tmac,v 0.12 2013/04/14 15:46:29 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -144,14 +144,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ev
 .	code:init
 ..
+.de page:boxeven
+.	po \\n[note-offset-e]u
+.	ie d page-title-tmp \{\
+.		tl '''\\*B\T"TOC"\\*[page-title-tmp]\T\\*R'
+.		rm page-title-tmp
+.	\}
+.	el .tl '''\T"TOC"\\*B\\*[page-title]\T\\*R'
+..
+.de page:boxodd
+.	ie d page-title-tmp \{\
+.		tl '\\*B\T"TOC"\\*[page-title-tmp]\T\\*R'''
+.		rm page-title-tmp
+.	\}
+.	el .tl '\T"TOC"\\*B\\*[page-title]\T\\*R'''
+..
 .de page:box
 .	sp |\\n[page-box]v
 .	lt \\n[note-length]u
 .	po \\n[note-offset]u
-.	if \\n(RV=1 .if e .po \\n[note-offset-e]u
-.	ie d page-title-tmp .tl '\\*B\T"TOC"\\*[page-title-tmp]\T\\*R'''
-.	el .tl '\T"TOC"\\*B\\*[page-title]\T\\*R'''
-.	rm page-title-tmp
+.	ie \\n(RV=1 \{\
+.		ie e .page:boxeven
+.		el .page:boxodd
+.	\}
+.	el .page:boxodd
 .	ps 70
 .	tl "\D'l \\n[note-length]u'"""
 .	ps \\n[text-font]u
