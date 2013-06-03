@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.15 2013/04/13 09:52:16 pj Exp pj $
+$Id: u-idx.tmac,v 0.16 2013/04/16 17:28:38 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -90,6 +90,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	pso idx -d \\*[data-file]-idx.idx
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.de idx:par
+.	br
+.	par:init
+.	in 3v
+.	ti 0
+..
 .\" Default macros
 .nr idx-args 0
 .de LP
@@ -122,10 +128,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .		H3 \\$2
 .		H* \\$2
 .		H0 \\$2
+.		sp 1v
 \\..
 .	de \\$1>
 .		\" print words and list of pages
-.		PP
+.		idx:par
 .		ie \\n(.$=5 \{\
 .			lds idx-s \\\\$1
 .			shift
@@ -163,6 +170,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	H3 \\*[lang-Idxn]
 .	H* \\*[lang-Idxn]
 .	H0 \\*[lang-Idxn]
+.	sp 1v
 ..
 .de LN
 .	\" input: firstname lastname, jr
@@ -190,7 +198,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	idx:print
 ..
 .de N>
-.	PP
+.	idx:par
 .	ie \\n(.$=1 .var:print \\*C\\$1\\*R:
 .	el .var:print \\*C\\$1\\*R
 .	shift
