@@ -414,6 +414,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de H2
 .	if \\n[head-2]>0 .head:orn
 .	bp
+.	H*
+.	if \\n[RV]>0 .if e \{\
+.		var:print \&
+.		bp
+.	\}
 .	rs
 .	par:init
 .	ps 24p
