@@ -1,6 +1,6 @@
 .\" uh: for humanities.
 .ig
-$Id: uh.tmac,v 0.15 2013/04/16 17:33:46 pj Exp pj $
+$Id: uh.tmac,v 0.17 2013/06/03 11:43:08 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -613,16 +613,23 @@ and call the macro sum:in/\\n[head-1]/
 ..
 .de note:init-top
 .	note:init
+.	vs \\n[text-line]u
+.	ps \\n[text-font]u
 .	font:note-it
 .	ad l
 ..
 .de note:init-bot
 .	note:init
+.	vs \\n[text-line]u
+.	ps \\n[text-font]u
+.	ad l
+..
+.de note:init-sum
+.	note:init
 .	ad l
 ..
 .als note:init-num note:init
 .als note:init-pre note:init
-.als note:init-sum note:init-bot
 .de note:start
 .	nr note-in 1
 .	\" start a note
@@ -682,7 +689,8 @@ and call the macro sum:in/\\n[head-1]/
 .	\" Print notes (in page:foot)
 .	\" create a diversion for overfull notes
 .	wh \\n[page-foot]v-\\n[note-divbot] note:trap
-.	sp |\\n[page-head]v+\\n[text-line]u-\\n[note-line]u
+.	ie d note:div-top .sp |\\n[page-head]v
+.	el .sp |\\n[page-head]v+\\n[text-line]u-\\n[note-line]u
 .	po \\n[note-offset]u
 .	if \\n(RV .if e .po \\n[note-offset-e]u
 .	note:putdiv top
