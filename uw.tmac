@@ -1,6 +1,6 @@
 .\" uw: translate to markdown wiki syntax.
 .ig
-$Id: uw.tmac,v 0.6 2013/04/10 10:46:01 pj Exp pj $
+$Id: uw.tmac,v 0.7 2013/04/11 13:46:03 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -55,7 +55,7 @@ of PI to next line (to avoid problems with fonts).
 .	txt:conf
 .	if \\n[txt-PI]=1 .nr txt-PI 0
 .	if \\n[txt-PX]=1 \{\
-.		var:print \'\'\'
+.		var:print \`\`\`
 .		br
 .		nr txt-PX 0
 .	\}
@@ -104,7 +104,7 @@ of PI to next line (to avoid problems with fonts).
 .als PC PP
 .de PX
 .	txt:break
-.	var:print \'\'\' \\$1
+.	var:print \`\`\` \\$1
 .	in 4
 .	nr txt-PX 1
 .	nf
