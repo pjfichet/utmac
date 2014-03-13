@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id: u-ref.tmac,v 0.10 2013/06/03 11:50:10 pj Exp pj $
+$Id: u-ref.tmac,v 0.11 2013/09/09 18:56:15 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: u-ref.tmac,v 0.10 2013/06/03 11:50:10 pj Exp pj $
+$Id: u-ref.tmac,v 0.11 2013/09/09 18:56:15 pj Exp pj $
 ..
 .ig
 iso-690 default:
@@ -522,7 +522,7 @@ if not only first field is idem
 .	\" Append bibliography list
 .	\" need a special version of refer,
 .	\" available on http://utroff.org
-.	pso refer -i -B -a -dAE \\$1
+.	pso @BINDIR@/refer -i -B -a -dAE \\$1
 ..
 .de XR
 .	\" Append index of references
