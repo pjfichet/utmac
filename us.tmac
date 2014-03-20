@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.25 2013/11/18 17:11:59 pj Exp pj $
+$Id: us.tmac,v 0.26 2014/03/12 14:01:43 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -141,21 +141,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de page:boxeven
 .	ie d page-title-tmp \{\
-.		tl "\\*C\\*[page-num]\\*R"\
+.		tl "\\*C\\*[page-num]\\*C"\
 "\T'TOC'\\*[page-title-tmp]\T"
 .		rm page-title-tmp
 .	\}
-.	el .tl "\\*C\\*[page-num]\\*R"\
+.	el .tl "\\*C\\*[page-num]\\*C"\
 "\T'TOC'\\*[page-title]\T"
 ..
 .de page:boxodd
 .	ie d page-title-tmp \{\
 .		tl "\T'TOC'\\*[page-title-tmp]\T"\
-"\\*C\\*[page-num]\\*R"
+"\\*C\\*[page-num]\\*C"
 .		rm page-title-tmp
 .	\}
 .	el .tl "\T'TOC'\\*[page-title]\T"\
-"\\*C\\*[page-num]\\*R"
+"\\*C\\*[page-num]\\*C"
 ..
 .de page:box
 .	par:init
@@ -277,10 +277,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ss 11 0 
 .	minss 10
 .	letadj 99 99 15 101 101
-.	rhang RRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang RIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang BRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang BIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
 .	\"track R 10 0 24 .1
 ..
 .de typo:note
@@ -288,30 +288,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ss 10 0 
 .	minss 9.5
 .	letadj 98 98 8 102 102
-.	rhang RRN - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
-.	rhang RIN - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
-.	rhang BRN - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
-.	rhang BIN - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang f-000 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang f-010 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang f-100 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang f-110 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
 ..
 .de TD
 .	\" minimize paragraphs to avoid orphans
 .	ss 10 0 
 .	minss 9
 .	letadj 98 98 15 101 101
-.	rhang RRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang RIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang BRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang BIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
 ..
 .de TI
 .	\" maximize paragraphs to avoid orphans
 .	ss 12 0 
 .	minss 11
 .	letadj 100 100 15 102 102
-.	rhang RRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang RIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang BRN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang BIN - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
 ..
 .nr inform-orphan 1
 .de typo:inform
@@ -396,7 +396,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\}
 .	pdf:anchor \\*[head-level]
 .	\"pdf:anchor \\*[head-beg]\\*[head-end]
-.	pdf:link TOC "\\*[head-beg]\\*F\\*[head-end]\\*P"
+.	pdf:link TOC "\\*[head-beg]\\*F\\*[head-end]\\*F"
 .	var:print \\P[page:num]
 .	br
 .	font:endhead
@@ -672,7 +672,7 @@ and call the macro sum:in/\\n[head-1]/
 .\""""""""""""""""""""""""""""""""""""""
 .\" Notes in padj mode
 .nr * 0 1
-.ds * \|\\*U\\n+*\\*P
+.ds * \|\\*U\\n+*\\*U
 .nr note-in 0
 .nr note-size 2 \" size of diversion
 .\" deal with output line traps:
@@ -783,7 +783,7 @@ and call the macro sum:in/\\n[head-1]/
 .	br
 .	note:init
 .	di note:plt-\\n[note-olt]
-.		if \\n(.$=0 .var:print \\*(BU\\n*\\*R
+.		if \\n(.$=0 .var:print \\*B\\*U\\n*\\*U\\*B
 ..
 .de note:stop-NS
 .	br

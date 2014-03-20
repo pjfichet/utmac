@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.13 2013/04/10 10:46:01 pj Exp pj $
+$Id: ut.tmac,v 0.14 2013/11/04 08:29:32 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -269,18 +269,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .als LW idx:print
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
-.\" define only bold and italic
+.\" Delete all fonts
 .de txt:font
 .	while \\n(.$ \{\
 .		ds \\$1
 .		shift
 .	\}
 ..
-.txt:font P R B I BI
-.txt:font A BA IA BIA
-.txt:font C BC IC BIC
-.txt:font U BU IU BIU
-.txt:font F BF IF BIF
+.txt:font B I C A U L F M
 .txt:font +F +L +J
 .txt:font -F -L -J
 .txt:font +K +V +C +S

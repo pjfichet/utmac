@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.13 2013/04/14 15:39:17 pj Exp pj $
+$Id: ux.tmac,v 0.14 2013/11/04 08:29:32 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -234,21 +234,30 @@ nroff -mux\\*[xml-tag /DG]
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" fonts
-.de xml:font
-.	while \\n(.$ \{\
-.		ds \\$1 \\*[xml-tagbeg]F\ name=\'\\$1\'\\*[xml-tagend]
-.		shift
-.	\}
-..
-.ds P \\*[xml-tag /F]
-.ds R \\*[xml-tag /F]
-.ds { \\*[xml-tagbeg]F\ name\'U\'\\*[xml-tagend]
-.ds } \\*[xml-tag /F]
-.xml:font B I BI
-.xml:font A BA IA BIA
-.xml:font C BC IC BIC
-.xml:font U BU IU BIU
-.xml:font F BF IF BIF
+.ds font-bold0 \\*[xml-tag /B]
+.ds font-bold1 \\*[xml-tag B]
+.ds font-ital0 \\*[xml-tag /I]
+.ds font-ital1 \\*[xml-tag I]
+.ds font-caps0 \\*[xml-tag /C]
+.ds font-caps1 \\*[xml-tag C]
+.ds font-acroO \\*[xml-tag /A]
+.ds font-acro1 \\*[xml-tag A]
+.ds font-uper0 \\*[xml-tag /U]
+.ds font-uper1 \\*[xml-tag U]
+.ds font-loer0 \\*[xml-tag /L]
+.ds font-loer1 \\*[xml-tag L]
+.ds font-fina0 \\*[xml-tag /F]
+.ds font-fina1 \\*[xml-tag F]
+.ds font-mono0 \\*[xml-tag /M]
+.ds font-mono1 \\*[xml-tag M]
+.ds B \\ER'f-b 1-\\nEn[f-b]'\\E*[font-bold\\En[f-b]]
+.ds I \\ER'f-i 1-\\nEn[f-i]'\\E*[font-ital\\En[f-i]]
+.ds C \\ER'f-c 1-\\nEn[f-c]'\\E*[font-caps\\En[f-c]]
+.ds A \\ER'f-a 1-\\nEn[f-a]'\\E*[font-acro\\En[f-a]]
+.ds U \\ER'f-u 1-\\nEn[f-u]'\\E*[font-uper\\En[f-u]]
+.ds L \\ER'f-l 1-\\nEn[f-l]'\\E*[font-loer\\En[f-l]]
+.ds F \\ER'f-f 1-\\nEn[f-f]'\\E*[font-fina\\En[f-f]]
+.ds M \\ER'f-m 1-\\nEn[f-m]'\\E*[font-mono\\En[f-m]]
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" vgrind
 .de xml:vgrind

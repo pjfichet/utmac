@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id: u-ref.tmac,v 0.11 2013/09/09 18:56:15 pj Exp pj $
+$Id: u-ref.tmac,v 0.12 2014/03/13 09:41:25 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: u-ref.tmac,v 0.11 2013/09/09 18:56:15 pj Exp pj $
+$Id: u-ref.tmac,v 0.12 2014/03/13 09:41:25 pj Exp pj $
 ..
 .ig
 iso-690 default:
@@ -89,10 +89,10 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .nr data-u-ref 1
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" troff.fr refer strings:
-.ds +F \\*C
-.ds -F \\*R
-.ds +L \\*C
-.ds -L \\*R
+.ds +F \\E*C
+.ds -F \\E*C
+.ds +L \\E*C
+.ds -L \\E*C
 .ds +J
 .ds -J
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -102,9 +102,9 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	\" Q A T S V J w N E U H P C I D M O x y z G
 .	key:prt "" Q "" .
 .	key:prt "" A "" .
-.	key:prt "\\*I" T "\\*R" .
+.	key:prt "\\*I" T "\\*I" .
 .	if \\n([A>0 .key:pun
-.	key:prt "\\*I" S "\\*R" .
+.	key:prt "\\*I" S "\\*I" .
 .	key:prt "\\*[lang-Vol]. " V "" :
 .	key:prt "«" J "»" .
 .	key:pun . \" needed if J is not defined.
@@ -131,8 +131,8 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	\" Q A T S V J w N E U H P C I D M O x y z G
 .	key:prt "" Q "" ,
 .	key:prt "" A "" ,
-.	key:prt "\\*I" T "\\*R" ,
-.	key:prt "\\*I" S "\\*R" ,
+.	key:prt "\\*I" T "\\*I" ,
+.	key:prt "\\*I" S "\\*I" ,
 .	key:prt "\\*[lang-vol] " V "" :
 .	key:prt "«" J "»" ,
 .	key:beg (
@@ -161,12 +161,12 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" Q "" .
 .	key:prt "" A "" .
 .	if \\n([A>0 .key:pun
-.	key:prt "\\*I" T "\\*R" .
+.	key:prt "\\*I" T "\\*I" .
 .	key:pun ". \\*[lang-In]"
 .	key:prt "" E " (\\*[lang-ed\\n([E])" .
-.	key:prt "\\*I" S "\\*R" .
+.	key:prt "\\*I" S "\\*I" .
 .	key:prt "\\*[lang-Vol] " V "" :
-.	key:prt "\\*I" B "\\*R" .
+.	key:prt "\\*I" B "\\*I" .
 .	key:pun . \" needed if B is not defined.
 .	key:prt "[" w "]" .
 .	key:prt "\\*[lang-P]\~" P "" .
@@ -189,12 +189,12 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	\" Q A T E S V B w P U H C I D M N O x y z G
 .	key:prt "" Q "" ,
 .	key:prt "" A "" ,
-.	key:prt "\\*I" T "\\*R" ,
+.	key:prt "\\*I" T "\\*I" ,
 .	key:pun ", \\*[lang-in]"
 .	key:prt "" E " (\\*[lang-ed\\n([E])" ,
-.	key:prt "\\*I" S "\\*R" ,
+.	key:prt "\\*I" S "\\*I" ,
 .	key:prt "\\*[lang-vol] " V "" :
-.	key:prt "\\*I" B "\\*R" ,
+.	key:prt "\\*I" B "\\*I" ,
 .	key:beg (
 .	key:prt "\\*[lang-opcit] " % "" ,
 .	key:prt "[" w "]" ,
@@ -220,9 +220,9 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" A "" .
 .	if \\n([A>0 .key:pun
 .	key:prt "" E " (\\*[lang-ed\\n([E])" .
-.	key:prt "\\*I" S "\\*R" .
+.	key:prt "\\*I" S "\\*I" .
 .	key:prt "\\*[lang-Vol] " V "" :
-.	key:prt "\\*I" T "\\*R" .
+.	key:prt "\\*I" T "\\*I" .
 .	key:pun .
 .	key:prt "[" w "]" .
 .	key:prt "" U "" .
@@ -246,9 +246,9 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" Q "" ,
 .	key:prt "" A "" ,
 .	key:prt "" E " (\\*[lang-ed\\n([E])" ,
-.	key:prt "\\*I" S "\\*R" ,
+.	key:prt "\\*I" S "\\*I" ,
 .	key:prt "\\*[lang-vol] " V "" :
-.	key:prt "\\*I" T "\\*R" ,
+.	key:prt "\\*I" T "\\*I" ,
 .	key:beg (
 .	key:prt "\\*[lang-opcit] " % "" ,
 .	key:prt "[" w "]" ,
