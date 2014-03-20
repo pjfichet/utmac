@@ -1,8 +1,8 @@
 .\" u-apolline: apolline font.
 .ig
-$Id: u-apolline.tmac,v 0.4 2013/04/10 10:46:01 pj Exp pj $
+$Id: u-apolline.new,v 1.1 2014/03/18 14:28:55 pj Exp pj $
 
-Copyright (c) 2012
+Copyright (c) 2012-2014
 Pierre-Jean Fichet. All rights reserved.
 
 Redistribution and use in source and binary forms, with or
@@ -33,356 +33,152 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .
 .
-.
 .ig
-
-
-Explanation
-
-A font is defined by three things:
-	a weight (regular or bold, etc.),
-	a style (roman or italic, etc.),
-	a form (upperscripts, small caps, etc.).
-
-But softwares (both troff and fonts), and after them end
-users, don't make real difference between weight, styles and
-forms. So, we have to create the difference, and give a
-simple and usual interface to these well defined fonts.
-
-That's why we use three letter to name fonts, and mount fonts
-using these names. To access a font, strings definition
-are shortcuts to these names.
-
-First letter define the weight, second one the style, and
-third one the form.
-
-weight:
-	R regular
-	K book
-	B bold
-	E extra
-style:
-	R roman
-	I italic
-forms:
-	N normal
-	C small caps
-	A acronyms
-	U superscript (upper)
-	F final glyphs
-	M monospace
-
-Thus, RRN means regular roman with normal form, which is
-usually named "roman"; and BIU means bold italic
-superscript, etc.
-
-
-When using a font, we usually need: a default weight, an
-emboldened weight. For each of these, we need a default
-style, and an emphasis style (italic). For each of these, we
-need a normal form, small caps, acronyms, superscripts, and
-special glyphs.
-
-So, end user names of fonts are:
-R RC RA RU RF		default weight, default style
-B BC BA BU BF		emboldened, default style
-I IC IA IU IF		default weight, emphasis style
-BI BIC BIA BIU BIF	emboldened, emphasis style
-
-We link these names to real fonts using strings, with:
-weight0	= default weight
-weight1 = emboldened weight
-style0  = default style
-style1  = emphasis style
-
-So, R is a shortcut to [weight0][style0]N,
-BIA is a shortcut to [weight1][style1]A,
-and IC is a shortcut to [weight0][style1]C.
-
-To embolden a whole set of font, we use some macros.
-
+Font description:
+	f- Bold Italic Form
+	f-000 roman
+	f-100 bold
+	f-010 italic
+	f-001 small capitals
+	f-002 acronyms
+	f-003 superscripts
+	f-004 inferior
+	f-005 final glyphs
+	f-006 monospace
 ..
 .nr data-u-apolline 1
-.\"""""""""""""""""""""""""""""""""""""""""""""""
-.\" Strings
-.\" (Use \E to define a "\" which is not interpreted
-.\" in copy mode, to may use fonts as macro argument)
-.de font:strings
-.	\" normal form
-.	ds P \f[\\E*[font-weight0]\\E*[font-style0]N]
-.	ds R \f[\\E*[font-weight0]\\E*[font-style0]N]
-.	ds B \f[\\E*[font-weight1]\\E*[font-style0]N]
-.	ds I \f[\\E*[font-weight0]\\E*[font-style1]N]
-.	ds BI \f[\\E*[font-weight1]\\E*[font-style1]N]
-.	\" small caps form
-.	ds C \f[\\E*[font-weight0]\\E*[font-style0]C]
-.	ds BC \f[\\E*[font-weight1]\\E*[font-style0]C]
-.	ds BIC \f[\\E*[font-weight1]\\E*[font-style1]C]
-.	ds IC \f[\\E*[font-weight0]\\E*[font-style1]C]
-.	\" acronyms
-.	ds A \f[\\E*[font-weight0]\\E*[font-style0]A]
-.	ds BA \f[\\E*[font-weight1]\\E*[font-style0]A]
-.	ds BIA \f[\\E*[font-weight1]\\E*[font-style1]A]
-.	ds IA \f[\\E*[font-weight0]\\E*[font-style1]A]
-.	\" superscript
-.	ds U \f[\\E*[font-weight0]\\E*[font-style0]U]
-.	ds BU \f[\\E*[font-weight1]\\E*[font-style0]U]
-.	ds BIU \f[\\E*[font-weight1]\\E*[font-style1]U]
-.	ds IU \f[\\E*[font-weight0]\\E*[font-style1]U]
-.	\" Final glyphs
-.	ds F \f[\\E*[font-weight0]\\E*[font-style0]F]
-.	ds BF \f[\\E*[font-weight1]\\E*[font-style0]F]
-.	ds BIF \f[\\E*[font-weight1]\\E*[font-style1]F]
-.	ds IF \f[\\E*[font-weight0]\\E*[font-style1]F]
-.	\" usefull shortcuts
-.	ds { \f[RRU]
-.	ds } \f[RRN]
-.	\"ds siecle \\fA\\$1\\fP\\fUe\\fP
-..
-.\" ornament orn.023 orn.001
-.ds font-orn \[orn.023]
-.\"""""""""""""""""""""""""""""""""""""""""""""""
-.\"	Macros to change weight
-.de font:text
-.	\" default font
-.	\" regular, bold, roman, italic
-.	ds font-weight0 R
-.	ds font-weight1 B
-.	ds font-style0 R
-.	ds font-style1 I
-.	font:strings
-.	ft RRN
-.	lang:char
-..
-.de font:note
-.	\" font for small text
-.	\" book, extra, roman, italic
-.	ds font-weight0 K
-.	ds font-weight1 E
-.	ds font-style0 R
-.	ds font-style1 I
-.	font:strings
-.	ft KRN
-.	lang:char
-..
-.de font:note-it
-.	\" small text, reverse italic
-.	\" book, extra, italic, roman
-.	ds font-weight0 K
-.	ds font-weight1 E
-.	ds font-style0 I
-.	ds font-style1 R
-.	font:strings
-.	ft KIN
-.	lang:char
-..
-.de font:head
-.	\" decoration for headers
-.	\" extra, extrabold, italic, roman
-.	ds font-weight0 E
-.	ds font-weight1 E
-.	ds font-style0 I
-.	ds font-style1 R
-.	font:strings
-.	char K \[K.swsh]
-.	char k \[k.swsh]
-.	char Q \[Q.swsh]
-.	char q \[q.swsh]
-.	char R \[R.swsh]
-.	feature EIN +salt
-.	feature ERN +salt
-.	ft EIN
-.	lang:char
-..
-.de font:subhead
-.	\" decoration for subheads
-.	\" bold, extra, italic, roman
-.	ds font-weight0 B
-.	ds font-weight1 E
-.	ds font-style0 I
-.	ds font-style1 R
-.	font:strings
-.	char K \[K.swsh]
-.	char k \[k.swsh]
-.	char Q \[Q.swsh]
-.	char q \[q.swsh]
-.	char R \[R.swsh]
-.	feature BIN +salt
-.	feature BRN +salt
-.	feature EIN +salt
-.	feature ERN +salt
-.	ft BIN
-.	lang:char
-..
-.de font:endhead
-.	\" reset after headers
-.	rchar K k Q q R
-.	feature BIN -salt
-.	feature BRN -salt
-.	feature EIN -salt
-.	feature ERN -salt
-.	font:text
-.	lang:char
-..
-.de font:code
-.	\" TODO: use monospace font
-.	ds P \f[RRN]
-.	ds R \f[RRN]
-.	ds B \f[BRN]
-.	ds I \f[RIN]
-.	ds BI \f[BIN]
-.	\" small caps form
-.	ds C \f[RRN]
-.	ds BC \f[BRN]
-.	ds BIC \f[BIN]
-.	\" acronyms
-.	ds A \f[RRN]
-.	ds BA \f[BRN]
-.	ds BIA \f[BIN]
-.	\" superscript
-.	ds U \f[RRN]
-.	ds BU \f[BRN]
-.	ds BIU \f[BIN]
-.	\" Final glyphs
-.	\" Since there's no final glyphs, map to N
-.	ds F \f[RRN]
-.	ds BF \f[BRN]
-.	ds BIF \f[BIN]
-.	\" usefull shortcuts
-.	ds { \f[RRN]
-.	ds } \f[RRN]
-.	ft RRN
-.	lang:rchar \" remove no-break spaces
-..
-.\"""""""""""""""""""""""""""""""""""""""""""""""
-.\" Make ligatures
-.de font:liga
-.	\" make ligatures
-.	flig \\$1 ct \[c_t] st \[s_t] sp \[s_p]
-.	flig \\$1 fb \[f_b] ffb \[f_f_b]
-.	flig \\$1 ff \[f_f] fh \[f_h] ffh \[f_f_h]
-.	flig \\$1 fi \[fi] ffi \[f_f_i]
-.	flig \\$1 fj \[f_j] ffj \[f_f_j] fk \[f_k]
-.	flig \\$1 ffk \[f_f_k] fl \[fl]
-.	flig \\$1 ffl \[f_f_l] ft \[f_t] fft \[f_f_t] Th \[T_h]
-.	\"char \[doublepoint] ..
-.	\"flig \\$1 .. \[doublepoint] ... \[ellipsis]
-.
-.	\" add space after '
-.	kernafter \\$1 ' 100
-..
-.de font:noliga
-.	fdeferlig \\$1 ff fi fl ft ffi ffl fft
-.	kernafter \\$1 ' 100
-..
 .\""""""""""""""""""""""""""""
 .\" Mount fonts for text
-.\""""""""""""""""""""""""""""
-.\"	fp 1 R ApollinePTF-Regular otf
-.\"	fp 2 B ApollinePTF-ExtraBold otf
-.\"	fp 3 I ApollinePTF-Italic otf
-.\"	fp 4 BI ApollinePTF-ExtraBoldItalic otf
+.\"
+.\"	ex: fp 11 f-000 LinLibertine_R otf
+.\" (start at 11 since position 9 and 10 are reserved)
+.
+.nr z 10 1
 .de font:mount
-.	\" $1: weight and style symbols
+.	\" $1: bold and italic numbers
 .	\" $2: name of font
-.	\" N: default form
-.	fp \\nz \\$1N \\$2 otf
-.	font:liga \\$1N
-.	\" C: small caps
-.	fp \\n+z \\$1C \\$2 otf
-.	feature \\$1C +smcp +lnum
-.	font:noliga \\$1C
-.	\" A: acronyms
-.	fp \\n+z \\$1A \\$2 otf
-.	feature \\$1A +c2sc +smcp +lnum
-.	font:noliga \\$1A
-.	\" U: superscripts
-.	fp \\n+z \\$1U \\$2 otf
-.	feature \\$1U +sups
-.	font:noliga \\$1U
-.	\" F: final glyphs
-.	fp \\n+z \\$1F \\$2 otf
-.	feature \\$1F +fina
-.	font:noliga \\$1F
-.	nr z +1
+.
+.	\" 0: Default
+.	fp \\n+z f-\\$10 \\$2 otf
+.	flig f-\\$10 ct \[c_t] st \[s_t] sp \[s_p]
+.	flig f-\\$10 fb \[f_b] ffb \[f_f_b]
+.	flig f-\\$10 ff \[f_f] fh \[f_h] ffh \[f_f_h]
+.	flig f-\\$10 fi \[fi] ffi \[f_f_i]
+.	flig f-\\$10 fj \[f_j] ffj \[f_f_j] fk \[f_k]
+.	flig f-\\$10 ffk \[f_f_k] fl \[fl]
+.	flig f-\\$10 ffl \[f_f_l] ft \[f_t] fft \[f_f_t] Th \[T_h]
+.	kernafter f-\\$10 ' 100
+.	\" 1: small caps
+.	fp \\n+z f-\\$11 \\$2 otf
+.	feature f-\\$11 +smcp +lnum
+.	fdeferlig f-\\$11 ff fi fl ft ffi ffl fft
+.	kernafter f-\\$11 ' 100
+.	\" 2: acronyms
+.	fp \\n+z f-\\$12 \\$2 otf
+.	feature f-\\$12 +c2sc +smcp +lnum
+.	fdeferlig f-\\$12 ff fi fl ft ffi ffl fft
+.	kernafter f-\\$12 ' 100
+.	\" 3: superscripts
+.	fp \\n+z f-\\$13 \\$2 otf
+.	feature f-\\$13 +sups
+.	fdeferlig f-\\$13 ff fi fl ft ffi ffl fft
+.	kernafter f-\\$13 ' 100
+.	\" 4: inferior
+.	fp \\n+z f-\\$14 \\$2 otf
+.	feature f-\\$14 +sinf
+.	fdeferlig f-\\$14 ff fi fl ft ffi ffl fft
+.	kernafter f-\\$14 ' 100
+.	\" 5: final glyphs
+.	fp \\n+z f-\\$15 \\$2 otf
+.	feature f-\\$15 +fina
+.	fdeferlig f-\\$15 ff fi fl ft ffi ffl fft
+.	kernafter f-\\$15 ' 100
 ..
-.\" mount default fonts:
+.font:mount 00 ApollinePTF-Regular
+.font:mount 01 ApollinePTF-Italic
+.font:mount 10 ApollinePTF-Bold
+.font:mount 11 ApollinePTF-BoldItalic
+.font:mount 20 ApollinePTF-Book
+.font:mount 21 ApollinePTF-BookItalic
+.font:mount 30 ApollinePTF-ExtraBold
+.font:mount 31 ApollinePTF-ExtraBoldItalic
+.rr z
+.rm font:mount
+.
+.
 .\"""""""""""""""""""""""""""""""""""""""""""""""
-.\" mount all fonts
-.\" TODO: find a way to mount on demand
-.nr z 11 1 \" position 9 and 10 are reserved
-.font:mount RR ApollinePTF-Regular
-.font:mount RI ApollinePTF-Italic
-.font:mount KR ApollinePTF-Book
-.font:mount KI ApollinePTF-BookItalic
-.font:mount BR ApollinePTF-Bold
-.font:mount BI ApollinePTF-BoldItalic
-.font:mount ER ApollinePTF-ExtraBold
-.font:mount EI ApollinePTF-ExtraBoldItalic
-.rm z
+.\" Font macros
+.
+.de font:reset
+.	nr f-b 0
+.	nr f-i 0
+.	nr f-f 0
+.	nr font-bold0 \\$1
+.	nr font-bold1 \\$2
+.	nr font-ital0 \\$3
+.	nr font-ital1 \\$4
+.	ft f-\\$1\\$3\\$5
+.	lang:char
+..
+.de font:text
+.	\" Roman Bold Roman Italic Noform
+.	font:reset 0 1 0 1 0
+..
+.de font:note
+.	\" Book ExtraBold Roman Italic Noform
+.	font:reset 2 3 0 1 0
+..
+.de font:note-it
+.	\" Book ExtraBold Italic Roman Noform
+.	font:reset 2 3 1 0 0
+..
+.de font:head
+.	\" ExtraBold ExtraBold Italic Roman Noform
+.	font:reset 3 3 1 0 0
+.	char K \[K.swsh]
+.	char k \[k.swsh]
+.	char Q \[Q.swsh]
+.	char q \[q.swsh]
+.	char R \[R.swsh]
+.	feature f-310 +salt
+.	feature f-300 +salt
+..
+.de font:subhead
+.	\" Bold ExtraBold Italic Roman Noform
+.	font:reset 1 3 1 0 0
+.	char K \[K.swsh]
+.	char k \[k.swsh]
+.	char Q \[Q.swsh]
+.	char q \[q.swsh]
+.	char R \[R.swsh]
+.	feature f-110 +salt
+.	feature f-100 +salt
+.	feature f-310 +salt
+.	feature f-300 +salt
+..
+.de font:endhead
+.	rchar K k Q q R
+.	feature f-110 -salt
+.	feature f-100 -salt
+.	feature f-310 -salt
+.	feature f-300 -salt
+.	font:text
+..
+.de font:code
+.	font:text
+.	lang:rchar
+..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
-.\" Opentype features
-.ig
-
-Letters
--------
-aalt 	Access All Alternates
-smcp	Small Capitals
-c2sc	Capitals to Small Caps
-		used to type acronyms)
-case	Case-Sensitive Forms
-		Punctuation marks for all-capitals sequences
-		Lining figures are prefered than oldstyle figures
-swsh	Swash
-		all swash glyphs and end glyphs
-fina	Terminal Forms
-		Alternate forms for the end of a word
-salt	Stylistic Alternates
-		a, A, ç, Ç alternates
-ordn	Ordinals
-		Letter superscript to use after figures
-sups	superscript
-		letters and figure superscripts
-
-Figures
--------
-onum	Oldstyle Figures (default)
-		Fit better in normal text
-		Override lnum
-lnum	Lining Figures
-		Figures that looks better in all capital forms
-		Override onum
-pnum	Proportional Figures
-		proportionnal inter-glyph space
-		Override tnum (tabular figures)
-tnum	Tabular figures
-		figures in uniform (tabular, monospace) interglyph space
-		Override pnum
-frac	Fractions
-		replace figures by Numr, and slash by fraction
-		Should be followed by dnom
-numr	Numerators
-		Used before a slash in a fraction
-dnom	Denominator
-		For figures which follow a slash in a fraction
-sinf	Scientific Inferiors
-		smaller figures glyphs which sit lower than the standard baseline
-		for chemical or mathematical notation
-
-Ornaments and stylistic sets
-----------------------------
-ornm	Ornaments
-		a->z A->K 0->9 punctuation
-		orn.001 -> orn.039, etc.
-ss01	Stylistic set 1
-ss02	Stylistic set 2
-ss03	Stylistic Set 3
-ss05	Stylistic Set 5
-ss06	Stylistic Set 6
-
-Ligatures
----------
-No ligatures for c2sc smcp case ordn sups ornm
-..
-.de var:null
-..
+.\" Fonts Strings
+.
+.ds f-l f-\\n[font-bold\\n[f-b]]\
+\\n[font-ital\\n[f-i]]\
+\\n[f-f]
+.ds B \\ER'f-b 1-\\En[f-b]'\\f[\\E*[f-l]]
+.ds I \\ER'f-i 1-\\En[f-i]'\\f[\\E*[f-l]]
+.ds C \\ER'f-f 1-\\En[f-f]'\\f[\\E*[f-l]]
+.ds A \\ER'f-f 2-\\En[f-f]'\\f[\\E*[f-l]]
+.ds U \\ER'f-f 3-\\En[f-f]'\\f[\\E*[f-l]]
+.ds L \\ER'f-f 4-\\En[f-f]'\\f[\\E*[f-l]]
+.ds F \\ER'f-f 5-\\En[f-f]'\\f[\\E*[f-l]]
+.ds M
