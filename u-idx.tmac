@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.16 2013/04/16 17:28:38 pj Exp pj $
+$Id: u-idx.tmac,v 0.17 2013/06/03 11:45:35 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -146,17 +146,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\" Acronym, command, date, error, image,
 .\" link, email, name, object, quotation,
 .\" url, word.
-.idx:build A "\\\\*[lang-Idxa]" \\\\*A \\\\*P 1
+.idx:build A "\\\\*[lang-Idxa]" \\\\*A \\\\*A 1
 .\"idx:build C "\\\\*[lang-Idxc]"
 .\"idx:build D "\\\\*[lang-Idxd]"
 .\"idx:build E "\\\\*[lang-Idxe]"
 .\"idx:build I "\\\\*[lang-Idxi]"
 .\"idx:build L "\\\\*[lang-Idxl]"
 .\"idx:build M "\\\\*[lang-Idxm]"
-.\"idx:build N "\\\\*[lang-Idxn]" \\\\*C \\\\*P 1
+.\"idx:build N "\\\\*[lang-Idxn]" \\\\*C \\\\*C 1
 .idx:build O "\\\\*[lang-Idxo]" \" objets
 .\"idx:build Q "\\\\*[lang-Idxq]" « »
-.idx:build T "\\\\*[lang-Idxt]" \\\\*I \\\\*P
+.idx:build T "\\\\*[lang-Idxt]" \\\\*I \\\\*I
 .\"idx:build U "\\\\*[lang-Idxu]"
 .idx:build W "\\\\*[lang-Idxw]"
 .
@@ -199,8 +199,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de N>
 .	idx:par
-.	ie \\n(.$=1 .var:print \\*C\\$1\\*R:
-.	el .var:print \\*C\\$1\\*R
+.	ie \\n(.$=1 .var:print \\*C\\$1\\*C:
+.	el .var:print \\*C\\$1\\*C
 .	shift
 .	while \\n(.$>1 \{\
 .		var:print \\$1

@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id: um.tmac,v 0.6 2013/04/10 10:46:01 pj Exp pj $
+$Id: um.tmac,v 0.7 2013/04/10 12:27:39 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -185,27 +185,31 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .als DI man:comment
 .\"""""""""""""""""""""""""""""""""""""
 .\" Fonts
-.de man:font
-.	while \\n(.$ \{\
-.		ds \\$1 \\ef\\$1
-.		shift
-.	\}
-..
-.man:font P R B I BI
-.man:font A BA IA BIA
-.man:font C BC IC BIC
-.man:font U BU IU BIU
-.man:font F BF IF BIF
+.ds f-l f-\\n[f-b]\\n[f-i]
+.nr f-b 0
+.nr f-i 0
+.ds B \\ER'f-b 1-\\En[f-b]'\\E*[\\E*[f-l]]
+.ds I \\ER'f-i 1-\\En[f-i]'\\E*[\\E*[f-l]]
+.ds C
+.ds A
+.ds U
+.ds L
+.ds F
+.ds M
+.ds f-00 \\efR
+.ds f-01 \\efI
+.ds f-10 \\efB
+.ds f-11 \\ef(BI
 .\"""""""""""""""""""""""""""""""""""""
 .\" vgrind
 .ds +K \\*B
 .ds +V \\*B
 .ds +C \\*I
 .ds +S \\*I
-.ds -K \\*R
-.ds -V \\*P
-.ds -C \\*R
-.ds -S \\*R
+.ds -K \\*B
+.ds -V \\*B
+.ds -C \\*I
+.ds -S \\*I
 .ds - \-
 .ds _ _
 .ds e \\\\e
