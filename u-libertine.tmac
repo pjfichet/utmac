@@ -1,6 +1,6 @@
 .\" u-libertine: libertine font.
 .ig
-$Id: u-libertine.new,v 1.1 2014/03/18 14:28:55 pj Exp pj $
+$Id: u-libertine.tmac,v 0.7 2014/03/20 20:11:32 pj Exp pj $
 
 Copyright (c) 2012-2014
 Pierre-Jean Fichet. All rights reserved.
@@ -60,14 +60,6 @@ Font description:
 .
 .	\" 0: Default
 .	fp \\n+z f-\\$10 \\$2 otf
-.	flig f-\\$10 ct \[c_t] st \[s_t] \"sp \[s_p]
-.	flig f-\\$10 fb \[f_b] \"ffb \[f_f_b]
-.	flig f-\\$10 ff \[f_f] fh \[f_h] ffh \[f_f_h]
-.	flig f-\\$10 fi \[fi] ffi \[f_f_i]
-.	flig f-\\$10 fj \[f_j] ffj \[f_f_j] fk \[f_k]
-.	flig f-\\$10 ffk \[f_f_k] fl \[fl]
-.	flig f-\\$10 ffl \[f_f_l] ft \[f_t] fft \[f_f_t] Th \[T_h]
-.	flig \\$1 ck \[c_k] ch \[c_h] tt \[t_t]
 .	\" 1: small caps
 .	fp \\n+z f-\\$11 \\$2 otf
 .	feature f-\\$11 +smcp +lnum
@@ -86,10 +78,30 @@ Font description:
 .	fdeferlig f-\\$14 ff fi fl ft ffi ffl fft
 ..
 .font:mount 00 LinLibertine_R
+.	flig f-000 ct \[c_t] st \[s_t] \"sp \[s_p]
+.	flig f-000 fb \[f_b] \"ffb \[f_f_b]
+.	flig f-000 ff \[f_f] fh \[f_h] ffh \[f_f_h]
+.	flig f-000 fi \[fi] ffi \[f_f_i]
+.	flig f-000 fj \[f_j] ffj \[f_f_j] fk \[f_k]
+.	flig f-000 ffk \[f_f_k] fl \[fl]
+.	flig f-000 ffl \[f_f_l] ft \[f_t] fft \[f_f_t] Th \[T_h]
+.	flig f-000 ck \[c_k] ch \[c_h] tt \[t_t]
 .font:mount 01 LinLibertine_RI
+.	flig f-010 ct \[c_t] st \[s_t]
+.	flig f-010 ff \[f_f] fh \[f_h]
+.	flig f-010 fi \[fi] ffi \[f_f_i]
+.	flig f-010 fj \[f_j] ffj \[f_f_j] fk \[f_k]
+.	flig f-010 fl \[fl] ffl \[f_f_l] ft \[f_t]
+.	flig f-010 Th \[T_h] ck \[c_k] ch \[c_h] tt \[t_t]
 .font:mount 10 LinLibertine_RB
+.	flig f-100 ct \[c_t] st \[s_t] ff \[f_f]
+.	flig f-100 fi \[fi] ffi \[f_f_i] fj \[f_j]
+.	flig f-100 fl \[fl] ffl \[f_f_l] ft \[f_t] Th \[T_h]
 .font:mount 11 LinLibertine_RBI
-.	\" 6 monospace
+.	flig f-110 ct \[c_t] ff \[f_f] fi \[fi]
+.	flig f-110 ft \[f_t] Th \[T_h]
+.	flig f-110 ck \[c_k] ch \[c_h] tt \[t_t]
+.\" 6 monospace
 .fp \n+z f-006 LinLibertine_M otf
 .fdeferlig f-006 ff fi fl ft ffi ffl fft
 .rr z
