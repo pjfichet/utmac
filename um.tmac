@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id: um.tmac,v 0.7 2013/04/10 12:27:39 pj Exp pj $
+$Id: um.tmac,v 0.8 2014/03/20 20:14:20 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -104,7 +104,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\" PI -> IP \(bu
 .	man:block
 .	ie \\n(.$>0 \{\
-.		ie '\\$1'' .man:print .TQ
+.		ie '\\$*'' .man:print .TQ
 .		el \{\
 .		man:print .TP
 .		man:print \\$*
@@ -185,11 +185,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .als DI man:comment
 .\"""""""""""""""""""""""""""""""""""""
 .\" Fonts
-.ds f-l f-\\n[f-b]\\n[f-i]
 .nr f-b 0
 .nr f-i 0
-.ds B \\ER'f-b 1-\\En[f-b]'\\E*[\\E*[f-l]]
-.ds I \\ER'f-i 1-\\En[f-i]'\\E*[\\E*[f-l]]
+.ds B \ER'f-b 1-\En[f-b]'\E*[f-\En[f-b]\En[f-i]]
+.ds I \ER'f-i 1-\En[f-i]'\E*[f-\En[f-b]\En[f-i]]
 .ds C
 .ds A
 .ds U
