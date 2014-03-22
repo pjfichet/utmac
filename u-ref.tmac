@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id: u-ref.tmac,v 0.13 2014/03/20 20:15:30 pj Exp pj $
+$Id: u-ref.tmac,v 0.14 2014/03/22 12:21:04 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: u-ref.tmac,v 0.13 2014/03/20 20:15:30 pj Exp pj $
+$Id: u-ref.tmac,v 0.14 2014/03/22 12:21:04 pj Exp pj $
 ..
 .ig
 iso-690 default:
@@ -95,6 +95,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .ds -L \\*C
 .ds +J
 .ds -J
+.ds [. \\*U
+.ds .] \\*U
+.\" usage is to put the dot after the reference:
+.ds <.
+.ds >. \&.
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Format fields
 .de ref:coll-1
