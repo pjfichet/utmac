@@ -1,6 +1,6 @@
 .\" u-idx: build indexes (need idx).
 .ig
-$Id: u-idx.tmac,v 0.17 2013/06/03 11:45:35 pj Exp pj $
+$Id: u-idx.tmac,v 0.18 2014/03/20 20:10:21 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -236,7 +236,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .			nr idx-K\\$1 \\\\n%
 \\..
 .		\" Print link and text
-.		var:print \\P[idx:K\\$1]\A'\\$1'\\c
+.		var:print \\P[idx:K\\$1]\A"\\$1"\\c
 .		idx:print
 .	\}
 ..
@@ -251,12 +251,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	lds idx-note
 .	if r idx-K\\$1 .if \\n[note-in]=0 .lds idx-note \\**
 .	if \\n[idx-args]=1 \
-.	var:print \T'\\$*'\\*[idx-text]\T\\*[idx-note]
+.	var:print \T"\\$*"\\*[idx-text]\T\\*[idx-note]
 .	if \\n[idx-args]=2 \
-.	var:print \T'\\$*'\\*[idx-text]\T\\*[idx-note]\
+.	var:print \T"\\$*"\\*[idx-text]\T\\*[idx-note]\
 \\*[idx-end]
 .	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg]\T'\\$*'\\*[idx-text]\T\
+.	var:print \\*[idx-beg]\T"\\$*"\\*[idx-text]\T\
 \\*[idx-note]\\*[idx-end]
 .	rm idx-text
 .	rm idx-beg
@@ -266,11 +266,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .		ie \\n[note-in]=0 \{\
 .			NS
 .			var:print \
-\T'\\$1'\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1].\T
+\T"\\$1"\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1].\T
 .			NE
 .		\}
 .		el .var:print \
-\T'\\$1'\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1].\T
+\T"\\$1"\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1].\T
 .	\}
 .	el .if \\n(RH .var:tm \\*[lang-wait] \\$0 \\$1
 ..
@@ -279,20 +279,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ie \\n[note-in]=0 .lds idx-note \\**
 .	el .lds idx-note
 .	if \\n[idx-args]=1 \
-.	var:print \W'mailto:\\$1'\\*[idx-text]\W\\*[idx-note]
+.	var:print \W"mailto:\\$1"\\*[idx-text]\W\\*[idx-note]
 .	if \\n[idx-args]=2 \
-.	var:print \W'mailto:\\$1'\\*[idx-text]\W\\*[idx-note]\\*[idx-end]
+.	var:print \W"mailto:\\$1"\\*[idx-text]\W\\*[idx-note]\\*[idx-end]
 .	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg]\W'mailto:\\$1'\\*[idx-text]\W\
+.	var:print \\*[idx-beg]\W"mailto:\\$1"\\*[idx-text]\W\
 \\*[idx-note]\\*[idx-end]
 .	ie \\n[note-in]=0 \{\
 .		NS
-.		var:print \W'mailto:\\$1'\\$1\W
+.		var:print \W"mailto:\\$1"\\$1\W
 .		NE
 .	\}
 .	\" if inside a note, print url only if there's nothing
 .	\" else  text to print
-.	el .if \\n[idx-args]=0 .var:print \W'mailto:\\$1'\\$1\W
+.	el .if \\n[idx-args]=0 .var:print \W"mailto:\\$1"\\$1\W
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
@@ -303,20 +303,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ie \\n[note-in]=0 .lds idx-note \\**
 .	el .lds idx-note
 .	if \\n[idx-args]=1 \
-.	var:print \W'\\$1'\\*[idx-text]\W\\*[idx-note]
+.	var:print \W"\\$1"\\*[idx-text]\W\\*[idx-note]
 .	if \\n[idx-args]=2 \
-.	var:print \W'\\$1'\\*[idx-text]\W\\*[idx-note]\\*[idx-end]
+.	var:print \W"\\$1"\\*[idx-text]\W\\*[idx-note]\\*[idx-end]
 .	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg]\W'\\$1'\\*[idx-text]\W\
+.	var:print \\*[idx-beg]\W"\\$1"\\*[idx-text]\W\
 \\*[idx-note]\\*[idx-end]
 .	ie \\n[note-in]=0 \{\
 .		NS
-.		var:print <\\W'\\$1'\\$1\\W>
+.		var:print <\\W"\\$1"\\$1\\W>
 .		NE
 .	\}
 .	\" if inside a note, print url only if there's nothing
 .	\" else  text to print
-.	el .if \\n[idx-args]=0 .var:print <\\W'\\$1'\\$1\\W>
+.	el .if \\n[idx-args]=0 .var:print <\\W"\\$1"\\$1\\W>
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
