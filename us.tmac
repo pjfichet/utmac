@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.27 2014/03/20 20:16:22 pj Exp pj $
+$Id: us.tmac,v 0.28 2014/03/22 12:23:46 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -946,8 +946,9 @@ and call the macro sum:in/\\n[head-1]/
 \X'PI' offset:indent:line length:tab:\
 file(page):height,width,yoff,xoff:flags
 ..
-.de img:left
+.de IL
 .	\" left align image
+.	\" $1: image, $2: scale, $3: flag
 .	PP
 .	psbb \\$1
 .	lnrf img-scale 1
@@ -957,8 +958,9 @@ file(page):height,width,yoff,xoff:flags
 \\X'PI:\\n(.o:\\n(.i:\\n(.l:\\n(.t:\
 \\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
 ..
-.de img:right
+.de IR
 .	\" right align image
+.	\" $1: image, $2: scale, $3: flag
 .	PR
 .	psbb \\$1
 .	lnrf img-scale 1
@@ -969,8 +971,9 @@ file(page):height,width,yoff,xoff:flags
 \\X'PI:\\n[img-o]:\\n(.i:\\n(.l:\\n(.t:\
 \\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
 ..
-.de img:center
+.de IC
 .	\" centered image
+.	\" $1: image, $2: scale, $3: flag
 .	PC
 .	psbb \\$1
 .	lnrf img-scale 1

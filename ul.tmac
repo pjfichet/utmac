@@ -1,6 +1,6 @@
 .\" cv: Curriculum vitae.
 .ig
-$Id: ul.tmac,v 0.1 2014/08/16 07:54:56 pj Exp pj $
+$Id: ul.tmac,v 0.2 2014/08/16 09:54:26 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -55,9 +55,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"nr note-hyphen \n[text-hyphen]
 .\"nr note-font 10p
 .\"nr note-line 13p
-.nr note-offset \n[text-offset]u
-.nr note-offset-e \n[text-offset-e]u
-.nr note-length \n[text-length]u
+.nr note-offset \n[marg-offset]u
+.nr note-offset-e \n[marg-offset-e]u
+.nr note-length \n[marg-length]u
 .nr note-blank 1c
 .nr note-hyphen \n[text-hyphen]
 .nr note-font \n[text-font]u
@@ -310,7 +310,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de TI
 .	\" maximize paragraphs to avoid orphans
-.	ss 12 0 
+.	ss 12 0
 .	minss 11
 .	letadj 100 100 15 102 102
 .	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
@@ -412,36 +412,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .de H1
 .	bp
-.	rs
 .	par:init
-.	\"sp 2v
+.	po \\n[marg-offset]u
 .	ps 25p
-.	ad r
 .	vs \\n[text-line]u*2u
 .	font:head
+.	ad l
 .	head:print 1 \\$*
+.	lnr h-length \\w'\\$*'u+3v
+.	var:print \s+(30\D'l \\n[h-length]u'\s-(30
 .	br
+.	po \\n[text-offset]u
 .	par:init
-.	sp 5v
+.	rs
+.	sp 3v
 .	ns
 ..
 .de H2
 .	\"if \\n[head-2]>0 .head:orn
 .	\"bp
-.	rs
 .	par:init
-.	sp 3v
 .	ps 20p
-.	po +\\n[marg-length]u	
-.	ll -\\n[marg-length]u
 .	ad r
 .	vs \\n[text-line]u*2u
 .	font:head
+.	\"var:print \s+(30\D'l \\n[marg-length]u'\s-(30
 .	head:print 2 \\$*
+.	br
 .	nr * 0 1 \" reset note number
-.	po -\\n[marg-length]u
-.	ll +\\n[marg-length]u
 .	par:init
+.	rs
 .	sp 2v
 .	ns
 ..
@@ -726,58 +726,65 @@ and call the macro sum:in/\\n[head-1]/
 .	brnl 0
 ..
 .als NT note:start-intext
-.de NB
-.	note:start-intext
-.	\"po \\n[text-offset]u+\\n[text-length]u-\\n[note-length]u
-.	po \\n[text-offset]u+\\n[text-length]u-\\n[marg-length]u
-.	if r note-left .sp |\\n[note-left]u
-.	rr note-left
-.	fi
-.	brnl
-.	ad l
-..
+.als NB note:start-intext
 .de note:start-sum
 .	nr note-in 1
 .	br
 .	ev ev-note
 .	note:init
-.	ll \\n[note-length]u-3v
-.	di note:trap-sum
+.	nf
+.	po \\n[marg-offset]u
+.	ll \\n[marg-length]u
 ..
 .de note:stop-sum
 .	br
-.	di
-.	\" place or move a trap for notes
-.	\" number of lines in last diversion:
-.	lnr note-lines \\n(dnu/\\n[note-line]u
-.	\" size of each column
-.	lnr note-divide \\n[note-lines]/2
-.	\" rest of division:
-.	lnr note-modulo \\n[note-lines]%2
-.	\" if modulo, add one line to size of column:
-.	ie \\n[note-modulo]>0 .nr note-divide +1
-.	wh \\n(nlu+\\n[note-divide]v note:return-sum
-.	mk note-sum
-.	po \\n[note-offset]u+3v
-.	if \\n(RV .if e .po \\n[note-offset-e]u+3v
-.	nf
-.	note:trap-sum
-.	\" flow pass throught note:return-sum
-.	br
 .	ev
-.	if r note-sum2 .rt \\n[note-sum2]u
-.	po \\n[text-offset]u
-.	if \\n(RV=1 .if e .po \\n[text-offset-e]u
 .	nr note-in 0
-.	PP
+.	po \\n[text-offset]u
 .	font:text
 ..
-.de note:return-sum
-.	mk note-sum2
-.	rt \\n[note-sum]u
-.	po +\\n[note-length]u-3v+\\n[note-blank]u
-.	ch note:return-sum
-..
+.\".de note:start-sum
+.\".	nr note-in 1
+.\".	br
+.\".	ev ev-note
+.\".	note:init
+.\".	ll \\n[note-length]u-3v
+.\".	di note:trap-sum
+.\"..
+.\".de note:stop-sum
+.\".	br
+.\".	di
+.\".	\" place or move a trap for notes
+.\".	\" number of lines in last diversion:
+.\".	lnr note-lines \\n(dnu/\\n[note-line]u
+.\".	\" size of each column
+.\".	lnr note-divide \\n[note-lines]/2
+.\".	\" rest of division:
+.\".	lnr note-modulo \\n[note-lines]%2
+.\".	\" if modulo, add one line to size of column:
+.\".	ie \\n[note-modulo]>0 .nr note-divide +1
+.\".	wh \\n(nlu+\\n[note-divide]v note:return-sum
+.\".	mk note-sum
+.\".	po \\n[note-offset]u+3v
+.\".	if \\n(RV .if e .po \\n[note-offset-e]u+3v
+.\".	nf
+.\".	note:trap-sum
+.\".	\" flow pass throught note:return-sum
+.\".	br
+.\".	ev
+.\".	if r note-sum2 .rt \\n[note-sum2]u
+.\".	po \\n[text-offset]u
+.\".	if \\n(RV=1 .if e .po \\n[text-offset-e]u
+.\".	nr note-in 0
+.\".	PP
+.\".	font:text
+.\"..
+.\".de note:return-sum
+.\".	mk note-sum2
+.\".	rt \\n[note-sum]u
+.\".	po +\\n[note-length]u-3v+\\n[note-blank]u
+.\".	ch note:return-sum
+.\"..
 .de NS
 .	nr note-in 1
 .	als NE note:stop-NS
