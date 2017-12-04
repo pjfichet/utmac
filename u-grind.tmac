@@ -1,6 +1,6 @@
 .\" u-grind: grind support.
 .ig
-$Id: u-grind.tmac,v 0.6 2014/03/20 20:07:57 pj Exp pj $
+$Id: u-grind,v 1.1 2014/08/30 09:26:21 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -39,42 +39,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ev ev-code
 .	nr ev-code 1
 .	par:init
-.	sp 1v
-.	nr code-top \\n(nl
-.	ds code-name \\$1
+.	sp .5v
 .	nf
-.	in 3v
+.	in 1v
 .	font:code
+.	var:print \X'SetColor \\*[col-0]'\c
 ..
 .de vE
+.	var:print \X'SetColor black'
 .	br
-.	code:line
+.	sp -1.5v
 .	ev
 .	rr ev-code
 .	par:init
 .	font:text
 ..
-.de code:line
-.	br
-.	nr code-bot \\n(nl
-.	lnr code-line \\n[code-bot]-\\n[code-top]-0.5v
-.	sp -1v
-.	var:print \h'-1v'\X'SetColor .2 .2 .2 rgb'\
-\s+(60\D'l 0 -\\n[code-line]u'\s-(60\X'SetColor black'
-.	br
-.	rr code-line
-.	rr code-bot
-.	rr code-top
-..
 .de code:foot
-.	if r ev-code .if r code-top .code:line
+.	var:print \X'SetColor black'
+.	sp -1v
 ..
-.	
 .de code:init
 .	\" reset style code after header
 .	if r ev-code \{\
-.		font:code
-.	nr code-top \\n(nl
+.	font:code
+.	var:print \X'SetColor \\*[col-0]'\c
 .	\}
 ..
 .de vF
@@ -91,7 +79,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\" C comments, S strings
 .nr col-p 0 \" previous color
 .nr col-c 0 \" current color
-.ds col-0 black
+.ds col-0 .2 .2 .2 rgb \" default: grey
 .ds col-1 .3 .1 .5 rgb \" keyword: blue
 .ds col-2 .5 .1 .5 rgb \" variable: cyan
 .ds col-3 .3 .6 .5 rgb \" comment: green
