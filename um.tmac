@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id: um.tmac,v 0.10 2014/03/22 20:16:33 pj Exp pj $
+$Id: um.tmac,v 0.11 2014/03/22 20:17:22 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -60,6 +60,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	rm man-close
 ..
 .de man:close
+.	br
 .	pl \\n(nlu
 ..
 .em man:close
@@ -137,46 +138,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .als vE man:null
 .\"""""""""""""""""""""""""""""""""""""
 .\" Idx
-.nr idx-args 0
 .de LP
 .	\" text to print
 .	ds idx-text \\$1
 .	ds idx-end \\$2
 .	ds idx-beg \\$3
-.	nr idx-args \\n(.$
 ..
 .de idx:print
 .	\" print text defined by .p macro
 .	\" $1 before, $2 after
-.	if \\n[idx-args]=1 .man:print \e&\\*[idx-text]
-.	if \\n[idx-args]=2 .man:print \e&\\*[idx-text]\\*[idx-end]
-.	if \\n[idx-args]>2 .man:print \e&\\*[idx-beg]\\*[idx-text]\\*[idx-end]
+.	if d idx-text .man:print \e&\\*[idx-beg]\\*[idx-text]\\*[idx-end]
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
-.	nr idx-args 0
 ..
-.de idx:url
-.	if \\n[idx-args]=1 .man:print \e&\\*[idx-text] <\\$1>
-.	if \\n[idx-args]=2 .man:print \e&\\*[idx-text] <\\$1>\\*[idx-end]
-.	if \\n[idx-args]>2 .man:print \e&\\*[idx-beg]\\*[idx-text] \
-<\\$1>\\*[idx-end]
+.de idx:link
+.	ie d idx-text .man:print \e&\\*[idx-beg]\\*[idx-text] <\\$1>\\*[idx-end]
+.	el .man:print \e&\\$3<\\$1>\\$2
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
-.	nr idx-args 0
 ..
 .als LA idx:print
-.als LD idx:print
-.als LE idx:print
-.als LK man:comment
-.als LL idx:print
-.als LM idx:url
 .als LN idx:print
 .als LO idx:print
 .als LT idx:print
-.als LU idx:url
 .als LW idx:print
+.als LK man:comment
+.als LL idx:link
+.als LM idx:link
+.als LU idx:link
 .\"""""""""""""""""""""""""""""""""""""
 .als DA man:comment
 .als DT man:comment

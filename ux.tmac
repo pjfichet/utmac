@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.16 2014/03/22 12:24:48 pj Exp pj $
+$Id: ux.tmac,v 0.17 2017/12/04 07:09:19 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -289,43 +289,62 @@ nroff -mux\\*[xml-tag /DG]
 .	ds idx-text \\$1
 .	ds idx-end \\$2
 .	ds idx-beg \\$3
-.	nr idx-args \\n(.$
 ..
 .de idx:print
-.	\" print text defined by LP macro
-.	lds idx-tag \\$1
-.	shift
-.	lds idx-name \\*[idx-tag] name=\'\\$*\'
-.	shift
-.	if \\n[idx-args]=0 \{\
-.		xml:print \\*[xml-tag \\*[idx-name]/]
+.	\" Insert a keyword
+.	\" If it exists, print text defined by LP macro
+.	\" $1: idx key
+.	\" $2: keyword
+.	ie d idx-text \{\
+.		xml:print \\*[idx-beg]\\*[xml-tag L\\$1 name=\'\\$2\']\\*[idx-text]\\*[xml-tag /L\\$1]\\*[idx-end]
 .	\}
-.	if \\n[idx-args]=1 \{\
-.		xml:print \\*[xml-tag \\*[idx-name]]\
-\\*[idx-text]\\*[xml-tag /\\*[idx-tag]]
-.	\}
-.	if \\n[idx-args]=2 \{\
-.	xml:print \\*[xml-tag \\*[idx-name]]\
-\\*[idx-text]\\*[xml-tag /\\*[idx-tag]]\\*[idx-end]
-.	\}
-.	if \\n[idx-args]>2 \{\
-.	xml:print \\*[idx-beg]\\*[xml-tag \\*[idx-name]]\
-\\*[idx-text]\\*[xml-tag /\\$*[idx-tag]]\\*[idx-end]
+.	el \{\
+.		xml:print \\*[xml-tag L\\$1 name=\'\\$2\'/]
+.		xml:print \\*[xml-deline]
 .	\}
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
-.	nr idx-args 0
 ..
-.de idx:build
-.	while \\n(.$ \{\
-.		de L\\$1
-.			idx:print L\\$1 \\\\$*
-\\..
-.		shift
+.de idx:link
+.	\" Print link using text defined by .LP macro if it exists
+.	if !d idx-text \{\
+.		ds idx-text \\$2
+.		ds idx-end \\$3
+.		ds idx-beg \\$4
 .	\}
+.	xml:print \\*[idx-beg]\\*[xml-tag L\\$1 name=\'\\$2\']\\*[idx-text]\\*[xml-tag /L\\$1]\\*[idx-end]
+.	rm idx-text
+.	rm idx-beg
+.	rm idx-end
 ..
-.idx:build A C D E I K L M N H O S T U W
+.de LA
+.	idx:print A \\$*
+..
+.de LK
+.	idx:print K \\$*
+..
+.de LN
+.	idx:print N \\$*
+..
+.de LO
+.	idx:print O \\$*
+..
+.de LT
+.	idx:print T \\$*
+..
+.de LW
+.	idx:print W \\$*
+..
+.de LL
+.	idx:link L \\$*
+..
+.de LM
+.	idx:link M \\$*
+..
+.de LU
+.	idx:link U \\$*
+..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Usefull tests
 .de US
