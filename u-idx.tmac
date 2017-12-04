@@ -1,349 +1,260 @@
-.\" u-idx: build indexes (need idx).
-.ig
-$Id: u-idx.tmac,v 0.18 2014/03/20 20:10:21 pj Exp pj $
-
-Copyright (c) 2012
-Pierre-Jean Fichet. All rights reserved.
-
-Redistribution and use in source and binary forms, with or
-without modification, are permitted provided that the
-following conditions are met:
-
-  1. Redistributions of source code must retain the above
-     copyright notice, this list of conditions and the
-     following disclaimer.
-  2. Redistributions in binary form must reproduce the
-     above copyright notice, this list of conditions and the
-     following disclaimer in the documentation and/or other
-     materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
-``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
-BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-..
-.nr data-u-idx 1
-.\"""""""""""""""""""""""""""""""""""""""""""""""
-.\" idx: inline and index macros
-.
-.\" trap number
+.\"""""""""""""""""""""""""""""""""""""
+.\" idx: Create an index of words.
+.\"
 .nr idx-trap 0 1
-.
-.de idx:do
-.	\" use a trap to get real page number
-.	\" $1 key, $n words
+.de idx:trap
+.	\" Place an output line trap to get the real page number
+.	\" $1 key
+.	\" $2 word to index
 .	de idx:\\n+[idx-trap]
-.		\" add the trap number to args
-.		\" to delete the trap later
-.		idx:rec \\$*
+.		\" Add the trap number to delete the trap later
+.		idx:record \\n[idx-trap] \\$*
 \\..
 .	var:print \\P[idx:\\n[idx-trap]]\\c
 ..
-.de idx:rec
-.	\" record the page number
-.	\" $1 key, $n words
-.	\" idx-keys: list of keys
-.	lds idx-key \\$1
-.	shift 1
-.	if !d idx:\\*[idx-key] .as idx-keys \\*[idx-key] \"
-.	am idx:\\*[idx-key]
-\\*[idx-key]> \\$*:: \\n%
-\\..
-..
-.de idx:del
-.	\" delete called macro
-.	\" TODO: find place to put this
-.	\" (not before diverted notes are printed)
-.	if \\n[idx-trap]>0 \{\
-.		while \\n-[idx-trap]>0 \{\
-.			if d idx:\\n[idx-trap] .rm idx:\\n[idx-trap]
-.		\}
-.	\}
-.	nr idx-trap 0 1
-..
-.de idx:writem
-.	\" write macro for each arg
-.	while \\n(.$ \{\
-.		writem idx-f idx:\\$1
-.		shift
-.	\}
+.ds idx-list
+.de idx:record
+.	\" Delete previous trap,
+.	\" and record an index entry.
+.	\" $1 trap number
+.	\" $2 keyword
+.	\" $3 word
+.	lnr idx-previoustrap (\\$1 -1)
+.	\" Delete the previous if it exists
+.	\" (Traps printed in notes may appear later and are skipped.)
+.	if d idx\\n[idx-previoustrap] .rm idx:\\n[idx-previoustrap]
+.	lds idx-key \\$2
+.	shift 2
+.	as idx-list @@@\\*[idx-key]> \\$*:: \\n%
 ..
 .de XI
-.	\" print index
-.	\" $n: keys of index to print
-.	\" print all indexes by default.
-.	open idx-f \\*[data-file]-idx.idx
-.	ie \\n(.$>0 .idx:writem \\$*
-.	el .idx:writem \\*[idx-keys]
-.	close idx-f
-.	\" delete EOF = \004 in octal = ^D in vim
-.	\" .pso need \\\\004, .sy need \\004
-.	pso idx -d \\*[data-file]-idx.idx
+.	\" Write the index list to a file
+.	\" format it, and source it.
+.	br
+.	ds idx-file /tmp/\\*[data-file].idx.tr
+.	\" inconv fixes a bug in heirloom troff
+.	sy echo "\\*[idx-list]" | sed -e "s/@@@/\\\\n/g" | iconv -f latin1 -t utf8 > \\*[idx-file]
+.	sy idx -d \\*[idx-file] > \\*[idx-file].b
+.	so \\*[idx-file].b
+.	sy rm \\*[idx-file] \\*[idx-file].b
 ..
-.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\"""""""""""""""""""""""""""""""""""""
+.\" Format the output of idx
+.\" The output of idx is as follow:
+.\" .K<			Start an index of type K
+.\" .ds P< 		A list of pages
+.\" .K> word	The index entry appearing on those pages
+.
+.de idx:header
+.	\" Print an header line (.K<)
+.	H3 \\$*
+.	\"H* \\$*
+.	\"H0 \\$*
+.	\"sp 1v
+..
 .de idx:par
 .	br
 .	par:init
 .	in 3v
 .	ti 0
 ..
-.\" Default macros
-.nr idx-args 0
+.de idx:line
+.	\" Print an index entry (.K> word)
+.	idx:par
+.	var:print \\$*: \\*(<P.
+..
+.de A<
+.	idx:header \\*[lang-Idxa]
+..
+.de M<
+.	idx:header \\*[land-Idxm]
+..
+.de N<
+.	idx:header \\*[lang-Idxn]
+..
+.de T<
+.	idx:header \\*[lang-Idxt]
+..
+.de U<
+.	idx:header \\*[lang-Idxu]
+..
+.de W<
+.	idx:header \\*[lang-Idxw]
+..
+.als A> idx:line
+.als M> idx:line
+.als N> idx:line
+.als T> idx:line
+.als U> idx:line
+.als W> idx:line
+.\"""""""""""""""""""""""""""""""""""""
+.\" User macros
 .de LP
-.	\" text to print
+.	\" User defined text to print
 .	ds idx-text \\$1
 .	ds idx-end \\$2
 .	ds idx-beg \\$3
-.	nr idx-args \\n(.$
 ..
-.de idx:print
-.	\" print text defined by .p macro
-.	\" $1 before, $2 after
-.	if \\n[idx-args]=1 .var:print \\*[idx-text]
-.	if \\n[idx-args]=2 .var:print \\*[idx-text]\\*[idx-end]
-.	if \\n[idx-args]>2 .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
+.de idx:index
+.	idx:trap \\$*
+.	if d idx-text .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
 .	rm idx-text
-.	rm idx-beg
 .	rm idx-end
-.	nr idx-args 0
+.	rm idx-beg
 ..
-.de idx:build
-.	\" build macros
-.	de L\\$1
-.		\" index words
-.		idx:do \\$1 \\\\$@
-.		idx:print
-\\..
-.	de \\$1<
-.		\" print index title
-.		H3 \\$2
-.		H* \\$2
-.		H0 \\$2
-.		sp 1v
-\\..
-.	de \\$1>
-.		\" print words and list of pages
-.		idx:par
-.		ie \\n(.$=5 \{\
-.			lds idx-s \\\\$1
-.			shift
-.			ie \\\\n(.$=0 .var:print "\\$3\\\\*[idx-s]\\$4:"
-.			el .var:print "\\$3\\\\*[idx-s]\\$4, \\\\$*:"
+.de LA
+.	idx:index A \\$*
+..
+.de LM
+.	ie \\n[note-in]=0 \{\
+.		\" We're not in a note
+.		ie d idx-text \{\
+.			\" We have substitute text for the mail address
+.			\" Print this text, add a note containing the mail
+.			pdf:mail \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.			NS
+.			lang:rchar
+.			pdf:mail \\$1 <\\$1>
+.			lang:char
+.			NE
 .		\}
-.		el .var:print "\\$3\\\\$*\\$4:"
-.		var:print \\\\*(<P.
-\\..
-..
-.\" Acronym, command, date, error, image,
-.\" link, email, name, object, quotation,
-.\" url, word.
-.idx:build A "\\\\*[lang-Idxa]" \\\\*A \\\\*A 1
-.\"idx:build C "\\\\*[lang-Idxc]"
-.\"idx:build D "\\\\*[lang-Idxd]"
-.\"idx:build E "\\\\*[lang-Idxe]"
-.\"idx:build I "\\\\*[lang-Idxi]"
-.\"idx:build L "\\\\*[lang-Idxl]"
-.\"idx:build M "\\\\*[lang-Idxm]"
-.\"idx:build N "\\\\*[lang-Idxn]" \\\\*C \\\\*C 1
-.idx:build O "\\\\*[lang-Idxo]" \" objets
-.\"idx:build Q "\\\\*[lang-Idxq]" « »
-.idx:build T "\\\\*[lang-Idxt]" \\\\*I \\\\*I
-.\"idx:build U "\\\\*[lang-Idxu]"
-.idx:build W "\\\\*[lang-Idxw]"
-.
-.
-.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-.\" Special formatting
-.
-.\" name: reverse lastname before indexing
-.de N<
-.	\" print index title
-.	H3 \\*[lang-Idxn]
-.	H* \\*[lang-Idxn]
-.	H0 \\*[lang-Idxn]
-.	sp 1v
+.		el \{\
+.			\" We don't have substitute text, print the mail
+.			lang:rchar
+.			pdf:mail \\$1 <\\$1> \\$2 \\$3
+.			lang:char
+.		\}
+.	\}
+.	el \{\
+.		\" We're yet in a note
+.		ie d idx-text \{\
+.			\" We have substitute text for the mail address
+.			pdf:mail \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.		\}
+.		el \{\
+.			lang:rchar
+.			pdf:mail \\$1 <\\$1> \\$2 \\$3
+.			lang:char
+.		\}
+.	\}
+.	rm idx-text
+.	rm idx-end
+.	rm idx-beg
 ..
 .de LN
-.	\" input: firstname lastname, jr
-.	\" output: lastname, firstname jr
-.   lnr N-pre \\n(.$-1
-.   lds N-firstname \\$\\n[N-pre]
-.   lds N-comma \\*[N-firstname]
-.   substring N-comma -1 -1
-.   ie "\\*[N-comma]"," \{\
-.       lds N-jr \\$\\n(.$
-.       chop N-firstname
-.   \}
-.   el \{\
-.       lds N-firstname \\$\\n(.$
-.       lnr N-pre \\n(.$
-.   \}
-.   if \\n(.$>1 .as N-firstname ,
-.   lnr i 0 1
-.   while \\n+i<\\n[N-pre] \{\
-.       as N-firstname " \\$1
-.       shift
-.   \}
-.   if d N-jr .as N-firstname ", \\*[N-jr]
-.	idx:do N \\*[N-firstname]
-.	idx:print
+.	idx:index N \\$*
 ..
-.de N>
-.	idx:par
-.	ie \\n(.$=1 .var:print \\*C\\$1\\*C:
-.	el .var:print \\*C\\$1\\*C
-.	shift
-.	while \\n(.$>1 \{\
-.		var:print \\$1
-.		shift
-.	\}
-.	if \\n(.$ .var:print \\$1:
-.	var:print \\*(<P.
+.de LT
+.	idx:index T \\$*
 ..
-.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-.\" Links
-.nr idx-keyexist 0
-.de idx:keytest
-.	\" Test if key exist
-.	nr idx-keyexist 0
-.	lds idx-newkey \\$1
-.	shift
-.	while \\n(.$ \{\
-.		if "\\*[idx-newkey]"\\$1" \{\
-.			nr idx-keyexist 1
-.			break
+.de LU
+.	ie \\n[note-in]=0 \{\
+.		\" We're not in a note
+.		ie d idx-text \{\
+.			\" We have substitute text for the url
+.			\" Print this text, add a note containing the url
+.			pdf:url \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.			NS
+.			lang:rchar
+.			pdf:url \\$1 <\\$1>
+.			lang:char
+.			NE
 .		\}
-.		shift
+.		el \{\
+.			\" We don't have substitute text, print the url 
+.			lang:rchar
+.			pdf:url \\$1 <\\$1> "\\$2" "\\$3"
+.			lang:char
+.		\}
 .	\}
+.	el \{\
+.		\" We're yet in a note
+.		ie d idx-text \{\
+.			\" We have substitute text for the url
+.			pdf:url \\$1 "\\*[idx-text]" "\\*[idx-end]" "\\*[idx-beg]"
+.		\}
+.		el \{\
+.			lang:rchar
+.			pdf:url \\$1 <\\$1> "\\$2" "\\$3"
+.			lang:char
+.		\}
+.	\}
+.	rm idx-text
+.	rm idx-end
+.	rm idx-beg
 ..
-.de idx:putkeyword
-.	\" insert keyword to link
-.	if d idx-list .idx:keytest \\$1 \\*[idx-list]
-.	if \\n[idx-keyexist]=0 \{\
-.		as idx-list \\$1 \"
-.		nr idx-K\\$1 \\n% \" if no break before link
-.		de idx:K\\$1
-.			\" Trap to get page number
-.			nr idx-K\\$1 \\\\n%
-\\..
-.		\" Print link and text
-.		var:print \\P[idx:K\\$1]\A"\\$1"\\c
-.		idx:print
+.de LW
+.	idx:index W \\$*
+..
+.\"""""""""""""""""""""""""""""""""""""
+.\" Anchors and internal links
+.\" Those are not indexed, but use the
+.\" same syntax of others inline macros
+.
+.ds idx-file-anchors /tmp/\\*[data-file]-anchors.tr
+.nr idx-src-anchors 0
+.ds idx-anchors .
+.am doc:end
+.	\" Record list of anchors in a file
+.	sy echo "\\*[idx-anchors]" | sed -e "s/@@@/\\\\n./g" | iconv -f latin1 -t utf8 > \\*[idx-file-anchors]
+..
+.de idx:anchors
+.	\" Retrieve list of anchors from a file
+.	if \\n[idx-src-anchors]=0 \{\
+.		sy touch \\*[idx-file-anchors]
+.		so \\*[idx-file-anchors]
+.		nr idx-src-anchors 1
 .	\}
 ..
 .de LK
-.	\" User macro to insert keyword to link
-.	idx:putkeyword \\$1
-.	if \\n[idx-keyexist] \
-.	if \\n(RH .var:tm \\*[lang-keyexist \\$1]]
+.	\" Print an anchor (keyword) for later reference
+.	\" $1: the keyword
+.	idx:anchors
+.	nr idx-K\\$1 \\n% \" if no break before link
+.	de idx:K\\$1
+.		\" Output line trap to get the real page number
+.		nr idx-K\\$1 \\\\n%
+.		\" Record list of page numbers for next pass
+.		as idx-anchors @@@nr idx-K\\$1 \\\\n%
+\\..
+.	var:print \\P[idx:K\\$1]\\c
+.	pdf:anchor \\$1 \\c
+.	\" And print the text
+.	if d idx-text .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
+.	rm idx-text
+.	rm idx-end
+.	rm idx-beg
 ..
 .de LL
-.	\" Link to a defined keyword
-.	lds idx-note
-.	if r idx-K\\$1 .if \\n[note-in]=0 .lds idx-note \\**
-.	if \\n[idx-args]=1 \
-.	var:print \T"\\$*"\\*[idx-text]\T\\*[idx-note]
-.	if \\n[idx-args]=2 \
-.	var:print \T"\\$*"\\*[idx-text]\T\\*[idx-note]\
-\\*[idx-end]
-.	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg]\T"\\$*"\\*[idx-text]\T\
-\\*[idx-note]\\*[idx-end]
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
-.	nr idx-args 0
-.	ie r idx-K\\$1 \{\
-.		ie \\n[note-in]=0 \{\
+.	\" A link to a previously defined anchor
+.	\" $1: the keyword
+.	if !r idx-K\\$1 \{\
+.		\" Anchor should be put later, inform user
+.		if \\n(RH .var:tm \\*[lang-wait] \\$0 \\$1
+.		nr idx-K\\$1 0
+.	\}
+.	ie \\n[note-in]=0 \{\
+.		\" We're not in a note, create one
+.		ie d idx-text \{\
+.			\" we have replacement text, print it and the note
+.			pdf:link \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
 .			NS
-.			var:print \
-\T"\\$1"\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1].\T
+.			pdf:link \\$1 "\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1]" .
 .			NE
 .		\}
-.		el .var:print \
-\T"\\$1"\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1].\T
+.		el \{\
+.			\" We don't have replacement text
+.			pdf:link \\$1 "\\*[lang-see] \\*[lang-p]\~\\n[idx-K\\$1]" ) (
+.		\}
 .	\}
-.	el .if \\n(RH .var:tm \\*[lang-wait] \\$0 \\$1
-..
-.de LM
-.	\" email
-.	ie \\n[note-in]=0 .lds idx-note \\**
-.	el .lds idx-note
-.	if \\n[idx-args]=1 \
-.	var:print \W"mailto:\\$1"\\*[idx-text]\W\\*[idx-note]
-.	if \\n[idx-args]=2 \
-.	var:print \W"mailto:\\$1"\\*[idx-text]\W\\*[idx-note]\\*[idx-end]
-.	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg]\W"mailto:\\$1"\\*[idx-text]\W\
-\\*[idx-note]\\*[idx-end]
-.	ie \\n[note-in]=0 \{\
-.		NS
-.		var:print \W"mailto:\\$1"\\$1\W
-.		NE
+.	el \{\
+.		\" We're in a note, print text in it
+.		if d idx-text \{\
+.			pdf:link \\$1 "\\*[idx-text]" "\\*[idx-end]" "\\*[idx-beg]"
+.		\}
+.		pdf:link \\$1 "\\*[lang-See] \\*[lang-p]\~\\n[idx-K\\$1]" .
 .	\}
-.	\" if inside a note, print url only if there's nothing
-.	\" else  text to print
-.	el .if \\n[idx-args]=0 .var:print \W"mailto:\\$1"\\$1\W
 .	rm idx-text
-.	rm idx-beg
 .	rm idx-end
-.	nr idx-args 0
-..
-.de LU
-.	\" url
-.	ie \\n[note-in]=0 .lds idx-note \\**
-.	el .lds idx-note
-.	if \\n[idx-args]=1 \
-.	var:print \W"\\$1"\\*[idx-text]\W\\*[idx-note]
-.	if \\n[idx-args]=2 \
-.	var:print \W"\\$1"\\*[idx-text]\W\\*[idx-note]\\*[idx-end]
-.	if \\n[idx-args]=3 \
-.	var:print \\*[idx-beg]\W"\\$1"\\*[idx-text]\W\
-\\*[idx-note]\\*[idx-end]
-.	ie \\n[note-in]=0 \{\
-.		NS
-.		var:print <\\W"\\$1"\\$1\\W>
-.		NE
-.	\}
-.	\" if inside a note, print url only if there's nothing
-.	\" else  text to print
-.	el .if \\n[idx-args]=0 .var:print <\\W"\\$1"\\$1\\W>
-.	rm idx-text
 .	rm idx-beg
-.	rm idx-end
-.	nr idx-args 0
 ..
-.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-.\" Record links for next pass
-.de idx:out
-.	\" output recorded links in file for next pass
-.	\" $1 = idx-list : list of keywords
-.	open idx-out \\*[data-file]-idx.tr
-.	while \\n(.$ \{\
-.		write idx-out .nr idx-K\\$1 \\n[idx-K\\$1]
-.		shift
-.	\}
-.	close idx-out
-..
-.de idx:input
-.	\" insert summary from previous pass
-.	\" Create file in case it doesn't exist
-.	opena idx-in \\*[data-file]-idx.tr
-.	close idx-in
-.	\" delete EOF = \004 in octal = ^D in vim
-.	pso tr -d '\\\\004' < \\*[data-file]-idx.tr
-.	\"so \\*[data-file]-idx.tr
-..
-.am doc:end
-.	if d idx-list .idx:out \\*[idx-list]
-..
-.idx:input
