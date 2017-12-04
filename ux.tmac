@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.15 2014/03/20 20:20:16 pj Exp pj $
+$Id: ux.tmac,v 0.16 2014/03/22 12:24:48 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -263,8 +263,8 @@ nroff -mux\\*[xml-tag /DG]
 .de xml:vgrind
 .	\" build fonts used by vgrind
 .	while \\n(.$ \{\
-.		ds +\\$1 \\*[xml-tagbeg]F\ name=\'code\\$1\'\\*[xml-tagend]
-.		ds -\\$1 \\*[xml-tag /F]
+.		ds +\\$1 \\*[xml-tag code\\$1]
+.		ds -\\$1 \\*[xml-tag /code\\$1]
 .		shift
 .	\}
 ..
