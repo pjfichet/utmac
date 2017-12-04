@@ -1,6 +1,6 @@
 .\" u-libertine: libertine font.
 .ig
-$Id: u-libertine.tmac,v 0.8 2014/03/21 20:22:01 pj Exp pj $
+$Id: u-libertine,v 1.1 2014/08/30 09:28:08 pj Exp pj $
 
 Copyright (c) 2012-2014
 Pierre-Jean Fichet. All rights reserved.
@@ -33,19 +33,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .
 .
-.ig
-Font description:
-	f- Bold Italic Form
-	f-000 roman
-	f-100 bold
-	f-010 italic
-	f-001 small capitals
-	f-002 acronyms
-	f-003 superscripts
-	f-004 inferior
-	f-005 final glyphs
-	f-006 monospace
-..
 .nr data-u-libertine 1
 .\""""""""""""""""""""""""""""
 .\" Mount fonts for text
@@ -58,24 +45,27 @@ Font description:
 .	\" $1: bold and italic numbers
 .	\" $2: name of font
 .
-.	\" 0: Default
+.	\" mount XX0: Default
 .	fp \\n+z f-\\$10 \\$2 otf
-.	\" 1: small caps
+.	\" mount XX1: small caps
 .	fp \\n+z f-\\$11 \\$2 otf
 .	feature f-\\$11 +smcp +lnum
 .	fdeferlig f-\\$11 ff fi fl ft ffi ffl fft
-.	\" 2: acronyms
+.	\" mount XX2: acronyms
 .	fp \\n+z f-\\$12 \\$2 otf
-.	feature f-\\$12 +c2sc +smcp +lnum
+.	feature f-\\$12 +smcp +lnum
 .	fdeferlig f-\\$12 ff fi fl ft ffi ffl fft
-.	\" 3: superscripts
+.	fzoom f-\\$12 .9
+.	track f-\\$12 1 .7 40 0
+.	\" mount XX3: superscripts
 .	fp \\n+z f-\\$13 \\$2 otf
 .	feature f-\\$13 +sups
 .	fdeferlig f-\\$13 ff fi fl ft ffi ffl fft
-.	\" 4: inferior
+.	\" mount XX4: inferior
 .	fp \\n+z f-\\$14 \\$2 otf
 .	feature f-\\$14 +sinf
 .	fdeferlig f-\\$14 ff fi fl ft ffi ffl fft
+.	\" mount XX5: No final glyphs in this font
 ..
 .font:mount 00 LinLibertine_R
 .	flig f-000 ct \[c_t] st \[s_t] \"sp \[s_p]
@@ -104,6 +94,8 @@ Font description:
 .\" 6 monospace
 .fp \n+z f-006 LinLibertine_M otf
 .fdeferlig f-006 ff fi fl ft ffi ffl fft
+.fzoom f-006 .8
+.track f-006 1 -.1 40 -0
 .rr z
 .rm font:mount
 .
@@ -111,17 +103,6 @@ Font description:
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" Font macros
 .
-.de font:reset
-.	nr f-b 0
-.	nr f-i 0
-.	nr f-f 0
-.	nr font-bold0 \\$1
-.	nr font-bold1 \\$2
-.	nr font-ital0 \\$3
-.	nr font-ital1 \\$4
-.	ft f-\\$1\\$3\\$5
-.	lang:char
-..
 .de font:text
 .	\" Roman Bold Roman Italic Noform
 .	font:reset 0 1 0 1 0
@@ -155,14 +136,5 @@ Font description:
 .\" Fonts Strings
 .
 .ds font-orn \[uniE002]
-.ds f-l f-\\n[font-bold\\n[f-b]]\
-\\n[font-ital\\n[f-i]]\
-\\n[f-f]
-.ds B \ER'f-b 1-\En[f-b]'\f[\E*[f-l]]
-.ds I \ER'f-i 1-\En[f-i]'\f[\E*[f-l]]
-.ds C \ER'f-f 1-\En[f-f]'\f[\E*[f-l]]
-.ds A \ER'f-f 2-\En[f-f]'\f[\E*[f-l]]
-.ds U \ER'f-f 3-\En[f-f]'\f[\E*[f-l]]
-.ds L \ER'f-f 4-\En[f-f]'\f[\E*[f-l]]
+.\" No final glyphs in this font...
 .ds F
-.ds M \ER'f-f 6-\En[f-f]'\f[\E*[f-l]]
