@@ -1,0 +1,159 @@
+.\"""""""""""""""""""""""""""""""""""""
+.\" U-links: macro for links
+.
+.\" The LP macro is shared with u-idx.
+.\" It is copied here too for convenience.
+.de LP
+.	\" User defined text to print
+.	ds idx-text \\$1
+.	ds idx-end \\$2
+.	ds idx-beg \\$3
+..
+.
+.
+.\"""""""""""""""""""""""""""""""""""""
+.\" Anchors and internal links
+.
+.ds link-file /tmp/\\*[data-file]-links.tr
+.nr link-file-def 0
+.ds link-anchors .
+.am doc:end
+.	\" Record list of anchors in a file
+.	sy echo "\\*[link-anchors]" | sed -e "s/@@@/\\\\n./g" | iconv -f latin1 -t utf8 > \\*[link-file]
+..
+.de link:anchors
+.	\" Retrieve list of anchors from a file
+.	if \\n[link-file-def]=0 \{\
+.		sy touch \\*[link-file]
+.		so \\*[link-file]
+.		nr link-file-def 1
+.	\}
+..
+.de LK
+.	\" Print an anchor (keyword) for later reference
+.	\" $1: the keyword
+.	link:anchors
+.	nr link-K\\$1 \\n% \" if no break before link
+.	de link:K\\$1
+.		\" Output line trap to get the real page number
+.		nr link-K\\$1 \\\\n%
+.		\" Record list of page numbers for next pass
+.		as link-anchors @@@nr link-K\\$1 \\\\n%
+\\..
+.	var:print \\P[link:K\\$1]\\c
+.	pdf:anchor \\$1 \\c
+.	\" And print the text
+.	if d idx-text .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
+.	rm idx-text
+.	rm idx-end
+.	rm idx-beg
+..
+.de LL
+.	\" A link to a previously defined anchor
+.	\" $1: the keyword
+.	if !r link-K\\$1 \{\
+.		\" Anchor should be put later, inform user
+.		if \\n(RH .var:tm \\*[lang-wait] \\$0 \\$1
+.		nr link-K\\$1 0
+.	\}
+.	ie \\n[note-in]=0 \{\
+.		\" We're not in a note, create one
+.		ie d idx-text \{\
+.			\" we have replacement text, print it and the note
+.			pdf:link \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.			NS
+.			pdf:link \\$1 "\\*[lang-See] \\*[lang-p]\~\\n[link-K\\$1]" .
+.			NE
+.		\}
+.		el \{\
+.			\" We don't have replacement text
+.			pdf:link \\$1 "\\*[lang-see] \\*[lang-p]\~\\n[link-K\\$1]" )\\$2 \\$3(
+.		\}
+.	\}
+.	el \{\
+.		\" We're in a note, print text in it
+.		if d idx-text \{\
+.			pdf:link \\$1 "\\*[idx-text]" "\\*[idx-end]" "\\*[idx-beg]"
+.		\}
+.		pdf:link \\$1 "\\*[lang-See] \\*[lang-p]\~\\n[link-K\\$1]" .
+.	\}
+.	rm idx-text
+.	rm idx-end
+.	rm idx-beg
+..
+.\"""""""""""""""""""""""""""""""""""""
+.\" Mail and Url macros
+.de LM
+.	\" Define a mail address
+.	ie \\n[note-in]=0 \{\
+.		\" We're not in a note
+.		ie d idx-text \{\
+.			\" We have substitute text for the mail address
+.			\" Print this text, add a note containing the mail
+.			pdf:mail \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.			NS
+.			lang:rchar
+.			pdf:mail \\$1 <\\$1>
+.			lang:char
+.			NE
+.		\}
+.		el \{\
+.			\" We don't have substitute text, print the mail
+.			lang:rchar
+.			pdf:mail \\$1 <\\$1> \\$2 \\$3
+.			lang:char
+.		\}
+.	\}
+.	el \{\
+.		\" We're yet in a note
+.		ie d idx-text \{\
+.			\" We have substitute text for the mail address
+.			pdf:mail \\$1 "\\*[idx-text]" "\\*[idx-end]" "\\*[idx-beg]"
+.		\}
+.		el \{\
+.			lang:rchar
+.			pdf:mail \\$1 <\\$1> \\$2 \\$3
+.			lang:char
+.		\}
+.	\}
+.	rm idx-text
+.	rm idx-end
+.	rm idx-beg
+..
+.de LU
+.	\" Define an url
+.	ie \\n[note-in]=0 \{\
+.		\" We're not in a note
+.		ie d idx-text \{\
+.			\" We have substitute text for the url
+.			\" Print this text, add a note containing the url
+.			pdf:url \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.			NS
+.			lang:rchar
+.			pdf:url \\$1 <\\$1>
+.			lang:char
+.			NE
+.		\}
+.		el \{\
+.			\" We don't have substitute text, print the url 
+.			lang:rchar
+.			pdf:url \\$1 <\\$1> "\\$2" "\\$3"
+.			lang:char
+.		\}
+.	\}
+.	el \{\
+.		\" We're yet in a note
+.		ie d idx-text \{\
+.			\" We have substitute text for the url
+.			pdf:url \\$1 "\\*[idx-text]" "\\*[idx-end]" "\\*[idx-beg]"
+.		\}
+.		el \{\
+.			lang:rchar
+.			pdf:url \\$1 <\\$1> "\\$2" "\\$3"
+.			lang:char
+.		\}
+.	\}
+.	rm idx-text
+.	rm idx-end
+.	rm idx-beg
+..
