@@ -1,42 +1,37 @@
 .\" uh: for humanities.
 .ig
-$Id: uh.tmac,v 0.24 2014/03/20 20:09:38 pj Exp pj $
 
-Copyright (c) 2012
+Copyright (c) 2012-2014
 Pierre-Jean Fichet. All rights reserved.
 
-Redistribution and use in source and binary forms, with or
-without modification, are permitted provided that the
-following conditions are met:
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
 
-  1. Redistributions of source code must retain the above
-     copyright notice, this list of conditions and the
-     following disclaimer.
-  2. Redistributions in binary form must reproduce the
-     above copyright notice, this list of conditions and the
-     following disclaimer in the documentation and/or other
-     materials provided with the distribution.
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+  2. Redistributions in binary form must reproduce the above copyright
+	 notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
 
-THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
-``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
-BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .do xflag 3
 .\""""""""""""""""""""""""""""""""""""""
 .\" default variables
 .ds data-tmac uh
 .nr data-uh 1
-.ds data-file /tmp/uh-tmp
 .nr page-head 5
 .nr page-foot 41
 .nr page-box 2
@@ -55,42 +50,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"nr note-line 18p
 .nr note-font 8p
 .nr note-line 12p
-.nr typo-orphan \n[page-head]+1
-.nr typo-widow \n[page-foot]-2
-.nr typo-blank \n[page-foot]-1
-.\"hypp 0 0 200
+.nr var-orphan \n[page-head]+1
+.nr var-widow \n[page-foot]-2
+.nr var-blank \n[page-foot]-1
 .papersize a4
 .mediasize a4
 .padj
-.if t \{\
-.	char \[repeat-char] \h'0.5m'.\h'0.5m'
-.	lc \[repeat-char]
-.\}
-.\""""""""""""""""""""""""""""""""""""""
-.\" Various macros
-.de var:null
-.	\" do nothing
-..
-.de var:print
-.	\" print args
-\&\\$*
-..
-.de var:tm
-.	\" print to stderr
-.	tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
-\\n(.F; \\*[lang-page] \\n%.
-..
-.\"warn w all mac
-.warn w
 .\""""""""""""""""""""""""""""""""""""""
 .\" Document
 .de doc:start
 .	\" start document
-.	par:init
-.	sum:input
+.	par:doc
+.	pdf:data
 .	em doc:end
-.	pdf:config
-.	ds page-file \\n(.F
 .	\" begin first page
 .	wh 0 page:head
 .	page:head
@@ -98,7 +70,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de doc:end
 .	\" end document
 .	br
-.	if d sum-list .sum:out \\*[sum-list]
+.	pdf:data
+.	sum:write
+..
+.de doc:file
+.	if !d data-file .ds data-file \\n(.F
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Page
@@ -123,10 +99,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de page:foot
 .	\" print footer
 .	ch page:foot
-.	code:foot
+.	var:todo code:foot
 .	ev ev-foot
 .	br
-.	if \\n%=1 .if d data:write .data:write
+.	\"if \\n%=1 .if d data:write .data:write
 .	par:init
 .	br
 .	if \\n(RP \{\
@@ -142,7 +118,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	bp
 .	ns
 .	ev
-.	code:init
+.	var:todo code:init
 ..
 .de page:boxeven
 .	po \\n[note-offset-e]u
@@ -173,12 +149,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ps \\n[text-font]u
 ..
 .de page:num
-.	\" get real page number in padj mode
+.	\" get actual page number in padj mode
 .	nr page-num \\n%
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Paragraphs
-.de par:init
+.de par:doc
 .	\" start paragraph
 .	ad b
 .	fi
@@ -191,10 +167,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	font:text
 .	typo:text
 ..
+.de par:init
+.	doc:file
+.	par:doc
+..
 .de par:start
 .	br
 .	par:init
-.	typo:inform
+.	var:layout
 .	sp 1v
 ..
 .de PB
@@ -244,6 +224,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ti 0
 .	in 3v
 ..
+.char \[repeat-char] \h'0.5m'.\h'0.5m'
 .de par:toc
 .	\" table of content paragraph
 .	\" Be carefull: don't reset paragraph
@@ -253,80 +234,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	if t .lc \[repeat-char]
 .	ta (\\n(.lu-\\n(.iu-\w'000'u) (\\n(.lu-\\n(.iu)R
 ..
-.\""""""""""""""""""""""""""""""""""""""
-.\" Micro-typography
-.de typo:text
-.	\" init micro typography variables for text
-.	\" ss: interword, intersentences space size
-.	\" minss: minimum interword space size
-.	\" letadj:
-.	\" minimum interglyph size, minimum glyph size,
-.	\" width of word that can be expanded,
-.	\" maximum interglyph size, maximum glyph size
-.	\" rhang: font, [glyph, right hanging] ...
-.	\" track: font, max point size, space between char,
-.	\" min point size, space between char,
-.	\" max point size, computing number size.
-.	ss 11 0 
-.	minss 10
-.	letadj 99 99 15 101 101
-.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	\"track R 10 0 24 .1
-..
-.de typo:note
-.	\" init micro-typography variables for notes
-.	ss 10 0 
-.	minss 9.5
-.	letadj 98 98 8 102 102
-.	rhang f-000 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
-.	rhang f-010 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
-.	rhang f-100 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
-.	rhang f-110 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
-..
-.de TD
-.	\" minimize paragraphs to avoid orphans
-.	ss 10 0 
-.	minss 9
-.	letadj 98 98 15 101 101
-.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-..
-.de TI
-.	\" maximize paragraphs to avoid orphans
-.	ss 12 0 
-.	minss 11
-.	letadj 100 100 15 102 102
-.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
-..
-.nr inform-orphan 1
-.de typo:inform
-.	\" inform about orphans
-.	if \\n(RH \{\
-.	if \\n[inform-orphan] .if \\n(nl=\\n[typo-orphan]v \{\
-.		var:tm \\*[lang-Orphan]
-.	\}
-.	if \\n(nl=\\n[typo-widow]v \{\
-.		var:tm \\*[lang-Widow]
-.	\}
-.	if \\n(nl=\\n[typo-blank]v \{\
-.		var:tm \\*[lang-Blank]
-.	\}
-.	nr inform-orphan 1
-.	\}
-..
-.if !r RH .nr RH 1
-.de RH
-.	\" Reverse help printing
-.	nr RH 1-\\n(RH
-..
+.als PF PL
+.als PT PR
 .\""""""""""""""""""""""""""""""""""""""
 .\" Headings
 .de head:orn
@@ -349,56 +258,40 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .nr head-2 0 1
 .nr head-3 0 1
 .nr head-4 0 1
-.de head:num
-.	\" Reset numbers
-.	\" $1: heading level
-.	nr head-\\$1 +1
-.	lnr i \\$1 1
-.	while \\n+i<5 .nr head-\\ni 0
-.	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
-..
-.nr head-previous -1 1
-.de head:data
-.	\" Use pdf header system - adapt user hierarchy
-.	\" $1 head level, $2 title string
-.	\" first level of pdf header system is 0, not 1
-.	lnr i \\$1
-.	shift
-.	if (\\ni-\\n[head-previous])>=1 \{\
-.		while \\n+[head-previous]<\\ni \{\
-.			pdf:toc \\n[head-previous] \\$*
-.		\}
-.	\}
-.	pdf:toc \\ni \\$*
-.	nr head-previous \\ni
-..
 .de head:print
 .	lnr i \\$1
 .	shift
+.	\" Define anchor string
+.	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
+.	\" Separate last letter of the heading to decorate it
 .	lds head-beg \\$*
 .	lds head-end \\$*
 .	chop head-beg
 .	substring head-end -1 -1
+.	lds head-string \\*[head-beg]\\*F\\*[head-end]\\*F
 .	nh
 .	in 0
-.	head:num \\ni
-.	head:data \\ni \\$*
-.	if !"\\n(.F"\\*[page-file]" \{\
-.		ds page-file \\n(.F
-.		idx:putkeyword \\n(.F
-.	\}
-.	pdf:anchor \\*[head-level]
-.	\"pdf:anchor \\*[head-beg]\\*[head-end]
-.	pdf:link TOC "\\*[head-beg]\\*F\\*[head-end]\\*F"
-.	var:print \\P[page:num]
+.	\" Print a line trap to get page-num
+.	var:print \\P[page:num]\\c
+.	\" Print pdf bookmark
+.	pdf:bookmark \\ni "\\$*" \\c
+.	\" Print pdf anchor
+.	pdf:anchor \\*[head-level] \\c
+.	\" Print heading linking to toc
+.	pdf:link TOC "\\*[head-string]"
 .	br
 .	font:endhead
-.	toc:record \\ni \\$*
-.	sum:record \\ni \\$*
 .	hy \\n[text-hyphen]
-.	nr inform-orphan 0
+.	nr var-layout 0
+.	\" After the line break, page-num is set, so we can record
+.	toc:record \\ni \\$*
+.	sum:record \\ni \\*[head-level] \\n[page-num] "\\$*"
 ..
 .de H1
+.	nr head-1 +1
+.	nr head-2 0
+.	nr head-3 0
+.	nr head-4 0
 .	bp
 .	rs
 .	par:init
@@ -412,7 +305,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	sp 2v
 ..
 .de H2
-.	if \\n[head-2]>0 .head:orn
+.	nr head-2 +1
+.	nr head-3 0
+.	nr head-4 0
+.	if \\n[head-2]>1 .head:orn
 .	bp
 .	H*
 .	if \\n[RV]>0 .if e \{\
@@ -430,6 +326,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	nr * 0 1 \" reset note number
 ..
 .de H3
+.	nr head-3 +1
+.	nr head-4 0
 .	bp
 .	par:init
 .	ps 16
@@ -438,6 +336,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	head:print 3 \\$*
 ..
 .de H4
+.	nr head-4 +1
 .	br
 .	par:init
 .	sp 1v
@@ -464,7 +363,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	par:init \" par:toc don't reset paragraph
 .	par:toc \\ni
 .	da toc:print
-.		pdf:linktoc \\*[head-level] "\\$*" \\n[page-num]
+.		pdf:link \\*[head-level] "\\$*" "\a\t\\n[page-num]\\c"
 .		in 0
 .		br
 .	di
@@ -473,10 +372,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .de XT
 .	\" print table of contents
 .	H3 \\*[lang-Toc]
-.	H* \\*[lang-Toc]
-.	H0
+.	\"H* \\*[lang-Toc]
+.	\"H0
 .	sp -1v
-.	var:print \A'TOC'
+.	pdf:anchor TOC \\c
 .	br
 .	ev toc
 .	par:init \" par:toc don't reset paragraph
@@ -488,106 +387,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	fi
 .	ev
 ..
-.\"""""""""""""""""""""""""""""""""""""
-.\"	Summary
-.\"
-.ig
-When S[1-4] or S* are called,
-the macro sum:out\\*[sum-level] is created,
-and filled with following headers of this level.
-At the end of processing, all the created macros
-are renamed sum:in\\*[sum-level] and are
-recorded to \\*[data-file]-sum.tr.
-This file is sourced at next input, and when
-S[1-4] or S* macros are found, the corresponding
-index is printed.
-
-sum-level format is like a directory hierarchy,
-where \\n[head-n] is the current number of level n:
-For H1: /
-For H2: /\\n[head-1]/
-For H3: /\\n[head-1]/\\n[head-2]
-For H4: /\\n[head-1]/\\n[head-2]/\\n[head-3]
-For the whole table of content: *
-
-So .S2 will create the macro sum:out/\\n[head-1]/
-and call the macro sum:in/\\n[head-1]/
-
+.\""""""""""""""""""""""""""""""""""""""
+.\" Summary (u-sum.tmac)
+.de sum:start
+.	note:start sum
 ..
-.de sum:record
-.	\" record header for summary.
-.	\" $1 level, $2 head string
-.	lnr i 0 1
-.	lds sum-level /
-.	while \\n+i<\\$1 .as sum-level \\n[head-\\ni]/
-.	shift
-.	if d sum:out\\*[sum-level] \{
-.		am sum:out\\*[sum-level]
-.			par:toc 0 \" all headings are on the same level
-.			pdf:linktoc \\*[head-level] "\\$*" \\n[page-num]
-.			br
-\\..
-.	\}
-.	if d sum:out* \{
-.		am sum:out*
-.			par:toc \\ni
-.			pdf:linktoc \\*[head-level] "\\$*" \\n[page-num]
-.			br
-\\..
-.	\}
-..
-.de sum:out
-.	\" output recorded summary in file for next pass
-.	\" $1 = sum-list : list of macros
-.	open sum-out \\*[data-file]-sum.tr
-.	while \\n(.$ \{\
-.		write sum-out .de sum:in\\$1
-.		\" hopefully, par:toc doesn't reset paragraphs
-.		write sum-out .par:toc 0
-.		writem sum-out sum:out\\$1
-.		write sum-out ..
-.		shift
-.	\}
-.	close sum-out
-..
-.de sum:input
-.	\" insert summary from previous pass
-.	\" Create file in case it doesn't exist
-.	opena sum-in \\*[data-file]-sum.tr
-.	close sum-in
-.	\" delete EOF = \004 in octal = ^D in vim
-.	pso tr -d '\\\\004' < \\*[data-file]-sum.tr
-.	\"so \\*[data-file]-sum.tr
-..
-.de sum:macro
-.	\" Record wanted summary.
-.	\" Insert summary if its macro is defined
-.	\" $1 macro which call sum:macro
-.	\" $2 wanted summary
-.	if !d sum:out\\$2 .as sum-list " \\$2
-.	de sum:out\\$2
-\\..
-.	note:summary
-.	par:toc
-.	ie d sum:in\\$2 .sum:in\\$2
-.	el .if \\n(RH .var:tm Wait next pass for \\$1
+.de sum:stop
 .	NE
-.	br \" break after note trap ending with \c
-..
-.de S1
-.	sum:macro S1 /
-..
-.de S2
-.	sum:macro S2 /\\n[head-1]/
-..
-.de S3
-.	sum:macro S3 /\\n[head-1]/\\n[head-2]/
-..
-.de S4
-.	sum:macro S4 /\\n[head-1]/\\n[head-2]/\\n[head-3]/
-..
-.de S*
-.	sum:macro S* *
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Notes in padj mode
@@ -681,9 +487,6 @@ and call the macro sum:in/\\n[head-1]/
 .de NB
 .	note:start bot
 ..
-.de note:summary
-.	note:start sum
-..
 .nr note-divbot 0
 .de note:print
 .	\" Print notes (in page:foot)
@@ -728,142 +531,7 @@ and call the macro sum:in/\\n[head-1]/
 .	di note:divtmp
 ..
 .\""""""""""""""""""""""""""""""""""""""
-.\" pdf marks
-.de pdf:mark
-.	var:print \X"PDFMark: \\$*"\\c
-..
-.de pdf:toc
-.	var:print \X"PDFMark: Bookmark \\$*"\\c
-..
-.de pdf:anchor
-.	var:print \A"\\$*"\\c
-..
-.de pdf:link
-.	\" $1: anchor, $2: text
-.	var:print \T"\\$1"\\$2\T\\$3\\c
-..
-.de pdf:linktoc
-.	\" $1: anchor, $2: text, $3: page
-\&\T"\\$1"\\$2\T\\a\\t\\$3
-.	\" could correctly place page number using this trick:
-.\"\&\T"\\$1"\\$2\T\\a\h"\w'000'u-\w'\\$3'u"\\$3
-..
-.de pdf:url
-.	\" $1: url, $2: text
-.	var:print \W"\\$1"\\$2\W
-..
-.de pdf:config
-.	var:print \X'SetLinkColor: .0 .0 .0 rgb'\\c
-.	var:print \X'SetLinkBorder: .0 .0 .0 rgb'\\c
-.	var:print \X'SetULinkColor: .0 .0 .0 rgb'\\c
-.	var:print \X'SetULinkBorder: .0 .0 .0 rgb'\\c
-..
-.\""""""""""""""""""""""""""""""""""""""
-.\"	Meta datas
-.de data:author
-.	am data:write
-.	pdf:mark Author \\$*
-\\..
-.	als DA var:null
-..
-.de data:title
-.	am data:write
-.		pdf:mark Title \\$*
-\\..
-.	als DT var:null
-..
-.de data:subject
-.	am data:write
-.		pdf:mark Subject \\$*
-\\..
-.	als DS var:null
-..
-.de data:keywords
-.	am data:write
-.		pdf:mark Keywords \\$*
-\\..
-.	als DK var:null
-..
-.als DA data:author
-.als DT data:title
-.als DS data:subject
-.als DK data:keywords
-.als DI var:null
-.\""""""""""""""""""""""""""""""""""""""
-.\" Usefull tests
-.de US
-.	\" execute command depending of used macro
-.	ie "\\$1"!" \{\
-.		shift
-.		if !r data-\\$1 \{\
-.			shift
-\\$*
-.		\}
-.	\}
-.	el .if r data-\\$1 \
-.		if \\n[data-\\$1]>0 \{\
-.			shift
-\\$*
-.		\}
-..
-.\""""""""""""""""""""""""""""""""""""""
-.\" Set locale
-.de RL
-.	so \V[TROFFMACS]/l-\\$1
-..
-.\""""""""""""""""""""""""""""""""""""""
-.\" Images
-.ig
-\X'PI' offset:indent:line length:tab:\
-file(page):height,width,yoff,xoff:flags
-..
-.de IL
-.	\" left align image
-.	\" $1: image, $2: scale, $3: flag
-.	PP
-.	psbb \\$1
-.	lnrf img-scale 1
-.	if \\n(.$>1 .lnrf img-scale \\$2
-.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
-.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
-\\X'PI:\\n(.o:\\n(.i:\\n(.l:\\n(.t:\
-\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
-..
-.de IR
-.	\" right align image
-.	\" $1: image, $2: scale, $3: flag
-.	PR
-.	psbb \\$1
-.	lnrf img-scale 1
-.	if \\n(.$>1 .lnrf img-scale \\$2
-.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
-.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
-.	lnrf img-o \\n(.ou+\\n(.lu-\\n[img-x]u
-\\X'PI:\\n[img-o]:\\n(.i:\\n(.l:\\n(.t:\
-\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
-..
-.de IC
-.	\" centered image
-.	\" $1: image, $2: scale, $3: flag
-.	PC
-.	psbb \\$1
-.	lnrf img-scale 1
-.	if \\n(.$>1 .lnrf img-scale \\$2
-.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
-.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
-.	lnrf img-o \\n(.ou+(\\n(.l/2)-(\\n[img-x]u/2)
-\\X'PI:\\n[img-o]:\\n(.i:\\n(.l:\\n(.t:\
-\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
-..
-.\""""""""""""""""""""""""""""""""""""""
-.\" Here we go!
-.so \V[TROFFMACS]/u-ref			\" Refer
-.so \V[TROFFMACS]/u-grind			\" Grind
-.so \V[TROFFMACS]/u-idx			\" Index
-.ie "\V[UTMAC]"" \{\
-.	so \V[TROFFMACS]/u-en			\" Lang
-.	so \V[TROFFMACS]/u-libertine	\" Font
-.\}
-.el .so \V[UTMAC]					\" Locale
+.\" Load other macros, and start.
+.so \V[TROFFMACS]/u-var
 .if !d font:text .so \V[TROFFMACS]/u-libertine
 .doc:start
