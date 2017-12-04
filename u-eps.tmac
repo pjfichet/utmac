@@ -1,0 +1,44 @@
+.\""""""""""""""""""""""""""""""""""""""
+.\" Images
+.ig
+\X'PI' offset:indent:line length:tab:\
+file(page):height,width,yoff,xoff:flags
+..
+.de IL
+.	\" left align image
+.	\" $1: image, $2: scale, $3: flag
+.	PP
+.	psbb \\$1
+.	lnrf img-scale 1
+.	if \\n(.$>1 .lnrf img-scale \\$2
+.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
+.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
+\\X'PI:\\n(.o:\\n(.i:\\n(.l:\\n(.t:\
+\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
+..
+.de IR
+.	\" right align image
+.	\" $1: image, $2: scale, $3: flag
+.	PR
+.	psbb \\$1
+.	lnrf img-scale 1
+.	if \\n(.$>1 .lnrf img-scale \\$2
+.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
+.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
+.	lnrf img-o \\n(.ou+\\n(.lu-\\n[img-x]u
+\\X'PI:\\n[img-o]:\\n(.i:\\n(.l:\\n(.t:\
+\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
+..
+.de IC
+.	\" centered image
+.	\" $1: image, $2: scale, $3: flag
+.	PC
+.	psbb \\$1
+.	lnrf img-scale 1
+.	if \\n(.$>1 .lnrf img-scale \\$2
+.	lnrf img-x (\\n[urx]p-\\n[llx]p)*\\n[img-scale]
+.	lnrf img-y (\\n[ury]p-\\n[lly]p)*\\n[img-scale]
+.	lnrf img-o \\n(.ou+(\\n(.l/2)-(\\n[img-x]u/2)
+\\X'PI:\\n[img-o]:\\n(.i:\\n(.l:\\n(.t:\
+\\$1:\\n[img-y]u,\\n[img-x]u:\\$3:'\\c
+..

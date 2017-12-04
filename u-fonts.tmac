@@ -1,0 +1,72 @@
+.\" Fonts Macros and Strings
+.ig
+This macro is produces an easy syntax for fonts, similar to
+the one used in xml and wiki documents.  For that purpose,
+we display strings to the user instead of the hardcoded
+'F'. As a result, fonts are toggleable and mixable:
+
+    roman *IItalic*I roman
+    roman *IItalic *BBold italic*B italic*I roman.
+
+First, fonts are internally mounted and named in the form
+f-[Bold][Italic][feature], where Bold, Italic, and Feature
+are numbers:
+	f-000 roman
+	f-100 bold
+	f-010 italic
+	f-001 small capitals
+	f-002 acronyms
+	f-003 superscripts
+	f-004 inferior
+	f-005 final glyphs
+	f-006 monospace (todo...)
+	f-113 bold italic superscirpt
+	f-302 Extra bold acronyms
+
+Secondly, we set font strings, which expands to the internal
+description:
+*I == f[010]
+
+Thirdly, each time a font is used, we use a substraction to
+toggle it on or off:
+*Ixxx*I == f[010]xxxf[000]
+*Ixxx *Byyy*B*I == f[010]xxx f[110]yyyf[010]f[000]
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.de font:reset
+.	\" $1: Default weight $2: embolden weight
+.	\" $3: Default shape $4: emphasis shape
+.	\" $5: default form
+.
+.	\" The font toggles: unset if == 0, set if > 0.
+.	nr f-b 0
+.	nr f-i 0
+.	nr f-f 0
+.	\" The subfont strings: we may want the default
+.	\" to be italicized (for example in a heading),
+.	\" and the \*I toggles the Roman form...
+.	\" So, these strings offer that possibility.
+.	nr font-bold0 \\$1
+.	nr font-bold1 \\$2
+.	nr font-ital0 \\$3
+.	nr font-ital1 \\$4
+.	ft f-\\$1\\$3\\$5
+.	lang:char
+..
+.
+.\" The whole inernal font string, of the form f-XXX
+.ds f-l f-\\n[font-bold\\n[f-b]]\
+\\n[font-ital\\n[f-i]]\
+\\n[f-f]
+.
+.\" The font strings displayed to the user
+.\" The first part of the string toggle the format.
+.\" The second part of the string sets the font.
+.ds B \\ER'f-b 1-\\En[f-b]'\\f[\\E*[f-l]]
+.ds I \\ER'f-i 1-\\En[f-i]'\\f[\\E*[f-l]]
+.ds C \\ER'f-f 1-\\En[f-f]'\\f[\\E*[f-l]]
+.ds A \\ER'f-f 2-\\En[f-f]'\\f[\\E*[f-l]]
+.ds U \\ER'f-f 3-\\En[f-f]'\\f[\\E*[f-l]]
+.ds L \\ER'f-f 4-\\En[f-f]'\\f[\\E*[f-l]]
+.ds F \\ER'f-f 5-\\En[f-f]'\\f[\\E*[f-l]]
+.ds M \\ER'f-f 6-\\En[f-f]'\\f[\\E*[f-l]]
