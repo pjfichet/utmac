@@ -1,6 +1,6 @@
 .\" uw: translate to markdown wiki syntax.
 .ig
-$Id: uw.tmac,v 0.8 2013/11/04 09:01:37 pj Exp pj $
+$Id: uw.tmac,v 0.9 2014/03/20 20:19:08 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -125,37 +125,23 @@ of PI to next line (to avoid problems with fonts).
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" idx
-.de idx:url
-.	\" url
-.	if \\n[idx-args]=0 \{\
-.		lang:xmlrchar
-.		var:print [\\$1](\\$1)
-.		lang:xmlchar
-.	\}
-.	if \\n[idx-args]=1 \{\
-.		var:print [\\*[idx-text]]\c
-.		lang:xmlrchar
-.		var:print (\\$1)
-.		lang:xmlchar
-.	\}
-.	if \\n[idx-args]=2 \{\
-.		var:print [\\*[idx-text]]\c
-.		lang:xmlrchar
-.		var:print (\\$1)\c
-.		lang:xmlchar
-.		var:print \\*[idx-end]
-.	\}
-.	if \\n[idx-args]=3 \{\
+.de idx:link
+.	\" links
+.	ie d idx-text \{\
 .		var:print \\*[idx-beg][\\*[idx-text]]\c
 .		lang:xmlrchar
 .		var:print (\\$1)\c
 .		lang:xmlchar
 .		var:print \\*[idx-end]
 .	\}
+.	el \{\
+.		lang:xmlrchar
+.		var:print \\$3[\\$1](\\$1)\\$2
+.		lang:xmlchar
+.	\}
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
-.	nr idx-args 0
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
