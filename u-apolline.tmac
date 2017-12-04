@@ -1,51 +1,34 @@
 .\" u-apolline: apolline font.
 .ig
-$Id: u-apolline.tmac,v 0.6 2014/03/20 20:03:34 pj Exp pj $
 
 Copyright (c) 2012-2014
 Pierre-Jean Fichet. All rights reserved.
 
-Redistribution and use in source and binary forms, with or
-without modification, are permitted provided that the
-following conditions are met:
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
 
-  1. Redistributions of source code must retain the above
-     copyright notice, this list of conditions and the
-     following disclaimer.
-  2. Redistributions in binary form must reproduce the
-     above copyright notice, this list of conditions and the
-     following disclaimer in the documentation and/or other
-     materials provided with the distribution.
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+  2. Redistributions in binary form must reproduce the above copyright
+	 notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
 
-THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS
-``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
-BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .
 .
-.ig
-Font description:
-	f- Bold Italic Form
-	f-000 roman
-	f-100 bold
-	f-010 italic
-	f-001 small capitals
-	f-002 acronyms
-	f-003 superscripts
-	f-004 inferior
-	f-005 final glyphs
-	f-006 monospace
-..
 .nr data-u-apolline 1
 .\""""""""""""""""""""""""""""
 .\" Mount fonts for text
@@ -58,7 +41,7 @@ Font description:
 .	\" $1: bold and italic numbers
 .	\" $2: name of font
 .
-.	\" 0: Default
+.	\" mount XX0: Default
 .	fp \\n+z f-\\$10 \\$2 otf
 .	flig f-\\$10 ct \[c_t] st \[s_t] sp \[s_p]
 .	flig f-\\$10 fb \[f_b] ffb \[f_f_b]
@@ -68,27 +51,27 @@ Font description:
 .	flig f-\\$10 ffk \[f_f_k] fl \[fl]
 .	flig f-\\$10 ffl \[f_f_l] ft \[f_t] fft \[f_f_t] Th \[T_h]
 .	kernafter f-\\$10 ' 100
-.	\" 1: small caps
+.	\" mount XX1: small caps
 .	fp \\n+z f-\\$11 \\$2 otf
 .	feature f-\\$11 +smcp +lnum
 .	fdeferlig f-\\$11 ff fi fl ft ffi ffl fft
 .	kernafter f-\\$11 ' 100
-.	\" 2: acronyms
+.	\" mount XX2: acronyms
 .	fp \\n+z f-\\$12 \\$2 otf
 .	feature f-\\$12 +c2sc +smcp +lnum
 .	fdeferlig f-\\$12 ff fi fl ft ffi ffl fft
 .	kernafter f-\\$12 ' 100
-.	\" 3: superscripts
+.	\" mount XX3: superscripts
 .	fp \\n+z f-\\$13 \\$2 otf
 .	feature f-\\$13 +sups
 .	fdeferlig f-\\$13 ff fi fl ft ffi ffl fft
 .	kernafter f-\\$13 ' 100
-.	\" 4: inferior
+.	\" mount XX4: inferior
 .	fp \\n+z f-\\$14 \\$2 otf
 .	feature f-\\$14 +sinf
 .	fdeferlig f-\\$14 ff fi fl ft ffi ffl fft
 .	kernafter f-\\$14 ' 100
-.	\" 5: final glyphs
+.	\" moun XX5: final glyphs
 .	fp \\n+z f-\\$15 \\$2 otf
 .	feature f-\\$15 +fina
 .	fdeferlig f-\\$15 ff fi fl ft ffi ffl fft
@@ -108,18 +91,8 @@ Font description:
 .
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" Font macros
+.ds font-orn \[orn.023]
 .
-.de font:reset
-.	nr f-b 0
-.	nr f-i 0
-.	nr f-f 0
-.	nr font-bold0 \\$1
-.	nr font-bold1 \\$2
-.	nr font-ital0 \\$3
-.	nr font-ital1 \\$4
-.	ft f-\\$1\\$3\\$5
-.	lang:char
-..
 .de font:text
 .	\" Roman Bold Roman Italic Noform
 .	font:reset 0 1 0 1 0
@@ -168,18 +141,3 @@ Font description:
 .	font:text
 .	lang:rchar
 ..
-.\"""""""""""""""""""""""""""""""""""""""""""""""
-.\" Fonts Strings
-.
-.ds font-orn \[orn.023]
-.ds f-l f-\\n[font-bold\\n[f-b]]\
-\\n[font-ital\\n[f-i]]\
-\\n[f-f]
-.ds B \\ER'f-b 1-\\En[f-b]'\\f[\\E*[f-l]]
-.ds I \\ER'f-i 1-\\En[f-i]'\\f[\\E*[f-l]]
-.ds C \\ER'f-f 1-\\En[f-f]'\\f[\\E*[f-l]]
-.ds A \\ER'f-f 2-\\En[f-f]'\\f[\\E*[f-l]]
-.ds U \\ER'f-f 3-\\En[f-f]'\\f[\\E*[f-l]]
-.ds L \\ER'f-f 4-\\En[f-f]'\\f[\\E*[f-l]]
-.ds F \\ER'f-f 5-\\En[f-f]'\\f[\\E*[f-l]]
-.ds M
