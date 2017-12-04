@@ -1,0 +1,93 @@
+.\""""""""""""""""""""""""""""""""""""""
+.\"warn w all mac
+.warn w
+.spreadwarn 1m
+.\" Various macros
+.de var:null
+.	\" do nothing
+..
+.de var:todo
+.	\" Do nothing, but todo
+..
+.de var:print
+.	\" print args
+\&\\$*
+..
+.de var:tm
+.	\" print meaningful message to stderr
+.	tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
+\\n(.F; \\*[lang-page] \\n%.
+..
+.
+.\""""""""""""""""""""""""""""""""""""""
+.\" Set locale
+.de RL
+.	so \V[TROFFMACS]/l-\\$1
+..
+.if !r RV .nr RV 0
+.de RV
+.	\" reverse recto-verso
+.	nr RV 1-\\n(RV
+..
+.if !r RP .nr RP 1
+.de RP
+.	\" reverse print page number
+.	nr RP 1-\\n(RP
+..
+.if !r RH .nr RH 1
+.de RH
+.	\" Reverse help printing
+.	nr RH 1-\\n(RH
+..
+.\"""""""""""""""""""""""""""""""""""""
+.nr var-layout 1
+.de var:layout
+.	\" inform about orphans, widows, and blanks
+.	if \\n(RH \{\
+.		if \\n[var-layout] .if \\n(nl=\\n[var-orphan]v \{\
+.			var:tm \\*[lang-Orphan]
+.		\}
+.		if \\n(nl=\\n[var-widow]v \{\
+.			var:tm \\*[lang-Widow]
+.		\}
+.		if \\n(nl=\\n[var-blank]v \{\
+.			var:tm \\*[lang-Blank]
+.		\}
+.		nr var-layout 1
+.	\}
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Usefull tests
+.de US
+.	\" execute command depending of used macro
+.	ie "\\$1"!" \{\
+.		shift
+.		if !r data-\\$1 \{\
+.			shift
+\\$*
+.		\}
+.	\}
+.	el .if r data-\\$1 \
+.		if \\n[data-\\$1]>0 \{\
+.			shift
+\\$*
+.		\}
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" Here we go!
+.\" Tmac directory, and user macro
+.ds tmac-dir \V[TROFFMACS]
+.ds tmac-locale \V[UTMAC]
+.so \*[tmac-dir]/u-fonts			\" Fonts lib
+.so \*[tmac-dir]/u-typo				\" Typography
+.so \*[tmac-dir]/u-sum				\" Summary
+.so \*[tmac-dir]/u-pdf				\" PDF marks
+.so \*[tmac-dir]/u-eps				\" EPS files
+.so \*[tmac-dir]/u-idx				\" Index
+.so \*[tmac-dir]/u-ref				\" Refer
+.so \*[tmac-dir]/u-grind			\" Ugrind
+.ie "\*[tmac-locale]"" \{\
+.	so \*[tmac-dir]/u-en			\" Lang
+.	so \*[tmac-dir]/u-libertine		\" Font
+.\}
+.el .so \*[tmac-locale]				\" Locale

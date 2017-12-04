@@ -1,0 +1,55 @@
+.\""""""""""""""""""""""""""""""""""""""
+.hypp 20 50 100
+.hlm 2
+.\" Micro-typography
+.de typo:text
+.	\" init micro typography variables for text
+.	\" ss: interword, intersentences space size
+.	\" minss: minimum interword space size
+.	\" letadj:
+.	\" minimum interglyph size, minimum glyph size,
+.	\" width of word that can be expanded,
+.	\" maximum interglyph size, maximum glyph size
+.	\" rhang: font, [glyph, right hanging] ...
+.	\" track: font, max point size, space between char,
+.	\" min point size, space between char,
+.	\" max point size, computing number size.
+.	ss 11 0
+.	minss 10
+.	letadj 99 99 15 101 101
+.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	\"track R 10 0 24 .1
+..
+.de typo:note
+.	\" init micro-typography variables for notes
+.	ss 10 0
+.	minss 9.5
+.	letadj 98 98 8 102 102
+.	rhang f-000 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang f-010 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang f-100 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+.	rhang f-110 - 80 \(hy 80 \(en 80 \(em 80 , 80 ; 80 : 90 . 80 » 80
+..
+.de TD
+.	\" minimize paragraphs to avoid orphans
+.	ss 10 0
+.	minss 9
+.	letadj 98 98 15 101 101
+.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+..
+.de TI
+.	\" maximize paragraphs to avoid orphans
+.	ss 12 0
+.	minss 11
+.	letadj 100 100 15 102 102
+.	rhang f-000 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-010 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-100 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+.	rhang f-110 - 100 \(hy 100 \(en 100 \(em 100 , 100 ; 100 : 100 . 100 » 150
+..

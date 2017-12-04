@@ -1,0 +1,91 @@
+.\"""""""""""""""""""""""""""""""""""""
+.\" Summary
+.\" Write a summary to a file.
+.\" Source that file on next pass.
+.\"
+.\" S0, S1, S2, S3, S4, S*: user macros,
+.\" which prints the summary of heading
+.\" levels 0, 1, 2, 3, 4, or all.
+.\"
+.\" sum:start and sum:stop macros should
+.\" be defined by the user. They are called
+.\" before and after printing the summary.
+.\" sum:par is printed before each line.
+.
+.
+.de sum:file
+.	\" Define the tmp file to use
+.	 if !d sum-file \{\
+.		ds sum-file /tmp/\\*[data-file].sum.tr
+.		sy touch \\*[sum-file]
+.	\}
+..
+.ds sum-level-1 /
+.ds sum-level-2 /\\n[head-1]/
+.ds sum-level-3 /\\n[head-1]/\\n[head-2]/
+.ds sum-level-4 /\\n[head-1]/\\n[head-2]/\\n[head-4]/
+.ds sum-list .
+.de sum:record
+.	\" Record a line in the summary
+.	\" $1 is head level
+.	\" $2 is head anchor name
+.	\" $3 is head page
+.	\" $4 is head text
+.	ds sum-level \\*[sum-level-\\$1]
+.	as sum-list @@@sum:print \\*[sum-level] \\$@
+..
+.de sum:write
+.	\" Write summary to file
+.	if d sum-file \{\
+.		\" inconv fixes a bug in heirloom troff
+.		sy echo \\*[sum-list] | sed -e "s/@@@/\\\\n./g" | iconv -f latin1 -t utf8 > \\*[sum-file]
+.	\}
+..
+.de sum:source
+.	\" Source the summary file
+.	\" and write the desired summary
+.	sum:file
+.	ds sum-toprint \\*[sum-level-\\$1]
+.	sum:start
+.	so \\*[sum-file]
+.	sum:stop
+..
+.de S1
+.	sum:source 1
+..
+.de S2
+.	sum:source 2
+..
+.de S3
+.	sum:source 3
+..
+.de S4
+.	sum:source 4
+..
+.de S*
+.	sum:source *
+..
+.de sum:print
+.	\" Select which lines to print
+.	\" Print line, using pdf links and troff tabs
+.	\" $1 is sum level 
+.	\" $2 is head level
+.	\" $3 is head anchor name
+.	\" $4 is head page
+.	\" $5 is head text
+.	lds sum-level \\$1
+.	lds sum-head \\$2
+.	lds sum-anchor \\$3
+.	lds sum-page \\$4
+.	shift 4
+.	if '\\*[sum-toprint]'\\*[sum-level]' \{
+.		\" All headings are on the same level, no indent
+.		par:toc 0
+.		pdf:link \\*[sum-anchor] "\\$*" "\a\t\\*[sum-page]\\c"
+.	\}
+.	if '\\*[sum-toprint]'*' \{
+.		\" Indent depends on head level
+.		par:toc \\*[sum-head]
+.		pdf:link \\*[sum-anchor] "\\$*" "\a\t\\*[sum-page]\\c"
+.	\}
+..
