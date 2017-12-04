@@ -1,6 +1,6 @@
 .\" u-ref: refer support.
 .ig
-$Id: u-ref.tmac,v 0.14 2014/03/22 12:21:04 pj Exp pj $
+$Id: u-ref.tmac,v 0.15 2014/03/22 20:29:10 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -38,13 +38,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Refer support for heirloom library macros
 which respect the iso 690 standart
 
-$Id: u-ref.tmac,v 0.14 2014/03/22 12:21:04 pj Exp pj $
+$Id: u-ref.tmac,v 0.15 2014/03/22 20:29:10 pj Exp pj $
 ..
 .ig
 iso-690 default:
 
 books:   Q A   S V T E B w   U H C I D   P M N O x y z G
-journal: Q A T S   V J w N   E U H P C I D M O x y z G
+journal: Q A T S   V J w N   E U H P C I D M O   x y z G
 
 refer adaptation to iso-690:
 
@@ -88,7 +88,7 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .nr data-u-ref 1
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-.\" troff.fr refer strings:
+.\" utroff.org refer strings:
 .ds +F \\*C
 .ds -F \\*C
 .ds +L \\*C
@@ -102,8 +102,22 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .ds >. \&.
 .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Format fields
+.\" ref-[position]-[type].
+.\"		Position = coll or text.
+.\"		Type = 1, 2 or 3.
+.\" coll: collected references at the end of a document
+.\" text: references written in a note
+.\" 1 journal or article
+.\" 2 book
+.\" 3 article in book
+.\"
+.\" key:prt print the previous field, and format the current one
+.\" key:beg define a parenthesis to put before the next field
+.\" key:end define a parenthesis to put after the previous field
+.\" key:pun replace the punctuation of the previous field
+.\" key:lst print the last field of the reference
 .de ref:coll-1
-.	\" journal-article
+.	\" Collected reference of a journal-article
 .	\" Q A T S V J w N E U H P C I D M O x y z G
 .	key:prt "" Q "" .
 .	key:prt "" A "" .
@@ -132,7 +146,7 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:lst .
 ..
 .de ref:text-1
-.	\" journal-article
+.	\" In text referece of a journal-article
 .	\" Q A T S V J w N E U H P C I D M O x y z G
 .	key:prt "" Q "" ,
 .	key:prt "" A "" ,
@@ -161,7 +175,7 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 ..
 .\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .de ref:coll-3
-.	\" article-in-book
+.	\" Collected reference of an article-in-book
 .	\" Q A T E S V B w P U H C I D M N O x y z G
 .	key:prt "" Q "" .
 .	key:prt "" A "" .
@@ -190,7 +204,7 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:lst .
 ..
 .de ref:text-3
-.	\" article-in-book
+.	\" In text reference of an article-in-book
 .	\" Q A T E S V B w P U H C I D M N O x y z G
 .	key:prt "" Q "" ,
 .	key:prt "" A "" ,
@@ -219,7 +233,7 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 ..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .de ref:coll-2
-.	\" book
+.	\" Collected reference of a book
 .	\" Q A E S V T w U H C I D P M N O x y z G
 .	key:prt "" Q "" .
 .	key:prt "" A "" .
@@ -246,7 +260,7 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:lst .
 ..
 .de ref:text-2
-.	\" book
+.	\" In text reference of a book
 .	\" Q A E S V T w U H C I D P M N O x y z G
 .	key:prt "" Q "" ,
 .	key:prt "" A "" ,
@@ -271,29 +285,44 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:end )
 .	key:lst .
 ..
-.als ref:coll-0 ref:coll-2 \" other
+.\" Other kind of references
+.als ref:coll-0 ref:coll-2
 .als ref:text-0 ref:text-2
-.als ref:coll-4 ref:coll-2 \" tech-report
+.\" Tech-report references
+.als ref:coll-4 ref:coll-2
 .als ref:text-4 ref:text-2
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" Key
 .de key:prt
-.	\" if current key is defined, build it
-.	\" and print previous key
-.	\" format is:
-.	\" \\*[key-beg]\\*[key-field]\\*[key-end]\\*[key-pun]
-.	\" so we can change punctuation without changing parenthesis
-.	\" key-beg and key-end: for parenthesis
-.	\" key-grp >0 if field is defined
-.	\" key-pun (string): punctuation
-.	\" key-pun (number): 0 to disallow change of punctuation
+.	\" if the current key is defined by refer,
+.	\" format it and print the previously formatted key
+.	\" arguments are:
+.	\"		$1 string before field
+.	\"		$2 field
+.	\"		$3 string after field
+.	\"		$4 punctuation
+.	\"	Strings are:
+.	\"		key-beg = defined by key:beg (open a parenthesis)
+.	\"		key-end = defined by key:end (close a parenthesis)
+.	\"		key-field = $1$2$3
+.	\"		key-pun = $4
+.	\" The strings are concatenated as follow:
+.	\"		\\*[key-beg]\\*[key-field]\\*[key-end]\\*[key-pun]
+.	\" So we can change punctuation without changing parenthesis.
+.	\" Registers are:
+.	\"		key-grp >0 if a field is defined after key-beg
+.	\"		key-pun : 0 to disallow change of punctuation
 .	if d [\\$2 .if !"\\*([\\$2"" \{\
+.		\" Should we write idem?
 .		if \\n[ref-idm]>0 .idm:\\*[ref-loc] \\$2
 .		if \\n[key-do]>0 \{\
 .			if d key-field \{\
+.			\" There is a previous field, print it.
 .			var:print \\*[key-field]\\*[key-end]\\*[key-pun]
 .			\}
+.			\" Format the current field
 .			ds key-field \\*[key-beg]\\$1\\*([\\$2\\$3
+.			\" Record the punctuation
 .			ds key-pun \\$4
 .			ds key-beg
 .			ds key-end
@@ -303,17 +332,23 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	\}
 ..
 .de key:lst
-.	\" print last key
+.	\" print last key of a reference
 .	\" $1: punctuation
-.	\" key-pun 0 if key-pun is not allowed 
+.	\" key-pun=0 if key-pun is not allowed 
 .	if d key-field \{\
+.		\" there is a defined field
 .		ie \\n[key-pun]=1 .ds key-pun \\$1
 .		el .ds key-pun
+.		\" When we don't print the reference inside a note
+.		\" we don't want a space after the field, to
+.		\" may insert a closing bracket.
+.		\" Cf ref:text-start and ref:text-stop
+.		if \\n(RN=0 .if '\\*[ref-loc]'text' .ds key-pun \\c
 .		var:print \\*[key-field]\\*[key-end]\\*[key-pun]
 .	\}
 ..
 .de key:pun
-.	\" define key-pun
+.	\" define key-pun, which contains the punctuation
 .	if \\n[key-pun]=1 .ds key-pun \\$*
 ..
 .de key:nopun
@@ -322,15 +357,17 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	ds key-pun
 ..
 .de key:beg
-.	\" define key-beg
+.	\" define key-beg, which opens a parenthesis
 .	\" and remove punctuation
 .	ds key-beg \\$*
 .	if \\n[key-pun]=1 .ds key-pun
+.	\" There's no field after the parenthesis,
+.	\" so key-grp is set to 0
 .	nr key-grp 0
 ..
 .de key:end
-.	\" define key-end
-.	\" if key-grp > 0
+.	\" define key-end, which closes a parenthesis
+.	\" only if there are fields after the parenthesis
 .	ds key-beg
 .	if \\n[key-grp]>0 .ds key-end \\$*
 ..
@@ -352,11 +389,15 @@ if not only first field is idem
 .	nr key-do \\$2
 ..
 .de idm:text
+.	\" Current field of the current reference is [X,
+.	\" the same field in the previous refence is recored in ]X
+.	\" If [X and ]X are equals, we write "idem."
+.	\" $1 is the letter field.
 .	ie d ]\\$1 \{\
 .		lang:rchar \" Needed for string comparison
 .		ie "\\*([\\$1"\\*(]\\$1" \{\
 .			ie \\n[ref-idm]>1 \{\
-.				ds key-field \\*[lang-Idem]
+.				ds key-field \\*[lang-Ibid]
 .				nr key-pun 0
 .				ds key-pun ,
 .				\"key:nopun
@@ -375,6 +416,8 @@ if not only first field is idem
 .	idm:num 0 1
 ..
 .de idm:coll
+.	\" Same as idm:text for collected references.
+.	\" We print a line instead of "idem."
 .	ie \\n[ref-idm]=2 .idm:num 0 1
 .	el \{\
 .	ie d ]\\$1 \{\
@@ -397,22 +440,33 @@ if not only first field is idem
 .\" op. cit.
 .nr opc-trap 0 1
 .de opc:text
+.	\" We record the page number of the first occurence
+.	\" of each reference in opc-\\*([K
 .	if d [K \{\
 .	ie r opc-\\*([K \{\
+.		\" If this reference has been printed somewhere
 .		ref:remove C D E G H I M N Q R
 .		ref:remove U W X Y Z w x y z
+.		\" If previous occurence is in the same page,
+.		\" write hereinbefore
 .		ie \\n[opc-\\*([K]=\\n% .ds [% \\*[lang-before]
+.		\"  else, write p xx
 .		el .ds [% \\*[lang-p]\~\\n[opc-\\*([K]
 .	\}
 .	el \{\
-.		\" use a temporary definition
-.		\" and use output line trap to get correct page
+.		\" This is the first occurence of that reference
+.		\" so, we record its page number in opc-\\*([K
+.		\" we use a temporary definition for same page
+.		\" occurences and use an output line trap
+.		\" to get the correct page for next pages occurences
 .		nr opc-\\*([K \\n%
 .		lnr opc-tmp \\n[opc-trap]
 .		de opc:trap\\n+[opc-trap]
+.			\" the output line trap macro
 .			nr opc-\\*([K \\\\n%
 .			rm opc:trap\\n[opc-tmp]
 \\..
+.		\" the output line trap which will call the macro
 .		var:print \\P[opc:trap\\n[opc-trap]]\\c
 .	\}
 .	\}
@@ -436,25 +490,32 @@ if not only first field is idem
 .de ref:text-start
 .	\" test if we print start note macro or not
 .	ie \\n(RN .if \\n[note-in]=0 \{\
+.		\" print the refereence in a note
 .		\"var:print \\P[page:num]\\c
 .		NS
 .		nr note-inref 1
 .	\}
-.	el .PQ
+.	\" print the note intext, inside []
+.	el [\\c
 ..
 .de ref:text-stop
 .	\" test if we print stop note macro or not
-.	if \\n(RN .if \\n[note-inref]=1 \{\
+.	ie \\n(RN .if \\n[note-inref]=1 \{\
+.		\" print the refereence in a note
 .		NE
 .		nr note-inref 0
 .	\}
+.	\" print the note intext, inside []
+.	el ]
 ..
-.\" idem:coll do it for collected references
+.\" idem:coll do it better for collected references
 .als ref:coll-start var:null
 .als ref:coll-stop var:null
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Refer macros
 .de ref:rename
+.	\" to check for idem references,
+.	\" rename each fields from [X to ]X
 .	while \\n(.$ \{\
 .		if d ]\\$1 .rm ]\\$1
 .		if d [\\$1 .rn [\\$1 ]\\$1
@@ -462,6 +523,7 @@ if not only first field is idem
 .\}
 ..
 .de ref:remove
+.	\" remove unused fields
 .	while \\n(.$ \{\
 .		if d [\\$1 .rm [\\$1
 .		shift
@@ -494,6 +556,7 @@ if not only first field is idem
 .	\" or coll for collected references
 .de ][
 .	\" print reference
+.	\" refer provide the follow arguments:
 .	\" if J, 		$1=1, $2 journal-article 
 .	\" elif B,		$1=3, $2 article-in-book
 .	\" elif G or R,	$1=4, $2 tech-report
@@ -510,9 +573,9 @@ if not only first field is idem
 .	\" start collected references
 .	ref:init
 .	ds ref-loc coll
-.	H3 Bibliographie
-.	H* Bibliographie
-.	H0 Bibliographie
+.	H3 \\*[lang-bibliography]
+.	\"H* \\*[lang-bibliography]
+.	\"H0 \\*[lang-bibliography]
 ..
 .de ]>
 .	\" end collected references
@@ -527,11 +590,7 @@ if not only first field is idem
 .	\" Append bibliography list
 .	\" need a special version of refer,
 .	\" available on http://utroff.org
-.	pso @BINDIR@/refer -i -B -a -dAE \\$1
-..
-.de XR
-.	\" Append index of references
-.	XI T
+.	pso urefer -i -B -a -dAE \\$1
 ..
 .if !r RI .nr RI 1
 .if !r RO .nr RO 1
