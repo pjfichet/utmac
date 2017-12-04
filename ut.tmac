@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.14 2013/11/04 08:29:32 pj Exp pj $
+$Id: ut.tmac,v 0.15 2014/03/20 20:18:01 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -205,68 +205,47 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Index macros
-.nr idx-args 0
 .de LP
 .	\" text to print
 .	ds idx-text \\$1
 .	ds idx-end \\$2
 .	ds idx-beg \\$3
-.	nr idx-args \\n(.$
 ..
 .de idx:print
-.	\" print text defined by .p macro
+.	\" print text defined by .LP macro
 .	\" $1 before, $2 after
-.	if \\n[idx-args]=1 .var:print \\*[idx-text]
-.	if \\n[idx-args]=2 .var:print \\*[idx-text]\\*[idx-end]
-.	if \\n[idx-args]>2 .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
+.	if d idx-text .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
-.	nr idx-args 0
 ..
-.de idx:url
+.de idx:link
 .	\" url
-.	if \\n[idx-args]=0 \{\
-.		lang:xmlrchar
-.		var:print (\\$1)
-.		lang:xmlchar
-.	\}
-.	if \\n[idx-args]=1 \{\
-.		var:print \\*[idx-text]
-.		lang:xmlrchar
-.		var:print <\\$1>
-.		lang:xmlchar
-.	\}
-.	if \\n[idx-args]=2 \{\
-.		var:print \\*[idx-text]
-.		lang:xmlrchar
-.		var:print <\\$1>\c
-.		lang:xmlchar
-.		var:print \\*[idx-end]
-.	\}
-.	if \\n[idx-args]=3 \{\
+.	ie d idx-text \{\
 .		var:print \\*[idx-beg]\\*[idx-text]
 .		lang:xmlrchar
 .		var:print <\\$1>\c
 .		lang:xmlchar
 .		var:print \\*[idx-end]
 .	\}
+.	el \{\
+.		lang:xmlrchar
+.		var:print \\$3<\\$1>\\$2
+.		lang:xmlchar
+.	\}
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
-.	nr idx-args 0
 ..
 .als LA idx:print
-.als LD idx:print
-.als LE idx:print
-.als LK var:null
-.als LL idx:print
-.als LM idx:url
 .als LN idx:print
 .als LO idx:print
 .als LT idx:print
-.als LU idx:url
 .als LW idx:print
+.als LK idx:link
+.als LL idx:link
+.als LM idx:link
+.als LU idx:link
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
 .\" Delete all fonts
