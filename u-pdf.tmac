@@ -1,0 +1,58 @@
+.\""""""""""""""""""""""""""""""""""""""
+.\"	Pdf metadata
+.de DT
+.	ds pdf-title \\$*
+..
+.de DA
+.	ds pdf-author \\$*
+..
+.de DS
+.	ds pdf-subject \\$*
+..
+.de DK
+.	ds pdf-keywords \\$*
+..
+.de pdf:data
+.	ds pdf-data \X'SetLinkColor: .0 .0 .0 rgb'
+.	as pdf-data \X'SetLinkBorder: .0 .0 .0 rgb'
+.	as pdf-data \X'SetULinkColor: .0 .0 .0 rgb'
+.	as pdf-data \X'SetULinkBorder: .0 .0 .0 rgb'
+.	if d pdf-title .as pdf-data \X"PDFMark: Title \\*[pdf-title]"
+.	if d pdf-author .as pdf-data \X"PDFMark: Author \\*[pdf-author]"
+.	if d pdf-subject .as pdf-data \X"PDFMark: Subject \\*[pdf-subject]"
+.	if d pdf-keywords .as pdf-data \X"PDFMark: Keywords \\*[pdf-keywords]"
+.	var:print \\*[pdf-data]
+.	sp -1v
+..
+.\""""""""""""""""""""""""""""""""""""""
+.\" PDF strings and macros
+.
+.
+.de pdf:bookmark
+.	\" $1 head level
+.	\" $2 Text to print on the pdf internal toc
+.	if !r pdf-firsthead\{\
+.		nr pdf-firsthead \\$1
+.	\}
+.	lnr i \\$1-\\n[pdf-firsthead]
+.	var:print \X"PDFMARK: Bookmark \\ni \\$2"\\c
+..
+.de pdf:anchor
+.	\" $1 anchor
+.	var:print \\$3\A"\\$1"\\$2
+..
+.de pdf:link
+.	\" $1 anchor to link to
+.	\" $2 text
+.	var:print \\$4\T"\\$1"\\$2\T\\$3
+..
+.de pdf:url
+.	\" $1 url
+.	\" $2 text
+.	var:print \\$4\W"\\$1"\\$2\W\\$3
+..
+.de pdf:mail
+.	\" $1 mail address
+.	\" $2 text
+.	var:print \\$4\W"mailto:\\$1"\\$2\W\\$3
+..
