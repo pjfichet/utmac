@@ -48,4 +48,6 @@ uninstall:
 clean:
 	rm -f $(TMAC) $(MAN)
 
+diff:
+	@for f in $(TMAC); do echo "diff $$f.tmac $$f"; diff $$f.tmac $$f; done
 
