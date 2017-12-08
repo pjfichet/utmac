@@ -71,7 +71,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\" end document
 .	br
 .	pdf:data
-.	sum:write
 ..
 .de doc:file
 .	if !d data-file .ds data-file \\n(.F
@@ -363,7 +362,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	par:init \" par:toc don't reset paragraph
 .	par:toc \\ni
 .	da toc:print
-.		pdf:link \\*[head-level] "\\$*" "\a\t\\n[page-num]\\c"
+.		pdf:link \\*[head-level] "\\$*" "\Ea\Et\\n[page-num]"
 .		in 0
 .		br
 .	di
@@ -391,6 +390,18 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\" Summary (u-sum.tmac)
 .de sum:start
 .	note:start sum
+..
+.de sum:line
+.	\" Write a summary line
+.	\" $1: indent
+.	\" $2: internal link to the heading
+.	\" $3: page of the heading
+.	\" $4+: heading text
+.	par:toc \\$1
+.	ds sum-anchor \\$2
+.	ds sum-page \\$3
+.	shift 3
+.	pdf:link \\*[sum-anchor] "\\$*" "\Ea\Et\\*[sum-page]\\c"
 ..
 .de sum:stop
 .	NE

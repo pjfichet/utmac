@@ -1,6 +1,6 @@
 .\" us: Follow old s macro layout, for documentation.
 .ig
-$Id: us.tmac,v 0.28 2014/03/22 12:23:46 pj Exp pj $
+$Id: us.tmac,v 0.30 2017/12/04 07:06:14 pj Exp pj $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -79,7 +79,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	\" end document
 .	br
 .	pdf:data
-.	sum:write
 ..
 .de doc:file
 .	if !d data-file .ds data-file \\n(.F
@@ -393,7 +392,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	par:init \" par:toc don't reset paragraph
 .	par:toc \\ni
 .	da toc:print
-.		pdf:link \\*[head-level] "\\$*" "\a\t\\n[page-num]\\c"
+.		pdf:link \\*[head-level] "\\$*" "\Ea\Et\\n[page-num]"
 .		in 0
 .		br
 .	di
@@ -429,13 +428,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	ll \\n[note-length]u-3v
 .	di sum:trap
 ..
+.de sum:line
+.	\" Write a summary line
+.	\" $1: indent
+.	\" $2: internal link to the heading
+.	\" $3: page of the heading
+.	\" $4+: heading text
+.	par:toc \\$1
+.	ds sum-anchor \\$2
+.	ds sum-page \\$3
+.	shift 3
+.	pdf:link \\*[sum-anchor] "\\$*" "\Ea\Et\\*[sum-page]\\c"
+..
 .de sum:stop
 .	\" Divide the notes in two columns
 .	\" by placing a trap at the middle of the length
 .	br
 .	di
 .	\" number of lines in last diversion:
-.	lnr sum-lines \\n(dnu/\\n[note-line]u
+.	lnr sum-lines (\\n(dnu-1v)/\\n[note-line]u
 .	\" size of each column
 .	lnr sum-divide \\n[sum-lines]/2
 .	\" rest of division:
@@ -502,7 +513,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	nr note-size +\\n[note-lines]
 .	nr note-divide \\n[note-size]/2
 .	nr note-modulo \\n[note-size]%2
-.	ie \\n[note-modulo]>0 .nr note-divide +1
+.	if \\n[note-modulo]>0 .nr note-divide +1
 .	ch page:foot \\n[page-foot]v-\\n[note-divide]v
 ..
 .de note:print
