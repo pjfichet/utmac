@@ -4,6 +4,8 @@
 DESTDIR=
 # Prefix directory
 PREFIX=/opt/utroff
+# Bin directoy
+BINDIR=$(PREFIX)/bin
 # Man directory
 MANDIR=$(PREFIX)/man
 # Library directory
@@ -22,7 +24,7 @@ MAN= u-ref.7 utmac.7
 all: $(TMAC) $(MAN)
 
 .tmac:
-	cp $< $@
+	sed -e "s#@BINDIR@#$(BINDIR)#g" $< > $@
 
 %.1 %.7: %.man
 	sed -e "s#@MACDIR@#$(MACDIR)#g; s#@TMAC@#$(TMAC)#g" $< > $@
