@@ -78,17 +78,29 @@
 .\" Tmac directory, and user macro
 .ds tmac-dir \V[TROFFMACS]
 .ds tmac-locale \V[UTMAC]
-.so \*[tmac-dir]/u-fonts			\" Fonts lib
-.so \*[tmac-dir]/u-typo				\" Typography
-.so \*[tmac-dir]/u-sum				\" Summary
-.so \*[tmac-dir]/u-pdf				\" PDF marks
-.so \*[tmac-dir]/u-eps				\" EPS files
-.so \*[tmac-dir]/u-links			\" Links
-.so \*[tmac-dir]/u-idx				\" Index
-.so \*[tmac-dir]/u-ref				\" Refer
-.so \*[tmac-dir]/u-grind			\" Ugrind
+.\" Fonts macros
+.so \*[tmac-dir]/u-fonts
+.\" Typgraphy macros
+.so \*[tmac-dir]/u-typo
+.\" Summary macros
+.so \*[tmac-dir]/u-sum
+.\" PDF marks and links
+.so \*[tmac-dir]/u-pdf
+.\" Include EPS files macros
+.so \*[tmac-dir]/u-eps
+.\" Link macros
+.so \*[tmac-dir]/u-links
+.\" Index macros
+.so \*[tmac-dir]/u-idx
+.\" Refer macros
+.so \*[tmac-dir]/u-ref
+.\" Ugrind macros
+.so \*[tmac-dir]/u-grind
 .ie "\*[tmac-locale]"" \{\
-.	so \*[tmac-dir]/u-en			\" Lang
-.	so \*[tmac-dir]/u-libertine		\" Font
+.	\" Local language macros
+.	so \*[tmac-dir]/u-en
+.	\" Default font
+.	so \*[tmac-dir]/u-libertine
 .\}
-.el .so \*[tmac-locale]				\" Locale
+.	\" Locale macro
+.el .so \*[tmac-locale]
