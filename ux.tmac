@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.17 2017/12/04 07:09:19 pj Exp pj $
+$Id: ux.tmac,v 0.18 2017/12/04 10:31:01 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -165,7 +165,7 @@ nroff -mux\\*[xml-tag /DG]
 .	\}
 .	sp 1v
 .	ie \\n(.$=0 .xml:print \\*[xml-tag PX]
-.	el .xml:print \\*[xml-tag PX name=\'\\$1\'] 
+.	el .xml:print \\*[xml-tag PX name=\(dq\\$1\(dq] 
 .	xml:print \\*[xml-deline]
 .	ds xml-block \\*[xml-tag /PX]
 .	lang:xmlrchar
@@ -202,7 +202,7 @@ nroff -mux\\*[xml-tag /DG]
 .\" Notes
 .nr margin-num 0 1
 .	\" print an unbreakable thin space before number
-.ds * \U'202F'\\*[xml-tagbeg]NN num=\'\\n+[margin-num]\'/\\*[xml-tagend]
+.ds * \U'202F'\\*[xml-tagbeg]NN num=\(dq\\n+[margin-num]\(dq/\\*[xml-tagend]
 .nr note-in 0
 .de NT
 .	nr note-in 1
@@ -222,7 +222,7 @@ nroff -mux\\*[xml-tag /DG]
 .	nr note-in 1
 .	xml:print \\*[xml-deline]
 .	ie \\n(.$ .xml:print \\*[xml-tag NS]
-.	el .xml:print \\*[xml-tagbeg]NS\ num=\'\\n[margin-num]\'\\*[xml-tagend]
+.	el .xml:print \\*[xml-tagbeg]NS\ num=\(dq\\n[margin-num]\(dq\\*[xml-tagend]
 .	xml:print \\*[xml-deline]
 .	ds xml-line \\*[xml-tag /NS]
 ..
@@ -296,10 +296,10 @@ nroff -mux\\*[xml-tag /DG]
 .	\" $1: idx key
 .	\" $2: keyword
 .	ie d idx-text \{\
-.		xml:print \\*[idx-beg]\\*[xml-tag L\\$1 name=\'\\$2\']\\*[idx-text]\\*[xml-tag /L\\$1]\\*[idx-end]
+.		xml:print \\*[idx-beg]\\*[xml-tag L\\$1 name=\(dq\\$2\(dq]\\*[idx-text]\\*[xml-tag /L\\$1]\\*[idx-end]
 .	\}
 .	el \{\
-.		xml:print \\*[xml-tag L\\$1 name=\'\\$2\'/]
+.		xml:print \\*[xml-tag L\\$1 name=\(dq\\$2\(dq/]
 .		xml:print \\*[xml-deline]
 .	\}
 .	rm idx-text
@@ -313,7 +313,7 @@ nroff -mux\\*[xml-tag /DG]
 .		ds idx-end \\$3
 .		ds idx-beg \\$4
 .	\}
-.	xml:print \\*[idx-beg]\\*[xml-tag L\\$1 name=\'\\$2\']\\*[idx-text]\\*[xml-tag /L\\$1]\\*[idx-end]
+.	xml:print \\*[idx-beg]\\*[xml-tag L\\$1 name=\(dq\\$2\(dq]\\*[idx-text]\\*[xml-tag /L\\$1]\\*[idx-end]
 .	rm idx-text
 .	rm idx-beg
 .	rm idx-end
