@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.18 2017/12/04 10:31:01 pj Exp $
+$Id: ux.tmac,v 0.20 2017/12/11 06:52:18 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -317,6 +317,7 @@ nroff -mux\\*[xml-tag /DG]
 .\" Index macros
 .de idx:print
 .	\" Insert a keyword
+.	xml:print \\*[xml-deline]
 .	xml:print \\*[xml-tag K\\$1 name=\(dq\\$2\(dq/]
 .	xml:print \\*[xml-deline]
 ..
