@@ -1,13 +1,11 @@
 .\"""""""""""""""""""""""""""""""""""""
 .\" U-links: macro for links
 .
-.\" The LP macro is shared with u-idx.
-.\" It is copied here too for convenience.
 .de LP
 .	\" User defined text to print
-.	ds idx-text \\$1
-.	ds idx-end \\$2
-.	ds idx-beg \\$3
+.	ds link-text \\$1
+.	ds link-end \\$2
+.	ds link-beg \\$3
 ..
 .
 .
@@ -43,10 +41,10 @@
 .	var:print \\P[link:K\\$1]\\c
 .	pdf:anchor \\$1 \\c
 .	\" And print the text
-.	if d idx-text .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
-.	rm idx-text
-.	rm idx-end
-.	rm idx-beg
+.	if d link-text .var:print \\*[link-beg]\\*[link-text]\\*[link-end]
+.	rm link-text
+.	rm link-end
+.	rm link-beg
 ..
 .de LL
 .	\" A link to a previously defined anchor
@@ -58,9 +56,9 @@
 .	\}
 .	ie \\n[note-in]=0 \{\
 .		\" We're not in a note, create one
-.		ie d idx-text \{\
+.		ie d link-text \{\
 .			\" we have replacement text, print it and the note
-.			pdf:link \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.			pdf:link \\$1 "\\*[link-text]" "\\**\\*[link-end]" "\\*[link-beg]"
 .			NS
 .			pdf:link \\$1 "\\*[lang-See] \\*[lang-p]\~\\n[link-K\\$1]" .
 .			NE
@@ -72,14 +70,14 @@
 .	\}
 .	el \{\
 .		\" We're in a note, print text in it
-.		if d idx-text \{\
-.			pdf:link \\$1 "\\*[idx-text]" "\\*[idx-end]" "\\*[idx-beg]"
+.		if d link-text \{\
+.			pdf:link \\$1 "\\*[link-text]" "\\*[link-end]" "\\*[link-beg]"
 .		\}
 .		pdf:link \\$1 "\\*[lang-See] \\*[lang-p]\~\\n[link-K\\$1]" .
 .	\}
-.	rm idx-text
-.	rm idx-end
-.	rm idx-beg
+.	rm link-text
+.	rm link-end
+.	rm link-beg
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" Mail and Url macros
@@ -87,10 +85,10 @@
 .	\" Define a mail address
 .	ie \\n[note-in]=0 \{\
 .		\" We're not in a note
-.		ie d idx-text \{\
+.		ie d link-text \{\
 .			\" We have substitute text for the mail address
 .			\" Print this text, add a note containing the mail
-.			pdf:mail \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.			pdf:mail \\$1 "\\*[link-text]" "\\**\\*[link-end]" "\\*[link-beg]"
 .			NS
 .			lang:rchar
 .			pdf:mail \\$1 <\\$1>
@@ -106,9 +104,9 @@
 .	\}
 .	el \{\
 .		\" We're yet in a note
-.		ie d idx-text \{\
+.		ie d link-text \{\
 .			\" We have substitute text for the mail address
-.			pdf:mail \\$1 "\\*[idx-text]" "\\*[idx-end]" "\\*[idx-beg]"
+.			pdf:mail \\$1 "\\*[link-text]" "\\*[link-end]" "\\*[link-beg]"
 .		\}
 .		el \{\
 .			lang:rchar
@@ -116,18 +114,18 @@
 .			lang:char
 .		\}
 .	\}
-.	rm idx-text
-.	rm idx-end
-.	rm idx-beg
+.	rm link-text
+.	rm link-end
+.	rm link-beg
 ..
 .de LU
 .	\" Define an url
 .	ie \\n[note-in]=0 \{\
 .		\" We're not in a note
-.		ie d idx-text \{\
+.		ie d link-text \{\
 .			\" We have substitute text for the url
 .			\" Print this text, add a note containing the url
-.			pdf:url \\$1 "\\*[idx-text]" "\\**\\*[idx-end]" "\\*[idx-beg]"
+.			pdf:url \\$1 "\\*[link-text]" "\\**\\*[link-end]" "\\*[link-beg]"
 .			NS
 .			lang:rchar
 .			pdf:url \\$1 <\\$1>
@@ -143,9 +141,9 @@
 .	\}
 .	el \{\
 .		\" We're yet in a note
-.		ie d idx-text \{\
+.		ie d link-text \{\
 .			\" We have substitute text for the url
-.			pdf:url \\$1 "\\*[idx-text]" "\\*[idx-end]" "\\*[idx-beg]"
+.			pdf:url \\$1 "\\*[link-text]" "\\*[link-end]" "\\*[link-beg]"
 .		\}
 .		el \{\
 .			lang:rchar
@@ -153,7 +151,7 @@
 .			lang:char
 .		\}
 .	\}
-.	rm idx-text
-.	rm idx-end
-.	rm idx-beg
+.	rm link-text
+.	rm link-end
+.	rm link-beg
 ..

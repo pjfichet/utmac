@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id: um.tmac,v 0.11 2014/03/22 20:17:22 pj Exp pj $
+$Id: um.tmac,v 0.12 2017/12/04 10:32:05 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -137,37 +137,31 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .als vS PX
 .als vE man:null
 .\"""""""""""""""""""""""""""""""""""""
-.\" Idx
+.\" Links
 .de LP
 .	\" text to print
-.	ds idx-text \\$1
-.	ds idx-end \\$2
-.	ds idx-beg \\$3
+.	ds link-text \\$1
+.	ds link-end \\$2
+.	ds link-beg \\$3
 ..
-.de idx:print
-.	\" print text defined by .p macro
-.	\" $1 before, $2 after
-.	if d idx-text .man:print \e&\\*[idx-beg]\\*[idx-text]\\*[idx-end]
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
-..
-.de idx:link
-.	ie d idx-text .man:print \e&\\*[idx-beg]\\*[idx-text] <\\$1>\\*[idx-end]
+.de link:print
+.	ie d link-text .man:print \e&\\*[link-beg]\\*[link-text] <\\$1>\\*[link-end]
 .	el .man:print \e&\\$3<\\$1>\\$2
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
+.	rm link-text
+.	rm link-beg
+.	rm link-end
 ..
-.als LA idx:print
-.als LN idx:print
-.als LO idx:print
-.als LT idx:print
-.als LW idx:print
-.als LK man:comment
-.als LL idx:link
-.als LM idx:link
-.als LU idx:link
+.als LK link:print
+.als LL link:print
+.als LM link:print
+.als LU link:print
+.\"""""""""""""""""""""""""""""""""""""
+.\" Index keywords
+.als KA man:comment
+.als KN man:comment
+.als KO man:comment
+.als KT man:comment
+.als KW man:comment
 .\"""""""""""""""""""""""""""""""""""""
 .als DA man:comment
 .als DT man:comment

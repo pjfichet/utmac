@@ -1,6 +1,6 @@
 .\" uw: translate to markdown wiki syntax.
 .ig
-$Id: uw.tmac,v 0.9 2014/03/20 20:19:08 pj Exp pj $
+$Id: uw.tmac,v 0.10 2017/12/04 10:32:56 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -124,24 +124,24 @@ of PI to next line (to avoid problems with fonts).
 .	var:print ^\\n[txt-note]^
 ..
 .\"""""""""""""""""""""""""""""""""""""
-.\" idx
-.de idx:link
+.\" links
+.de link:print
 .	\" links
-.	ie d idx-text \{\
-.		var:print \\*[idx-beg][\\*[idx-text]]\c
+.	ie d link-text \{\
+.		var:print \\*[link-beg][\\*[link-text]]\c
 .		lang:xmlrchar
 .		var:print (\\$1)\c
 .		lang:xmlchar
-.		var:print \\*[idx-end]
+.		var:print \\*[link-end]
 .	\}
 .	el \{\
 .		lang:xmlrchar
 .		var:print \\$3[\\$1](\\$1)\\$2
 .		lang:xmlchar
 .	\}
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
+.	rm link-text
+.	rm link-beg
+.	rm link-end
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts

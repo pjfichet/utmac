@@ -165,7 +165,7 @@ nroff -mux\\*[xml-tag /DG]
 .	\}
 .	sp 1v
 .	ie \\n(.$=0 .xml:print \\*[xml-tag PX]
-.	el .xml:print \\*[xml-tag PX name=\(dq\\$1\(dq] 
+.	el .xml:print \\*[xml-tag PX name=\(dq\\$1\(dq]
 .	xml:print \\*[xml-deline]
 .	ds xml-block \\*[xml-tag /PX]
 .	lang:xmlrchar
@@ -282,68 +282,58 @@ nroff -mux\\*[xml-tag /DG]
 .	fi
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
-.\" Index macros
-.nr idx-args 0
+.\" Link macros
 .de LP
 .	\" text to print
-.	ds idx-text \\$1
-.	ds idx-end \\$2
-.	ds idx-beg \\$3
+.	ds link-text \\$1
+.	ds link-end \\$2
+.	ds link-beg \\$3
 ..
-.de idx:print
-.	\" Insert a keyword
-.	\" If it exists, print text defined by LP macro
-.	\" $1: idx key
-.	\" $2: keyword
-.	ie d idx-text \{\
-.		xml:print \\*[idx-beg]\\*[xml-tag L\\$1 name=\(dq\\$2\(dq]\\*[idx-text]\\*[xml-tag /L\\$1]\\*[idx-end]
-.	\}
-.	el \{\
-.		xml:print \\*[xml-tag L\\$1 name=\(dq\\$2\(dq/]
-.		xml:print \\*[xml-deline]
-.	\}
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
-..
-.de idx:link
+.de link:print
 .	\" Print link using text defined by .LP macro if it exists
-.	if !d idx-text \{\
-.		ds idx-text \\$2
-.		ds idx-end \\$3
-.		ds idx-beg \\$4
+.	if !d link-text \{\
+.		ds link-text \\$2
+.		ds link-end \\$3
+.		ds link-beg \\$4
 .	\}
-.	xml:print \\*[idx-beg]\\*[xml-tag L\\$1 name=\(dq\\$2\(dq]\\*[idx-text]\\*[xml-tag /L\\$1]\\*[idx-end]
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
-..
-.de LA
-.	idx:print A \\$*
+.	xml:print \\*[link-beg]\\*[xml-tag L\\$1 name=\(dq\\$2\(dq]\\*[link-text]\\*[xml-tag /L\\$1]\\*[link-end]
+.	rm link-text
+.	rm link-beg
+.	rm link-end
 ..
 .de LK
-.	idx:print K \\$*
-..
-.de LN
-.	idx:print N \\$*
-..
-.de LO
-.	idx:print O \\$*
-..
-.de LT
-.	idx:print T \\$*
-..
-.de LW
-.	idx:print W \\$*
+.	link:print K \\$*
 ..
 .de LL
-.	idx:link L \\$*
+.	link:print L \\$*
 ..
 .de LM
-.	idx:link M \\$*
+.	link:print M \\$*
 ..
 .de LU
-.	idx:link U \\$*
+.	link:print U \\$*
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Index macros
+.de idx:print
+.	\" Insert a keyword
+.	xml:print \\*[xml-tag K\\$1 name=\(dq\\$2\(dq/]
+.	xml:print \\*[xml-deline]
+..
+.de KA
+.	idx:print A \\$*
+..
+.de KN
+.	idx:print N \\$*
+..
+.de KO
+.	idx:print O \\$*
+..
+.de KT
+.	idx:print T \\$*
+..
+.de KW
+.	idx:print W \\$*
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Usefull tests

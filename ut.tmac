@@ -1,6 +1,6 @@
 .\" ut: translate to plain text file.
 .ig
-$Id: ut.tmac,v 0.15 2014/03/20 20:18:01 pj Exp pj $
+$Id: ut.tmac,v 0.16 2017/12/04 10:32:34 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -204,48 +204,42 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .	als NE txt:note-stop
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
-.\" Index macros
+.\" Link macros
 .de LP
 .	\" text to print
-.	ds idx-text \\$1
-.	ds idx-end \\$2
-.	ds idx-beg \\$3
+.	ds link-text \\$1
+.	ds link-end \\$2
+.	ds link-beg \\$3
 ..
-.de idx:print
-.	\" print text defined by .LP macro
-.	\" $1 before, $2 after
-.	if d idx-text .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
-..
-.de idx:link
+.de link:print
 .	\" url
-.	ie d idx-text \{\
-.		var:print \\*[idx-beg]\\*[idx-text]
+.	ie d link-text \{\
+.		var:print \\*[link-beg]\\*[link-text]
 .		lang:xmlrchar
 .		var:print <\\$1>\c
 .		lang:xmlchar
-.		var:print \\*[idx-end]
+.		var:print \\*[link-end]
 .	\}
 .	el \{\
 .		lang:xmlrchar
 .		var:print \\$3<\\$1>\\$2
 .		lang:xmlchar
 .	\}
-.	rm idx-text
-.	rm idx-beg
-.	rm idx-end
+.	rm link-text
+.	rm link-beg
+.	rm link-end
 ..
-.als LA idx:print
-.als LN idx:print
-.als LO idx:print
-.als LT idx:print
-.als LW idx:print
-.als LK idx:link
-.als LL idx:link
-.als LM idx:link
-.als LU idx:link
+.als LK link:print
+.als LL link:print
+.als LM link:print
+.als LU link:print
+.\"""""""""""""""""""""""""""""""""""""
+.\" Index keywords
+.als KA var:null
+.als KN var:null
+.als KO var:null
+.als KT var:null
+.als KW var:null
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
 .\" Delete all fonts
