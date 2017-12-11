@@ -45,75 +45,39 @@
 .\" .ds P< 		A list of pages
 .\" .K> word	The index entry appearing on those pages
 .
-.de idx:header
-.	\" Print an header line (.K<)
-.	H3 \\$*
-.	\"H* \\$*
-.	\"H0 \\$*
-.	\"sp 1v
-..
 .de idx:par
+.	\" paragraph macro for each index line
 .	br
 .	par:init
 .	in 3v
 .	ti 0
 ..
-.de idx:line
-.	\" Print an index entry (.K> word)
-.	idx:par
-.	var:print \\$*: \\*(<P.
+.de idx:make
+.	\" Build high level macros
+.	de \\$1<
+.		\" Index header (output of idx)
+.		H3 \\$2
+\\..
+.	de \\$1>
+.		\" Index entry (output of idx)
+.		idx:par
+.		var:print \\\\$*: \\\\*(<P.
+\\..
+.	de K\\$1
+.		\" Index a word (user macro)
+.		idx:trap \\$1 \\\\$*
+\\..
 ..
-.de A<
-.	idx:header \\*[lang-Idxa]
-..
-.de N<
-.	idx:header \\*[lang-Idxn]
-..
-.de O<
-.	idx:header \\*[lang-Idxo]
-..
-.de T<
-.	idx:header \\*[lang-Idxt]
-..
-.de W<
-.	idx:header \\*[lang-Idxw]
-..
-.als A> idx:line
-.als N> idx:line
-.als O> idx:line
-.als T> idx:line
-.als W> idx:line
 .\"""""""""""""""""""""""""""""""""""""
-.\" User macros
+.\" Define index macros
 .
-.
-.\" The LP macro is shared with u-links.
-.\" It is copied here too for convenience.
-.de LP
-.	\" User defined text to print
-.	ds idx-text \\$1
-.	ds idx-end \\$2
-.	ds idx-beg \\$3
-..
-.de idx:index
-.	idx:trap \\$*
-.	if d idx-text .var:print \\*[idx-beg]\\*[idx-text]\\*[idx-end]
-.	rm idx-text
-.	rm idx-end
-.	rm idx-beg
-..
-.de LA
-.	idx:index A \\$*
-..
-.de LN
-.	idx:index N \\$*
-..
-.de LO
-.	idx:index O \\$*
-..
-.de LT
-.	idx:index T \\$*
-..
-.de LW
-.	idx:index W \\$*
-..
+.\" acronyms
+.idx:make A \\\\*[lang-Idxa]
+.\" names
+.idx:make N \\\\*[lang-Idxn]
+.\" Objects, things
+.idx:make O \\\\*[lang-Idxo]
+.\" titles, books
+.idx:make T \\\\*[lang-Idxt]
+.\" words
+.idx:make W \\\\*[lang-Idxw]
