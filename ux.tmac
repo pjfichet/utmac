@@ -1,6 +1,6 @@
 .\" ux: translate to xml.
 .ig
-$Id: ux.tmac,v 0.21 2017/12/11 08:41:22 pj Exp pj $
+$Id: ux.tmac,v 0.22 2017/12/11 09:55:51 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -282,14 +282,14 @@ nroff -mux\\*[xml-tag /DG]
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Link macros
-.de LP
+.de LT
 .	\" text to print
 .	ds link-text \\$1
 .	ds link-end \\$2
 .	ds link-beg \\$3
 ..
 .de link:print
-.	\" Print link using text defined by .LP macro if it exists
+.	\" Print link using text defined by .LT macro if it exists
 .	if !d link-text \{\
 .		ds link-text \\$2
 .		ds link-end \\$3
