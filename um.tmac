@@ -1,6 +1,6 @@
 .\" um: translate to manual page.
 .ig
-$Id: um.tmac,v 0.12 2017/12/04 10:32:05 pj Exp $
+$Id: um.tmac,v 0.13 2017/12/11 06:52:18 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -35,8 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .nf
 .na
 .warn w
-.ds data-tmac um
-.nr data-um 1
+.nr tmac-um 1
 .\"""""""""""""""""""""""""""""""""""""
 .de man:null
 ..
@@ -200,23 +199,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .ds -- \e(en
 .ds *) *
 .ds deslash "\\$*
-.\""""""""""""""""""""""""""""""""""""""
-.\" Usefull tests
-.de US
-.	\" execute command depending of used macro
-.	ie "\\$1"!" \{\
-.		shift
-.		if !r data-\\$1 \{\
-.			shift
-\\$*
-.		\}
-.	\}
-.	el .if r data-\\$1 \
-.		if \\n[data-\\$1]>0 \{\
-.			shift
-\\$*
-.		\}
-..
 .\"""""""""""""""""""""""""""""""""""""
 .als RV man:null
 .als RH man:null

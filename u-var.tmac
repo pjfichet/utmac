@@ -1,4 +1,6 @@
 .\""""""""""""""""""""""""""""""""""""""
+.nr tmac-u-var
+.\""""""""""""""""""""""""""""""""""""""
 .\"warn w all mac
 .warn w
 .spreadwarn 1m
@@ -55,23 +57,6 @@
 .		\}
 .		nr var-layout 1
 .	\}
-..
-.\""""""""""""""""""""""""""""""""""""""
-.\" Usefull tests
-.de US
-.	\" execute command depending of used macro
-.	ie "\\$1"!" \{\
-.		shift
-.		if !r data-\\$1 \{\
-.			shift
-\\$*
-.		\}
-.	\}
-.	el .if r data-\\$1 \
-.		if \\n[data-\\$1]>0 \{\
-.			shift
-\\$*
-.		\}
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Here we go!

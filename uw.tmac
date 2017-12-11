@@ -1,6 +1,6 @@
 .\" uw: translate to markdown wiki syntax.
 .ig
-$Id: uw.tmac,v 0.10 2017/12/04 10:32:56 pj Exp $
+$Id: uw.tmac,v 0.11 2017/12/11 06:52:18 pj Exp $
 
 Copyright (c) 2012
 Pierre-Jean Fichet. All rights reserved.
@@ -36,9 +36,8 @@ TODO: a preprocessor is needed to move argument
 of PI to next line (to avoid problems with fonts).
 ..
 .so \V[TROFFMACS]/ut
-.ds data-tmac uw
-.nr data-uw 1
-.rr data-ut
+.nr tmac-uw 1
+.rr tmac-ut
 .nr txt-length 9999999c
 .de txt:conf
 .	ll \\n[txt-length]u
