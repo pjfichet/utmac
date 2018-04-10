@@ -1,18 +1,17 @@
-# Utmac readme
-################
+Utmac - set of troff macros for heirloom troff
+==============================================
 
-The U troff macros — utmac — is a set of troff macros which uses
-the typographic features of Heirloom Troff. Bibliography,
-indexes, table of content and summaries can be automatically
-inserted.  utmac informs about orphans, widows and blanks at the
-bottom of page, and provides macros to help the user to fix them
-manually. utmac can produce terminal output, high quality pdf
-files, ReStructuredText files, plain text file, and clean xml
-files — and so, with some xsl stylesheet, flat open document
-texts (fodt) and html files.
+The U troff macros — utmac — is a set of troff macros which uses the
+typographic features of Heirloom Troff. Bibliography, indexes, table
+of content and summaries can be automatically inserted.  utmac informs
+about orphans, widows and blanks at the bottom of page, and provides
+macros to help the user to fix them manually. utmac can produce
+terminal output, high quality pdf files, ReStructuredText files, plain
+text file, and clean xml files — and so, with some xsl stylesheet,
+flat open document texts (fodt) and html files.
 
 # Build and install
-===================
+-------------------
 
 To build and install, do :
 
@@ -26,7 +25,7 @@ To uninstall, and clean the src directory, do :
 
 
 # Environment
-=============
+-------------
 
 Utmac internally use some environment variable that you must set
 before the first use of utmac :
@@ -40,7 +39,7 @@ before the first use of utmac :
     localization.
 
 # Dependencies
-==============
+--------------
 
   - Utmac have been made to be used with Heirloom [n|t]roff,
     which last version can now be found on github
@@ -52,13 +51,6 @@ before the first use of utmac :
     TROFFONTS path.
 
 # License
-=========
+---------
 
 Utmac and its manual page are distributed under the ISC license.
-
-# Help and bugs
-===============
-
-Don’t hesitate to send questions, bugs and patches at help at
-utroff dot org.
-
