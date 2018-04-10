@@ -558,17 +558,7 @@ utmac‐hack(7), u‐ref(7), postxml(1), idx(1), refer(1).
 .SH LICENSE
 .PP
 \fIUtmac\fR macros and this manual page are distributed under
-a
-two clause BSD
-license.
-.
-.
-.
-.SH BUGS & HELP
-.PP
-Don’t hesitate send questions, bugs, and patches at help at utroff dot org.
-.
-.
+the ISC license..
 .
 .SH AUTHOR
 .PP

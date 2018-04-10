@@ -289,16 +289,7 @@ utmac(7), refer(1), referformat(7).
 .SH LICENSE
 .PP
 \fIu‐ref\fR macro and this manual page are distributed under
-a
-two clause BSD
-license.
-.
-.
-.
-.SH BUGS & HELP
-.PP
-Don’t hesitate to ask questions at help at utroff dot org.
-Please, send bugs and patches at help at utroff dot org.
+the ISC license.
 .
 .
 .
