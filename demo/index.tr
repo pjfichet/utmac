@@ -1,0 +1,24 @@
+.de index
+.	PP
+Some words are indexed on this page.
+.	KN Lastname Firstname
+.	KO object
+.	KT title
+.	KW word
+..
+.
+.
+.H3 Index macros
+.index
+.bp
+.index
+.bp
+.index
+.bp
+.PP
+No word is indexed on this page.
+.PP
+.bp
+.index
+.\" Print the indexes
+.XI

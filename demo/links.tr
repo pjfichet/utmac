@@ -1,0 +1,18 @@
+.H3 Links
+.PP
+.LK keyword1
+Internal link
+.LL keyword2 ,
+.LU http://example.com ,
+.LM mail@example.com .
+.bp
+.PP
+.LK keyword2
+.LP "internal link" ,
+.LL keyword1
+.LP url ,
+.LU http://example.com
+.LP mail .
+.LM mail@example.com
+.
+.

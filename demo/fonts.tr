@@ -1,0 +1,21 @@
+.H3 Fonts
+.PP
+Roman,
+\*BBold\*B,
+\*IItalic\*I,
+\*B\*IBold-Italic\*I\*B,
+\*AAcronym\*A,
+\*B\*ABold Acronym\*A\*B,
+\*I\*AItalic Acronym\*A\*I,
+\*B\*I\*ABold Italic Acronym\*A\*I\*B,
+\*CSmall-Capitals\*C,
+\*B\*CBold Small Capitals\*C\*B,
+\*I\*CItalic Small Capitals\*C\*I,
+\*B\*I\*CBold Italic Small Capits\*C\*I\*B,
+\*FFinale\*F,
+\*B\*FBold Finale\*F\*B,
+\*I\*FItalic Finale\*F\*I,
+\*B\*I\*FBold Italic Finale\*F\*I\*B,
+\*USuperscript\*U,
+\*I\*UItalic Superscript\*U\*I,
+\*B\*I\*UBold Italic Superscript\*U\*I\*B.

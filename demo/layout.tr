@@ -1,0 +1,49 @@
+.so lorem.tr
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Metadatas
+.DA Utroff.org
+.DT Utmac demonstration layout
+.DS Demonstration of the layout of utmac
+.DK utroff, heirloom troff, utmac
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Layout
+.H1 Book title
+.S2
+.H2 First section
+.H0 Book title
+.H* First section
+.S3
+.H3 First paragraph
+.H4 First subtitle
+.PP
+.lorem
+.PP
+.lorem
+.PP
+.lorem
+.H4 Second subtitle
+.PP
+.lorem
+.PP
+A note is here\**.
+.NS
+This is a common note.
+.NE
+.lorem
+.H3 Second paragraph
+.PP
+.lorem
+.lorem
+.H2 Second section
+.H0 Book title
+.H* Second Section
+.S3
+.H3 First paragraph
+.PP
+.lorem
+.PP
+.lorem
+.H2 Tables
+.H0 Book title
+.H* Tables
+.XT

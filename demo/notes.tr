@@ -1,0 +1,38 @@
+.so lorem.tr
+.H3 Notes macros
+.PP
+Numbered note\**.
+.NS
+.\" Since the char "*" is special in markdown, we use the
+.\" following (ugly) trick to escape it if markdown is
+.\" produced, but not in other case.
+.US uw .ds star \\e*
+.US ! uw .ds star *
+This is a numbered note. Note that you must manually insert
+the string \*e\*[star]\*[star] to tell to utmac where to put
+the number in the text.
+.NE
+Second numbered note\**.
+.NS
+Second numbered note.
+.NE
+Third numbered note\**.
+.NS
+Third numbered note.
+.NE
+.lorem
+.PP
+Unnumbered top note.
+.NT
+With -muh, this note is printed on the top of the page.
+Lorem ipsum dolor sit amet, consectetuer adipiscing
+elit. Sed non risus. Suspendisse lectus tortor, dignissim
+sitamet, adipiscing nec, ultricies sed, dolor.
+.NE
+.lorem
+.PP
+Unnumbered bottom note.
+.NB
+With -muh, this note is printed on the bottom of the page.
+.NE
+.lorem

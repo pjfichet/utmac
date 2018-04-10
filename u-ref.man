@@ -1,0 +1,296 @@
+.\"
+.\" DI $Id: u‐ref.tr,v 1.11 2014/03/21 10:08:57 pj Exp pj $
+.\" DA Pierre‐Jean Fichet
+.\" DS Utroff u‐ref manual
+.\" DT Utroff u‐ref manual
+.\" DK utroff u‐ref utmac refer iso‐690 troff nroff heirloom tmac xml
+.
+.
+.
+.TH U‐REF 7 ´2017‐12‐11´
+.
+.
+.
+.SH NAME
+.PP
+\fBU‐ref\fR: Format references for the U troff macros.
+.
+.
+.
+.SH DESCRIPTION
+.PP
+The \fIu‐ref\fR macro manage references in \fIrefer\fR
+format for the \fIU troff macros\fR set (\fIutmac\fR).
+\fIu‐ref\fR has high level built‐in capabilities:
+.IP \(bu
+It formats the bibliography following the \fIiso‐690\fR
+bibliography standart which define a lot of fields, and which
+fix the order on which they must appear.
+.IP \(bu
+It formats differently footnotes references and bibliography
+list to increase readability.
+.IP \(bu
+It replaces yet cited references by "\fIIdem.\fR" or "\fIop.
+cit. hereinbefore\fR" or "\fIop. cit. p xx.\fR", depending
+if the references has been cited just before, in the same
+page, or in the page \fIxx\fR of the document. If only the
+heading (\fB%h\fR field) or or the page (\fB%p\fR field) of
+the reference differ, they are simply written after these
+replacement strings.
+.IP \(bu
+It builds an index of references that can be printed with
+the \fB.AR\fR macro.
+.PP
+\fIu‐ref\fR use a new version of \fIrefer\fR instead of the
+original \fIheirloom refer\fR to handle correctly the
+\fBIso‐690\fR bibliography standart.
+.
+.
+.
+.SH USAGE
+.
+.
+.
+.SS Macros
+.RS 3
+.PP
+The following macro can be used by the user:
+.TP
+\&\fBAB\fR \fIfile.ref\fR
+Print a bibliography list of the file \fIfile.ref\fR.
+.TP
+\&\fBAR\fR
+Print an index of references.
+.TP
+\&\fBRI\fR
+Reverse usage of \fIIdem\fR in reference. The first call of this
+macro will remove the usage of \fIIdem\fR, so the reference
+will never be replaced by "\fIidem\fR". Default is to
+replace all informations similar to the previous reference.
+.TP
+\&\fBRO\fR
+Reverse usage of \fIop. cit.\fR in reference. The first call of this
+macro will remove the usage of \fIop. cit.\fR, so the reference
+will never be replaced by "\fIop. cit.\fR".
+Default is to replace issuer, city and date by \fIop. cit.
+p. xx\fR if the same reference appears before in the text.
+.TP
+\&\fBRN\fR
+Reverse usage of notes in reference. The first call of this
+macro will remove the usage of the note to print references,
+but use the \fBPQ\fR macro to print them in the text.
+Default is to enclose all references with \fBNS\fR and
+\fBNE\fR to print them as a notes.
+.
+.
+.
+.SS Example
+.RS 3
+.IP \(bu
+Use the \fB.[\fR and \fB.]\fR \fIrefer\fR macro to insert
+the reference. The first line following the \fB.[\fR macro
+must contain words to find the correct reference. Following
+lines can contain fields definition.
+.IP \(bu
+Since \fIu‐ref\fR write the reference in a note by
+default, you must add the \fB\Ee**\fR string to insert,
+where appropriate, a note number in the text.
+.IP \(bu
+Since the note number is inserted manually, you should use the
+bare mode of \fIrefer\fR (the \fB‐b\fR option), so that the
+\fIrefer\fR command line is on the form: \fBrefer ‐b ‐p
+file.ref\fR.
+.PP
+.EX
+He said: «a short citation\fB\Ee**\fR».
+\fB.\fR\fB[\fR
+Keywords...
+%p 3
+\fB.\fR\fB]\fR
+.EE
+.
+.
+.
+.SH FIELDS
+.PP
+\fIu‐ref\fR use uppercase and lowercase fields. The
+conventional meaning of each field is as follows:
+.TP
+\&\fBA\fR
+The name of an author. If the name contains a title such as
+\fIJr.\fR at the end, it should be separated from the last
+name by a comma. There can be multiple occurrences of the
+\fBA\fR field.  The order is significant.  It is a good idea
+always to supply an \fBA\fR field or a \fBQ\fR field.
+.TP
+\&\fBB\fR
+For an article that is part of a book, the title of the book.
+.TP
+\&\fBC\fR
+The place (city) of publication.
+.TP
+\&\fBD\fR
+The date of publication. The year should be specified in
+full. If the month is specified, the name rather than the
+number of the month should be used. It is a good idea
+always to supply a \fBD\fR field; if the date is unknown, a
+value such as \fIin press\fR or \fIunknown\fR can be used.
+.TP
+\&\fBE\fR
+For an article that is part of a book, the name of an editor
+of the book. For a serie of journals, the responsable of
+the serie. For a serie of books, the responsable of the
+serie.
+Refer man page say that where the work has editors and no
+authors, the names of the editors should be given as \fBA\fR
+fields and \fI(ed)\fR or \fI(eds)\fR should be appended to
+the last author. On the one hand this might be a good idea
+for sorting purpose and to be sure that the name of the
+editor appear before the title of the book, but on the other
+end, the standart says that \fIed\fR should be written
+without parenthesis, thing that might be confusing for
+\fIrefer\fR.  You should try both solution and choose the
+best one in each situation.
+.TP
+\&\fBF\fR
+Internally used by \fIrefer\fR: the number of the reference.
+It must should be defined by user.
+.TP
+\&\fBG\fR
+For a book, the ISBN (International Standard Book Number).
+For a Journal, the ISSN (International Standard Serial Number).
+.TP
+\&\fBH\fR
+Information about the publication: first edition, french
+edition, etc.
+.TP
+\&\fBh\fR
+Heading of the section of the book where the citation appears.
+.TP
+\&\fBI\fR
+The publisher (issuer).
+.TP
+\&\fBJ\fR
+Defines a periodical publication:
+For an article in a journal, the name of the journal.
+For a journal from a serie, the name of the journal.
+For a serie of journals, the name of the serie.
+.TP
+\&\fBK\fR
+Keywords used for searching. This field is required by
+\fIu‐ref\fR to replace citations by \fIIdem.\fR and co. It
+must be defined for \fIu‐ref\fR to work properly, and
+should contain only ascii characters.
+.TP
+\&\fBL\fR
+Label. Not used by \fIu‐ref\fR.
+.TP
+\&\fBM\fR
+The collection in which the reference is published.
+.TP
+\&\fBN\fR
+Journal issue number.
+.TP
+\&\fBO\fR
+Other information.
+This is usually printed at the end of the reference, before
+the field G. It’s the place to mention the support of an
+electronic document (e‐mail, pdf, html...)
+.TP
+\&\fBP\fR
+\fBTotal\fR number of page of the book.
+.TP
+\&\fBp\fR
+Exact page of the citation, or position of the article in a
+book. A range of pages can be specified as
+\fBm-n\fR.
+.TP
+\&\fBQ\fR
+The name of the author, if the author is not a person. This
+will only be used if there are no \fBA\fR fields.  There can
+only be one \fBQ\fR field.
+.TP
+\&\fBR\fR
+Technical or scientific report number.
+.TP
+\&\fBS\fR
+Series name.
+.TP
+\&\fBT\fR
+Title. For an article in a book or a journal, this should
+be the title of the article.
+.TP
+\&\fBU\fR
+Co‐author (translator, illustrator...). Should be preceded
+by its function:
+\fItr.\fR
+for a translator, etc.
+.TP
+\&\fBV\fR
+For a book in a serie, the volume number of that book.
+For a whole serie, the number of books in that serie.
+.TP
+\&\fBw\fR
+Type (\fBw\fRhich) of an electronic document (online,
+CD‐ROM...)
+.TP
+\&\fBX\fR
+Annotation.
+.TP
+\&\fBx\fR
+URL of an online document.
+\fIu‐ref\fR
+doesn’t have macro to hyphenate correctly urls. In you
+bibliography database, you should use the special character
+\fB\Ee:\fR
+to tell troff where to hyphenate the url, for example like
+this:
+.PP
+.EX
+%x http:\fB\Ee:\fR//\fB\Ee:\fRexample.\fB\Ee:\fRcom/
+.EE
+.TP
+\&\fBy\fR
+Update date of an electronic document.
+.TP
+\&\fBz\fR
+Date of last access to an electronic document.
+.PP
+For all fields except \fBA\fR and \fBE\fR, if there is more
+than one occurrence of a particular field in a record, only
+the last such field will be used.
+.
+.
+.
+.SH FILES
+.PP
+\fB@MACDIR@/u‐ref\fR, the macro file.
+.
+.
+.
+.SH SEE ALSO
+.PP
+iso‐690,
+utmac(7), refer(1), referformat(7).
+.
+.
+.
+.SH LICENSE
+.PP
+\fIu‐ref\fR macro and this manual page are distributed under
+a
+two clause BSD
+license.
+.
+.
+.
+.SH BUGS & HELP
+.PP
+Don’t hesitate to ask questions at help at utroff dot org.
+Please, send bugs and patches at help at utroff dot org.
+.
+.
+.
+.SH AUTHOR
+.PP
+Pierre‐Jean Fichet.

@@ -1,0 +1,118 @@
+%K simplebook
+%A firstname lastname, jr
+%T Book title
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Illustration Firstname Lastname
+
+%K differentbook
+%A firstname lastname, jr
+%T Another book title
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname
+
+%K inbook
+%A firstname lastname, jr
+%B Book title
+%T Article title
+%P xx-yy
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname
+
+%K bookserie
+%A firstname lastname, jr
+%S Serie title
+%V III
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname
+
+%K bookinserie
+%A firstname lastname, jr
+%S Serie title
+%T Book title
+%V II
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname
+
+%K inbinserie
+%A firstname lastname, jr
+%S Serie title
+%B Book title
+%V I
+%T Article title
+%P xx-yy
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname
+
+%K singlejournal
+%A firstname lastname, jr
+%J Journal title
+%N xx
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname
+
+%K injournal
+%A firstname lastname, jr
+%J Journal title
+%N xx
+%T Article title
+%P xx-yy
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname
+
+%K jourinserie
+%A firstname lastname, jr
+%S Serie title
+%J Journal title
+%N xx
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname
+
+%K injinserie
+%A firstname lastname, jr
+%S Serie title
+%J Journal title
+%N xx
+%T Article title
+%P xx-yy
+%C City
+%I Issuer
+%D date
+%H How published
+%M Collection
+%U Trad. Firstname Lastname

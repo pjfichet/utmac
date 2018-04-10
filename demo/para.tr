@@ -1,0 +1,30 @@
+.so lorem.tr
+.H3 Paragraph macros
+.PP
+Default paragraph.
+.lorem
+.PP
+.lorem
+.PP
+.lorem
+.PQ
+Quotation paragraph.
+.lorem
+.PB
+Left extended paragraph.
+.lorem
+.PI
+List item.
+.lorem
+.PL
+Left align paragraph.
+.lorem
+.PR
+Right align paragraph.
+.lorem
+.PC
+Centered paragraph.
+.lorem
+.PX
+Example paragraph (text is not filled).
+.lorem

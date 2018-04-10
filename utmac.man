@@ -1,0 +1,564 @@
+.\"
+.\" DI $Id: utmac.tr,v 1.35 2017/11/16 16:42:31 pj Exp pj $
+.\" DA Pierre‐Jean Fichet
+.\" DS Utroff utmac manual
+.\" DT Utroff utmac manual
+.\" DK utroff utmac u‐ref uw ux um ut us uh refer iso‐690 troff nroff heirloom tmac xml pdf markdown html fodt
+.
+.
+.
+.TH UTMAC 7 ´2017‐12‐11´
+.
+.
+.
+.SH NAME
+.PP
+\fButmac\fR: macro set for heirloom troff.
+.
+.
+.
+.SH DESCRIPTION
+.PP
+The \fIU troff macros\fR — \fIutmac\fR — is a set of
+\fItroff\fR macros which uses the typographic features of
+\fIHeirloom Troff\fR. Bibliography, indexes, table of
+content and summaries can be automatically inserted.
+\fIUtmac\fR informs about orphans, widows and blanks at the
+bottom of page, and provides macros to help the user to fix
+them manually. \fIUtmac\fR can produce terminal output, high
+quality pdf files, ReStructuredText files, plain text file,
+and clean xml files — and so, with some xsl stylesheet,
+flat open document texts (fodt) and html files.
+.
+.
+.
+.SH FILES
+.
+.
+.
+.SS User macro files
+.RS 3
+.PP
+The following macro files can be used by the user (called
+with the \fB‐m\fR option of troff):
+.TP
+\&\fIuh\fR
+Made with humanities in mind. It use marginal notes instead
+of footnotes.
+.TP
+\&\fIul\fR
+A macro to write letters and short texts.
+.TP
+\&\fIum\fR
+Translate a \fIutmac\fR document to manpage with \fInroff\fR.
+.TP
+\&\fIut\fR
+Translate an \fIutmac\fR document to a flat text file (such as
+README files) with \fInroff\fR.
+.TP
+\&\fIus\fR
+Made for technical documentation. It use a common
+layout, almost like the old troff \fIms\fR.
+.TP
+\&\fIuw\fR
+Translate an \fIutmac\fR document to the markdown wiki format.
+.TP
+\&\fIux\fR
+Translate an \fIutmac\fR document to xml. This macro must be
+used with the
+postxml(1)
+post‐processor.
+.
+.
+.
+.SS Locale macro files
+.RS 3
+.PP
+\fIUtmac\fR use the \fBUTMAC\fR environment variable to load a
+locale macro. The file \fI@MACDIR@/u‐locale\fR is an
+example of such a macro, you should copy and edit it to suit
+your needs.
+.
+.
+.
+.SH MACROS
+.PP
+An \fIutmac\fR document should be structured in four parts:
+metadatas, definition of some register, content, and appendix. The
+content can contain header macros, summary macros, paragraph
+macros, typographic macros, note macros, include macros, links
+macros, keywords macros.
+.PP
+All macros have two letters; the first one define the gender of the
+macro: meta\fBD\fRatas, \fBR\fRegister, \fBH\fReading, \fBS\fRummary,
+\fBP\fRaragraph, \fBT\fRypographic, \fBN\fRotes, \fBI\fRnclude,
+\fBL\fRinks, \fBK\fReywords, Appendi\fBX\fR.
+.
+.
+.
+.SS Metadata macros
+.RS 3
+.PP
+These macro are used to populate the metadatas of the final
+file (pdf, xml, or html). They must be inserted in the
+first page of the document — their natural place being the
+first lines of the file.
+.TP
+\&\fBDA\fR \fIauthor name\fR
+Define author metadata.
+.TP
+\&\fBDI\fR \fIIdentifier\fR
+Define identifier (RCS Id...).
+.TP
+\&\fBDK\fR \fIlist of keywords\fR
+Define keywords metadata.
+.TP
+\&\fBDS\fR \fIsubject of the text\fR
+Define subject metadata.
+.TP
+\&\fBDT\fR \fItitle of the text\fR
+Define title metadata.
+.
+.
+.
+.SS Register macros to define format and layout
+.RS 3
+.PP
+Some number register are used by \fIutmac\fR to make or not
+some actions. Set to 1, the action is done, set to 0, the
+action is not done. The following macro can be used to
+define the state of this number register. The name of the
+macro is also the name of the number register. For example,
+\fB.RV 1\fR acts like \fB.nr RV 1\fR. This is usefull to
+format a document from the command line:
+.PP
+.EX
+troff -rRV=1 -muh file
+.EE
+.TP
+\&\fBRV\fR \fInum\fR
+If \fInum\fR=1, use a recto‐verso layout.
+Default is 0.
+.TP
+\&\fBRI\fR \fInum\fR
+If \fInum\fR=1, replace references by \fIIdem\fR when
+needed.
+Default is 1.
+.TP
+\&\fBRH\fR \fInum\fR
+If \fInum\fR=1, print help message.
+Help message inform about orphans, widows, blank at the
+bottom of pages, note diverted to next page, and multiple
+definition of anchor keyword.
+Default is 1.
+.TP
+\&\fBRL\fR [\fIfr\fR|\fIen\fR]
+Set language of file. Use this macro to localize some string
+and to respect local typographic standard if you want to
+override the default which should be defined by the macro in
+the \fBUTMAC\fR environment variable.
+.TP
+\&\fBRO\fR \fInum\fR
+If \fInum\fR=1, replace some part of a reference (issuer,
+city and date) by \fIop. cit.\fR if the same reference has
+appeared in the text.
+Default is 1.
+.TP
+\&\fBRP\fR \fInum\fR
+If \fInum\fR=1, print page number.
+Default is 1.
+.TP
+\&\fBRN\fR \fInum\fR
+If \fInum\fR=1, print reference in a note, if \fInum\fR=0,
+the reference is printed directly in the text, by using the
+\fBPQ\fR macro.
+Default is 1.
+
+.
+.
+.
+.SS Heading macros
+.RS 3
+.PP
+These macro are used to print headings and to record them
+for a summary or a table of contents.
+.TP
+\&\fBH1\fR \fITitle of the book\fR
+Book heading.
+.TP
+\&\fBH2\fR \fITitle of the chapter\fR
+Chapter heading.
+.TP
+\&\fBH3\fR \fITitle of the paragraph\fR
+Paragraph heading.
+.TP
+\&\fBH4\fR \fISubheading\fR
+Subheading.
+.TP
+\&\fBH0\fR \fITemporary title\fR
+Temporary heading, printed in the header or in the footer of
+the current page. This heading is not recorded in the table
+of content.
+.TP
+\&\fBH*\fR \fIMargin title\fR
+Heading printed in header or footer of the following pages,
+and in the current ones if H0 is not set for this page. This
+heading is not recorded in the table of content.
+.
+.
+.
+.SS Summaries macros
+.RS 3
+.PP
+To print a summary, two or three pass of troff are needed:
+the first one to record the summary, the second one to print
+it, and a third one might be necessary to adjust the page
+number if the summary is longer than one page.
+.TP
+\&\fBS2\fR
+Print a summary of chapter headings. The summary is printed
+on a new page.
+.TP
+\&\fBS3\fR
+Print a summary of paragraph headings. The summary is
+printed on the actual page.
+.TP
+\&\fBS4\fR
+Print a summary of subheading. The summary is printed on the
+actual page.
+.TP
+\&\fBS*\fR
+Print the whole table of content as a summary.
+.
+.
+.
+.SS Paragraph macros
+.RS 3
+.TP
+\&\fBPB\fR
+Left indent (extended) pargraph. Usefull to \fBb\fRegin some
+sort of lists.
+.TP
+\&\fBPC\fR
+Centered paragraph.
+.TP
+\&\fBPP\fR
+Justified paragraph.
+.TP
+\&\fBPQ\fR
+Quote paragraph.
+.TP
+\&\fBPI\fR [\fIbullet\fR]
+List paragraph. Default bullet is usually an emdash
+(\fI\Ee(em\fR).
+.TP
+\&\fBPL\fR
+Left align paragraph.
+.TP
+\&\fBPR\fR
+Right align paragraph.
+.TP
+\&\fBPX\fR
+Example paragraph. Text is not filled.
+.
+.
+.
+.SS Typographic macros
+.RS 3
+.TP
+\&\fBTD\fR
+Use micro‐typography to decrease the witdh of a paragraph.
+It can be inserted at the begining (just after \fIPP\fR) of
+a well choosen paragraph to avoid orphans or widows. A well
+chooseen paragraph is a long one, with a short last line.
+.TP
+\&\fBTI\fR
+Use micro‐typography to increase the width of a paragraph.
+It can be inserted at the begining (just after \fIPP\fR) of
+a well choosen paragraph to avoid a blank at the bottom of a
+page. A well choosen paragraph is a long one, with a long
+last line.
+.
+.
+.
+.SS Note macros
+.RS 3
+.TP
+\&\fBNS\fR \fIno\fR
+Start a numbered note.
+The default is to print a number before the
+note, but if an argument is given, no number will be
+printed. To insert a number reference to the note in the
+text, use the \fB*\fR string, say insert: \fB\Ee**\fR where
+you want the number to appear.
+.TP
+\&\fBNT\fR
+Print a note on top of the others, or in the flow of the
+text, depending of the macro used.
+.TP
+\&\fBNB\fR
+Print a note in the bottom of the page, or in the flow of
+the text, depending of the macro used.
+.TP
+\&\fBNE\fR
+End \fINS\fR, \fINT\fR or \fINB\fR.
+.
+.
+.
+.SS Include macros
+.RS 3
+.PP
+These macros are used to include an encapsulated postscript
+document. These documents are often images, which can be
+produced with the \fBconvert\fR command from
+\fBImageMagick\fR:
+.PP
+.EX
+convert image.jpg image.eps
+.EE
+.TP
+\&\fBIL\fR \fIeps\fR [\fIscale\fR] [\fIflag\fR]
+Include and left align the \fIeps\fR document. The document
+size is scaled by \fIscale\fR and the optional \fIflag\fR
+argument is used to format its appearance (see Heirloom Troff
+documentation for a description of these flags).
+.TP
+\&\fBIC\fR \fIeps\fR [\fIscale\fR] [\fIflags\fR]
+Idem, except that the document is centered.
+.TP
+\&\fBIR\fR \fIeps\fR [\fIscale\fR] [\fIflags\fR]
+Idem, except that the document is right aligned.
+.
+.
+.
+.SS Link macros
+.RS 3
+.PP
+Link macros are used to insert links in a document. If a link macro
+is preceded by the \fBLT\fR macro it will use the arguments of
+\fBLT\fR as a replacement text for the link. Otherwise, the link is
+printed.
+.PP
+.EX
+This will print the url followed by a dot:
+\fB.\fR\fBLU\fR http://utroff.org .
+While this will print «link» followed by a dot:
+\fB.\fR\fBLT\fR link ». «
+\fB.\fR\fBLU\fR http://utroff.org
+.EE
+.TP
+\&\fBLK\fR \fIkeyword\fR
+Insert an anchor named \fIkeyword\fR for internal links. Does not
+print anything.
+.TP
+\&\fBLL\fR \fIkeyword stringafter stringbefore\fR
+Insert a link to the anchor \fIkeyword\fR. The text to link is defined
+by the \fBLT\fR macro — if it is not defined, the url is printed,
+surrounded by \fIstringbefore\fR and \fIstringafter\fR.
+.TP
+\&\fBLM\fR \fIemail stringafter stringbefore\fR
+Insert a link to an email address. The text to link is defined by the
+\fBLT\fR macro — if it is not defined, the url is printed,
+surrounded by \fIstringbefore\fR and \fIstringafter\fR.
+.TP
+\&\fBLT\fR \fItext stringafter stringbefore\fR
+Define \fItext\fR as the replacement text for the following link. It
+is printed surrounded by \fIstringbefore\fR and \fIstringafter\fR.
+.TP
+\&\fBLU\fR \fIurl stringafter stringbefore\fR
+Insert a link to an url. The text to link is defined by the \fBLT\fR
+macro — if it is not defined, the url is printed, surrounded by
+\fIstringbefore\fR and \fIstringafter\fR.
+.
+.
+.
+.SS Keyword macros
+.RS 3
+.PP
+Keyword macros add semantic information to the source and the
+final document and index them. They do not print anything.
+The following keyword macros are defined:
+.TP
+\&\fBKA\fR \fIacronym\fR
+Index an acronym.
+.TP
+\&\fBKN\fR \fIname\fR
+Index a name.
+.TP
+\&\fBKO\fR \fIobject\fR
+Index an object.
+.TP
+\&\fBKT\fR \fItitle\fR
+Index the title of a book (references are automatically indexed using
+it).
+.TP
+\&\fBKW\fR \fIword\fR
+Index a word.
+.
+.
+.
+.SS Appendix macros
+.RS 3
+.TP
+\&\fBXB\fR [\fIbibliography\fR]
+Print a bibliography. If \fIbibliography\fR is omitted,
+\fIUtmac\fR
+will use the \fI$REFER\fR environment variable. The bibliography
+begins with the \fBH3\fR macro. \fIUtmac\fR try to sort the
+bibliography using \fIurefer\fR \fB‐i\fR option, but this
+doesn’t give correct result on some bibliography
+list. For a perfect result, you should sort your
+bibliography with \fIsortbib\fR. See \fBu‐ref\fR(7).
+.TP
+\&\fBXI\fR
+Print the existing indexes. To index something, use an keyword macro. Each index begin with the \fBH3\fR macro.
+.TP
+\&\fBXT\fR
+Print a table of content. The table begin with the \fBH3\fR
+macro.
+.
+.
+.
+.SH FONTS
+.PP
+In \fIutmac\fR, fonts are defined by a single uppercase
+letter string. As in the xml style, these strings must
+enclose the text and can be embedded:
+.PP
+.EX
+Roman \fB\Ee*I\fRitalic, \fB\Ee*B\fRbolditalic\fB\Ee*B\fR\fB\Ee*I\fR, roman.
+.EE
+.PP
+So, in an \fIutmac\fR document, you must avoid the raw troff
+\fB\Eef\fR and \fB.fp\fR commands.
+.PP
+Font strings are defined as follow:
+.TP
+\&\fBB\fR
+Bold font.
+.TP
+\&\fBI\fR
+Italic font.
+.TP
+\&\fBC\fR
+Small Capital font.
+.TP
+\&\fBA\fR
+Acronym font (capital to small capital).
+.TP
+\&\fBU\fR
+Superscript font (upper).
+.TP
+\&\fBL\fR
+Dowscript font (lower).
+.TP
+\&\fBF\fR
+Final font (glyphs that might only appear at the end of a
+line).
+.TP
+\&\fBM\fR
+Monospace font.
+.
+.
+.
+.SH EXAMPLE
+.PP
+The following example is a fully commented simple \fIutmac\fR
+document. As a summary is inserted, two pass of \fItroff\fR
+are needed. If the summary is longer than one page, a third
+pass of troff would be needed to handle correctly the page
+references, but this is not the case in this short example.
+So, this document can be build using these commands:
+.PP
+.EX
+troff -muh alice.tr \fB>\fR /dev/null
+troff -muh alice.tr \fB|\fR dpost \fB|\fR ps2pdf - alice.pdf
+.EE
+.PP
+.EX
+\fB.\fR\fI\Ee" Start example\fR
+\fB.\fR\fI\Ee" Use recto verso\fR
+\fB.\fR\fBRV\fR
+\fB.\fR\fI\Ee" Define metadatas\fR
+\fB.\fR\fBDA\fR Lewis Carroll
+\fB.\fR\fBDT\fR Alice’s adventures in wonderland and Through the looking glass
+\fB.\fR\fBDK\fR alice nabuchodonosor jabberwocky
+\fB.\fR\fI\Ee" Build first page\fR
+\fB.\fR\fBH0\fR Lewis Carroll
+\fB.\fR\fBH1\fR Alice’s adventures
+\fB.\fR\fI\Ee" Insert a summary of chapter headings\fR
+\fB.\fR\fBS2\fR
+\fB.\fR\fI\Ee" First chapter heading\fR
+\fB.\fR\fBH2\fR Alice’s adventures in wonderland
+\fB.\fR\fI\Ee" A short exergue\fR
+\fB.\fR\fBNT\fR
+All in the golden afternoon
+Full leisurly we glide
+\fB.\fR\fBNE\fR
+\fB.\fR\fI\Ee" First paragraph\fR
+\fB.\fR\fBH3\fR Down the rabbitt hole
+\fB.\fR\fI\Ee" Some text with font definitions, and a note appeal\fR
+\fB.\fR\fBPP\fR
+\fB\Ee*C\fRAlice\fB\Ee*C\fR was beginning to be very tired of sitting by her
+sister on the bank, and of having nothing to do: once or
+twice she had peeped into the book her sister was reading,
+but it had no pictures or conversations in it, "\fB\Ee*I\fRand what
+is the use of a book\fB\Ee*I\fR" thought \fB\Ee*C\fRAlice\fB\Ee*C\fR, "\fB\Ee*I\fRwithout
+pictures or conversations?\fB\Ee*I\fR\fB\Ee**\fR"
+\fB.\fR\fI\Ee" A note\fR
+\fB.\fR\fBNS\fR
+Yes, what is the use of such a book?
+\fB.\fR\fBNE\fR
+\fB.\fR\fI\Ee" Some other chapters and paragraphs...\fR
+\fB.\fR\fBH3\fR The pool of tears
+\fB.\fR\fBH2\fR Through the looking glass
+\fB.\fR\fI\Ee" Table of content\fR
+\fB.\fR\fBXT\fR
+\fB.\fR\fI\Ee" Stop example\fR
+.EE
+.
+.
+.
+.SH ENVIRONMENT
+.TP
+\&\fBTROFFMACS\fR
+This is a \fItroff\fR environment variable, that \fIutmac\fR
+use to find tmacs file. It must be defined for \fIutmac\fR
+to work.
+.TP
+\&\fBTROFFONTS\fR
+This is a \fItroff\fR environment variable that \fIutmac\fR
+use to find font files. By default, this variable should
+contain the path to the opentype libertine font.
+.TP
+\&\fBUTMAC\fR
+Locale tmac file that \fIutmac\fR will load. It should
+contain localization macros. See \fB@MACDIR@/u‐locale\fR for
+an example.
+.
+.
+.
+.SH SEE ALSO
+.PP
+utmac‐hack(7), u‐ref(7), postxml(1), idx(1), refer(1).
+.
+.
+.
+.SH LICENSE
+.PP
+\fIUtmac\fR macros and this manual page are distributed under
+a
+two clause BSD
+license.
+.
+.
+.
+.SH BUGS & HELP
+.PP
+Don’t hesitate send questions, bugs, and patches at help at utroff dot org.
+.
+.
+.
+.SH AUTHOR
+.PP
+Pierre‐Jean Fichet.

@@ -1,0 +1,78 @@
+.H3 Syntax highlighting with ugrind
+.H4 troff
+.vS troff
+.de page:head
+.	\" put a vacuum header
+.wh \\n[page-foot]v page:foot
+.if !"\\n(.F"\\*[page-file]" \{\
+.	pdf:anchor \\n(.F
+.	ds page-file \\n(.F
+.\}
+.sp |\\n[page-head]v
+.ns
+.po \\n[text-offset]u
+.if \\n(RV=1 .if e .po \\n[text-offset-e]u
+..
+.vE
+.H4 shell
+.vS sh
+if [ "$1" == "-d" ]; then
+	# default
+	# input: troff output
+	# output: troff format
+	sortwords $2 | catpages | totroff
+else
+	# default
+	# input: troff output
+	# output: troff format
+	tr -d '\004' < $1 | sortwords | catpages | totroff
+fi
+.vE
+.H4 C
+.vS C
+/* trprinter:
+** print a char,
+** escape it if needed
+*/
+void
+trprinter(char c)
+{
+switch (c) {
+	case '\\':
+		printf ("\\*e\\&"); // \\e
+		break;
+	case ('.'):
+		printf("\\&.");
+		break;
+	case ('\''):
+		printf("\\&'");
+		break;
+	case '_':
+		printf("\\*_");
+		break;
+	case '-':
+		printf("\\*-");
+		break;
+	default:
+		putchar(c);
+		break;
+}
+}
+.vE
+.H4 Makefile
+.vS make
+.SUFFIXES: .man .7
+
+UBIN=u-apolline u-en u-fr u-grind uh u-idx \
+u-libertine u-locale um uw ut \
+u-ref us ux
+
+UMAN=utmac.7 u-ref.7
+
+%: %.tmac
+	sed -e "s|@UPATH@|$(UPATH)|g" $< > $@
+
+.man.7:
+	sed -e "s|@MACDIR@|$(MACDIR)|g" \
+	-e "s|@UFILES@|$(UBIN)|g" $< > $@;
+.vE

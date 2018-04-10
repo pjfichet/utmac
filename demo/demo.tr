@@ -1,0 +1,99 @@
+.so lorem.tr
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Metadatas
+.DA Utroff.org
+.DT Utroff demonstration
+.DS Demonstration of the utroff text processing system
+.DK utroff, heirloom troff
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Layout
+.H1 Utroff overview
+.S2
+.H2 Macros
+.H0 Utroff
+.H* Macros
+.H3 Layout macros
+.PP
+Default paragraph.
+.lorem
+.PQ
+Quotation paragraph, with a note\**.
+.NS
+This is a numbered note.
+.NE
+.lorem
+.H3 Link macros
+.PP
+Default paragraph with a link to
+.LP utroff.org ,
+.LU http://utroff.org
+an
+.LP email ,
+.LU mail@example.com
+an indexed
+.KN Lastname Firstname
+name,
+an indexed
+.KW Word
+word, and an indexed
+.KT Title
+title.
+.lorem
+.H2 Pre-processors
+.H0 Utroff demo
+.H* Pre-processors
+.H3 References with refer, default system
+.H4 Ibid. and op. cit. system
+.PP
+«Citation from a simple book\**»,
+.[
+simplebook
+%h chapter I
+%p xx
+.]
+«ibid.\**»,
+.[
+simplebook
+%h chapter I
+%p xx
+.]
+«ibid. with different chapter\**»,
+.[
+simplebook
+%h chapter III
+%p yy
+.]
+«citation from another book\**»,
+.[
+differentbook
+.]
+«opcit hereinbefore\**».
+.[
+simplebook
+%h chapter I
+%p xx
+.]
+.lorem
+.H3 Syntax highlighting with ugrind
+.H4 troff
+.vS troff
+.de page:head
+.	\" put a vacuum header
+.wh \\n[page-foot]v page:foot
+.if !"\\n(.F"\\*[page-file]" \{\
+.	pdf:anchor \\n(.F
+.	ds page-file \\n(.F
+.\}
+.sp |\\n[page-head]v
+.ns
+.po \\n[text-offset]u
+.if \\n(RV=1 .if e .po \\n[text-offset-e]u
+..
+.vE
+.H2 Tables
+.\" Index
+.XI
+.\" Collected references
+.XB refer.ref
+.\" Table of content
+.XT

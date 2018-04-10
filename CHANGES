@@ -1,0 +1,46 @@
+# 2017-12-11
+------------
+
+The macro to define the substitution text for a link is now LT
+instead of LP.
+
+The user interface to index keywords is now completely separated
+from the one used to print links. The keywords to index are now
+defined by the K[x] macro. K[x] macros don’t print anything, and
+the LP macro is now reserved to links.
+
+Defined K[x] macros are KA (acronyms), KN (names), KO (objects,
+things), KT (titles, books), KW (words).  It is easy to add new
+ones by using the internal idx :make macro.
+
+# 2017-12-10
+------------
+
+Following the development of Heirloom Troff on github, ux.tmac
+now uses \(dq to escape double quotes.
+
+# 2017-12-09
+------------
+
+Following the development of Heirloom Troff on github, u-ref.tmac
+now uses \E as escape seqence instead of \\.
+
+# 2017/12/08 utmac-0.5
+----------------------
+
+The macros for links are now in u-links.tmac.  LL, LM and LU now
+print the link even if LP is not used.  A glitch in summaries and
+table of contents has been fixed by correctly escaping \a and \t.
+
+# 2017/11/25 utmac-0.4
+----------------------
+
+Separatting Utmac from the Utroff archive.  Added macro ul to
+write letters.
+
+# 2014/03/13 utroff-0.2
+-----------------------
+
+Load a font if the user locale macro does not do it (bug report
+by Fravashyo).
+

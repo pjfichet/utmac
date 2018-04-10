@@ -1,0 +1,153 @@
+.H3 References with refer, default system
+.H4 Ibid. and op. cit. system
+.PP
+«Citation from a simple book\**»,
+.[
+simplebook
+%h chapter I
+%p xx
+.]
+«ibid\**»,
+.[
+simplebook
+%h chapter I
+%p xx
+.]
+«ibid with different chapter\**»,
+.[
+simplebook
+%h chapter III
+%p yy
+.]
+«citation from another book\**»,
+.[
+differentbook
+.]
+«opcit hereinbefore\**».
+.[
+simplebook
+%h chapter I
+%p xx
+.]
+.H4 References formats
+.PP
+«Simple book\**»,
+.[
+simplebook
+.]
+«article in book\**»,
+.[
+inbook
+.]
+«serie of books\**»,
+.[
+bookserie
+.]
+«book in serie\**»,
+.[
+bookinserie
+.]
+«article in book in serie\**»,
+.[
+inbinserie
+.]
+«single journal\**»,
+.[
+singlejournal
+.]
+«article in journal\**»,
+.[
+injournal
+.]
+«journal in serie\**»,
+.[
+jourinserie
+.]
+«article in journal in serie\**».
+.[
+injinserie
+.]
+.H3 Print notes inline
+.RN 0 \" Tells u-ref to print notes inline
+.PP
+«Simple book»,
+.[
+simplebook
+.]
+«article in book»,
+.[
+inbook
+.]
+«serie of books»,
+.[
+bookserie
+.]
+«book in serie»,
+.[
+bookinserie
+.]
+«article in book in serie»,
+.[
+inbinserie
+.]
+«single journal»,
+.[
+singlejournal
+.]
+«article in journal»,
+.[
+injournal
+.]
+«journal in serie»,
+.[
+jourinserie
+.]
+«article in journal in serie».
+.[
+injinserie
+.]
+.RN 1 \" Reset: print notes in a note
+.H3 Don't print «op. cit.»
+.RO 0 \" Tels u-ref to not print "op. cit."
+.PP
+«Simple book\**»,
+.[
+simplebook
+.]
+«article in book\**»,
+.[
+inbook
+.]
+«serie of books\**»,
+.[
+bookserie
+.]
+«book in serie\**»,
+.[
+bookinserie
+.]
+«article in book in serie\**»,
+.[
+inbinserie
+.]
+«single journal\**»,
+.[
+singlejournal
+.]
+«article in journal\**»,
+.[
+injournal
+.]
+«journal in serie\**»,
+.[
+jourinserie
+.]
+«article in journal in serie\**».
+.[
+injinserie
+.]
+.\" Collected references
+.XB refer.ref
+.\" Index of references
+.\" (no others are defined in this document)
+.XI
