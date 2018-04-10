@@ -21,7 +21,7 @@ MACDIR=$(LIBDIR)/tmac
 # Where to find troff fonts
 FNTDIR=$(LIBDIR)/font
 # Where to find OTF fonts
-OTFDIR=/usr/share/fonts/OTF
+OTFDIR=/usr/share/fonts/OTF:/usr/share/fonts/ttf-linux-libertine/
 
 # Where to find Heirloom tools
 # Heirloom troff
@@ -68,7 +68,8 @@ all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrin
 
 %.tmp: %.tr
 	@echo "Generating $@"
-	@$(SOELIM) $< | $(UGRIND) | $(EQN) | $(TBL) | $(REFER) -a -b -dAE -p $$(basename $< .tr).ref > $@
+	@#$(SOELIM) $< | $(UGRIND) | $(EQN) | $(TBL) | $(REFER) -a -b -dAE -p $$(basename $< .tr).ref > $@
+	@$(SOELIM) $< | $(UGRIND) | $(REFER) -a -b -dAE -p $$(basename $< .tr).ref > $@
 
 %.to: %.tmp $(MACDIR)/$(M)
 	@echo "Generating $@ with -m$(M), pass 1"

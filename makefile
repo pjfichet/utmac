@@ -1,13 +1,15 @@
 # Utmac macros and manual pages
  
 # Packaging directory
-DESTDIR=/tmp
+DESTDIR=
 # Prefix directory
-PREFIX=/usr/local/
+PREFIX=/opt/utroff
+# Utroff bin directory
+BINDIR=$(PREFIX)/bin
 # Man directory
 MANDIR=$(PREFIX)/man
 # Library directory
-LIBDIR=$(PREFIX)/share
+LIBDIR=$(PREFIX)/lib
 # Tmac directory
 MACDIR=$(LIBDIR)/tmac
 # Install binary
@@ -28,11 +30,11 @@ all: $(TMAC) $(MAN)
 	sed -e "s#@MACDIR@#$(MACDIR)#g; s#@TMAC@#$(TMAC)#g" $< > $@
 
 $(DESTDIR)$(MACDIR)/%: %
-	test -d $(DESTDIR)$(MACDIR) || mkdir -p $(DESTDIR)$(MACDIR)
+	@test -d $(DESTDIR)$(MACDIR) || mkdir -p $(DESTDIR)$(MACDIR)
 	$(INSTALL) -c -m 644 $(@F) $@
 
 $(DESTDIR)$(MANDIR)/man7/%: %
-	test -d $(DESTDIR)$(MANDIR)/man7 || mkdir -p $(DESTDIR)$(MANDIR)/man7
+	@test -d $(DESTDIR)$(MANDIR)/man7 || mkdir -p $(DESTDIR)$(MANDIR)/man7
 	$(INSTALL) -c -m 644 $(@F) $@
 
 install: $(TMAC:%=$(DESTDIR)$(MACDIR)/%) $(MAN:%=$(DESTDIR)$(MANDIR)/man7/%)
