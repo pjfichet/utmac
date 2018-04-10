@@ -54,8 +54,7 @@ before the first use of utmac :
 # License
 =========
 
-Utmac and its manual page are distributed under a two clause bsd
-license <LICENSE-bsd2>.
+Utmac and its manual page are distributed under the ISC license.
 
 # Help and bugs
 ===============
