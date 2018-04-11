@@ -20,7 +20,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .do xflag 3
 .nr tmac-u-biolinum 1
 .ds data-font biolib
-.so \n(.D/u-fonts
+.so \V[TROFFMACS]/u-fonts
 .\""""""""""""""""""""""""""""
 .\" Mount fonts for text
 .\"
@@ -36,11 +36,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	fp \\n+z f-\\$10 \\$2 otf
 .	\" mount XX1: small caps
 .	fp \\n+z f-\\$11 \\$2 otf
-.	feature f-\\$11 +smcp +lnum
+.	feature f-\\$11 +smcp
 .	fdeferlig f-\\$11 ff fi fl ft ffi ffl fft
 .	\" mount XX2: acronyms
 .	fp \\n+z f-\\$12 \\$2 otf
-.	feature f-\\$12 +smcp +lnum
+.	feature f-\\$12 +smcp
 .	fdeferlig f-\\$12 ff fi fl ft ffi ffl fft
 .	fzoom f-\\$12 .9
 .	track f-\\$12 1 .7 40 0
