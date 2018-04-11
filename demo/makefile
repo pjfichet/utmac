@@ -2,7 +2,7 @@
 
 # Default macro
 M=-mul
-#M=-mu-fr -mu-apolline -muh
+#M=-muh -mu-apolline -mu-fr
 
 # Prefix directory
 PREFIX=/opt/utroff
