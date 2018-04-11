@@ -65,9 +65,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	if d note:div .note:head
 .	pdf:data
 ..
-.de doc:file
-.	if !d data-file .ds data-file \\n(.F
-..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Page
 .de page:head
@@ -147,7 +144,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	typo:text
 ..
 .de par:init
-.	doc:file
+.	var:start
 .	par:doc
 ..
 .de par:start
@@ -561,5 +558,5 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\""""""""""""""""""""""""""""""""""""""
 .\" Load other macros and start
 .so \V[TROFFMACS]/u-var
-.if !d font:text .so \V[TROFFMACS]/u-libertine
+.if !r tmac-u-fonts .so \V[TROFFMACS]/u-libertine
 .doc:start

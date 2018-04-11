@@ -1,12 +1,8 @@
 # Formatting text with Troff
 
 # Default macro
-M=ul
-
-# Locale utmac macro file
-# Uncomment the second line if you have defined u-locale
-UTMAC=$(MACDIR)/u-en
-#UTMAC=$(MACDIR)/u-locale
+M=-mul
+#M=-mu-fr -mu-apolline -muh
 
 # Prefix directory
 PREFIX=/opt/utroff
@@ -62,7 +58,6 @@ TROFFMACS=$(MACDIR)/
 TROFFONTS=$(FNTDIR)/:$(OTFDIR)/
 export TROFFONTS
 export TROFFMACS
-export UTMAC
 
 all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrind.pdf
 
@@ -72,12 +67,12 @@ all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrin
 	@$(SOELIM) $< | $(UGRIND) | $(REFER) -a -b -dAE -p $$(basename $< .tr).ref > $@
 
 %.to: %.tmp $(MACDIR)/$(M)
-	@echo "Generating $@ with -m$(M), pass 1"
-	@$(TROFF) -rRH=0 -m$(M) $< 2>&1 > /dev/null
-	@echo "Generating $@ with -m$(M), pass 2"
-	@$(TROFF) -rRH=0 -m$(M) $< 2>&1 > /dev/null
-	@echo "Generating $@ with -m$(M), pass 3"
-	@$(TROFF) -rRH=1 -m$(M) $< > $@
+	@echo "Generating $@ with $(M), pass 1"
+	@$(TROFF) -rRH=0 $(M) $< 2>&1 > /dev/null
+	@echo "Generating $@ with $(M), pass 2"
+	@$(TROFF) -rRH=0 $(M) $< 2>&1 > /dev/null
+	@echo "Generating $@ with $(M), pass 3"
+	@$(TROFF) -rRH=1 $(M) $< > $@
 
 %.ps: %.to
 	@echo "Generating $@"

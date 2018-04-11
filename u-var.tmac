@@ -15,7 +15,7 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .\""""""""""""""""""""""""""""""""""""""
-.nr tmac-u-var
+.nr tmac-u-var 1
 .\""""""""""""""""""""""""""""""""""""""
 .\"warn w all mac
 .warn w
@@ -75,12 +75,21 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\}
 ..
 .\""""""""""""""""""""""""""""""""""""""
+.nr var-start 1
+.de var:start
+.	\" Start a document
+.	if \\n[var-start] \{\
+.		if !\\n[tmac-u-lang] .so \V[TROFFMACS]/u-en
+.		if !d data-file .ds data-file \\n(.F
+.		\"tm \tFile: \\*[data-file], font: \\*[data-font], lang: \\*[data-lang].
+.	\}
+.	nr var-start 0
+..
+.\""""""""""""""""""""""""""""""""""""""
 .\" Here we go!
 .\" Tmac directory, and user macro
 .ds tmac-dir \V[TROFFMACS]
 .ds tmac-locale \V[UTMAC]
-.\" Fonts macros
-.so \*[tmac-dir]/u-fonts
 .\" Typgraphy macros
 .so \*[tmac-dir]/u-typo
 .\" Summary macros
@@ -97,11 +106,3 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .so \*[tmac-dir]/u-ref
 .\" Ugrind macros
 .so \*[tmac-dir]/u-grind
-.ie "\*[tmac-locale]"" \{\
-.	\" Local language macros
-.	so \*[tmac-dir]/u-en
-.	\" Default font
-.	so \*[tmac-dir]/u-libertine
-.\}
-.	\" Locale macro
-.el .so \*[tmac-locale]

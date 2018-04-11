@@ -79,16 +79,27 @@ Translate an \fIutmac\fR document to xml. This macro must be
 used with the
 postxml(1)
 post‐processor.
-.
-.
-.
-.SS Locale macro files
-.RS 3
 .PP
-\fIUtmac\fR use the \fBUTMAC\fR environment variable to load a
-locale macro. The file \fI@MACDIR@/u‐locale\fR is an
-example of such a macro, you should copy and edit it to suit
-your needs.
+Additionnaly, some configuration can be achieved by loading the
+following macros:
+.TP
+\&\fIu-en\fR
+English localization (default).
+.TP
+\&\fIu-fr\fR
+French localization.
+.TP
+\&\fIu-apolline\fR
+Use the Porchez Typofonderie Apolline Font.
+.TP
+\&\fIu-libertine\fR
+Use the Linux Libertine font.
+.TP
+\&\fIu-biolinum\fR
+Use the Linux Biolinum font.
+.TP
+\&\fIu-biolib\fR
+Use a mix of Linux Libertine and Biolinum.
 .
 .
 .

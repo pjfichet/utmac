@@ -16,7 +16,7 @@ MACDIR=$(LIBDIR)/tmac
 INSTALL=/usr/bin/install
 
 TMAC= u-apolline u-biolib u-biolinum u-en u-eps u-fonts u-fr u-grind uh u-idx \
-u-libertine u-links u-locale ul um u-pdf u-ref us u-sum ut u-typo u-var uw ux
+u-libertine u-links ul um u-pdf u-ref us u-sum ut u-typo u-var uw ux
 MAN= u-ref.7 utmac.7 utmac-hack.7
 
 .SUFFIXES: .tmac .1 .7 .man
