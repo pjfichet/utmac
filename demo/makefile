@@ -66,7 +66,7 @@ all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrin
 	@#$(SOELIM) $< | $(UGRIND) | $(EQN) | $(TBL) | $(REFER) -a -b -dAE -p $$(basename $< .tr).ref > $@
 	@$(SOELIM) $< | $(UGRIND) | $(REFER) -a -b -dAE -p $$(basename $< .tr).ref > $@
 
-%.to: %.tmp $(MACDIR)/$(M)
+%.to: %.tmp
 	@echo "Generating $@ with $(M), pass 1"
 	@$(TROFF) -rRH=0 $(M) $< 2>&1 > /dev/null
 	@echo "Generating $@ with $(M), pass 2"
