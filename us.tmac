@@ -85,7 +85,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	if \\n%=1 .if d data:write .data:write
 .	par:init
 .	br
-.	if d note:div .note:print
+.	note:print
 .	if \\n%>1 .page:box
 .	bp
 .	ns
@@ -516,6 +516,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	di
 .	ev
+.	nr note-div +\\n(dn
 .	font:text
 .	nr note-in 0
 ..
@@ -548,23 +549,28 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" else, print diversion in next line
 .	el .ch page:foot \\n[note-olt-line]+1v
 ..
+.nr note-div 0
 .de note:print
-.	ti 0
-.	br
-.	po \\n[note-offset]u
-.	if \\n(RV .if e .po \\n[note-offset-e]u
-.	wh \\n[page-foot]v note:print2
-.	var:print \D'l \\n[text-length]u/3u'
-.	br
-.	mk note-top
-.	ev ev-note
-.	nf
-.	note:div
-.	rm note:div
-.	nr note-size 2
-.	if r note-trap .note:endtrap
-.	br
-.	ev
+.	if \\n[note-div] \{\
+.		ti 0
+.		br
+.		po \\n[note-offset]u
+.		if \\n(RV .if e .po \\n[note-offset-e]u
+.		wh \\n[page-foot]v note:print2
+.		var:print \D'l \\n[text-length]u/3u'
+.		br
+.		mk note-top
+.		ev ev-note
+.		nf
+.		note:div
+.		rm note:div
+.		nr note-size 2
+.		nr note-div 0
+.		if r note-trap .note:endtrap
+.		br
+.		ev
+.		fi
+.	\}
 ..
 .de note:print2
 .	\" print second column
@@ -585,6 +591,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" stop diversion to next page
 .	br
 .	di
+.	nr note-div \\n(dn
 .	de note:div
 .		note:pre
 \\..
