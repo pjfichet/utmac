@@ -276,17 +276,21 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" Put ornament
 .	br
 .	par:init
-.	lnr orn-limit (\\n[page-foot]-5)
-.	lnr orn-line \\n(nl/\\n[text-line]
+.	nr orn-limit \\n[page-foot]-5
+.	nr orn-line \\n(nl/\\n[text-line]
 .	if \\n[orn-line]<\\n[orn-limit] \{\
 .		if \\n[orn-line]>\\n[page-head] \{\
-.			\" a>?b : maximum of a and b.
-.			lnr orn-space (\\n[orn-limit]-\\n[orn-line]/3)>?2
+.			nr orn-tmp \\n[orn-limit]-\\n[orn-line]/3
+.			ie \\n[orn-tmp]>2 .nr orn-space \\n[orn-tmp]
+.			el .nr orn-space 2
 .			sp \\n[orn-space]v
 .			ce
 .			var:print \\*[font-orn]
 .		\}
 .	\}
+.	rr orn-limt
+.	rr orn-line
+.	rr orn-tmp
 ..
 .nr head-1 0 1
 .nr head-2 0 1
