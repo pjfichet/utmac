@@ -98,18 +98,18 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	var:todo code:init
 ..
 .de page:boxeven
-.	ie d page-title-tmp \{\
-.		tl "\T'TOC'\\*[page-title-tmp]\T"""
+.	ie !"\\*[page-title-tmp]"" \{\
+.		tl "\\*[page-title-tmp]"""
 .		rm page-title-tmp
 .	\}
-.	el .tl "\T'TOC'\\*[page-title]\T"""
+.	el .tl "\\*[page-title]"""
 ..
 .de page:boxodd
-.	ie d page-title-tmp \{\
-.		tl """\T'TOC'\\*[page-title-tmp]\T"
+.	ie !"\\*[page-title-tmp]"" \{\
+.		tl """\\*[page-title-tmp]"
 .		rm page-title-tmp
 .	\}
-.	el .tl """\T'TOC'\\*[page-title]\T"
+.	el .tl """\\*[page-title]"
 ..
 .de page:box
 .	ev ev-box
@@ -117,9 +117,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	in 0
 .	po \\n[box-offset]u
 .	lt \\n[box-length]u
-.	ie d page-title-tmp \
-.		tl ""\\*I\T'TOC'\\*[page-title-tmp]\T\\*I""
-.	el .tl ""\\*I\T'TOC'\\*[page-title]\T\\*I""
+.	ie !"\\*[page-title-tmp]"" \
+.		tl ""\\*I\\*[page-title-tmp]\\*I""
+.	el .tl ""\\*I\\*[page-title]\\*I""
 .	ev
 ..
 .de page:num

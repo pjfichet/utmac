@@ -93,22 +93,18 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	var:todo code:init
 ..
 .de page:boxeven
-.	ie d page-title-tmp \{\
-.		tl "\\*C\\*[page-num]\\*C"\
-"\\*C\T'TOC'\\*[page-title-tmp]\T\\*C"
+.	ie !"\\*[page-title-tmp]"" \{\
+.		tl "\\*C\\*[page-num]\\*C""\\*C\\*[page-title-tmp]\\*C"
 .		rm page-title-tmp
 .	\}
-.	el .tl "\\*C\\*[page-num]\\*C"\
-"\\*C\T'TOC'\\*[page-title]\T\\*C"
+.	el .tl "\\*C\\*[page-num]\\*C""\\*C\\*[page-title]\\*C"
 ..
 .de page:boxodd
-.	ie d page-title-tmp \{\
-.		tl "\\*C\T'TOC'\\*[page-title-tmp]\T\\*C"\
-"\\*C\\*[page-num]\\*C"
+.	ie !"\\*[page-title-tmp]"" \{\
+.		tl "\\*C\\*[page-title-tmp]\\*C""\\*C\\*[page-num]\\*C"
 .		rm page-title-tmp
 .	\}
-.	el .tl "\T'TOC'\\*C\\*[page-title]\T\\*C"\
-"\\*C\\*[page-num]\\*C"
+.	el .tl "\\*C\\*[page-title]\\*C""\\*C\\*[page-num]\\*C"
 ..
 .de page:box
 .	par:init

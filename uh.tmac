@@ -91,10 +91,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	if \\n(RP \{\
 .		sp |\\n[page-foot]v+2v
 .		ie \\n(RV=1 \{\
-.			ie e .tl '\\*A\\n%\\*A'''
-.			el .tl '''\\*A\\n%\\*A'
+.			ie e .tl "\\*A\\n%\\*A"""
+.			el .tl """\\*A\\n%\\*A"
 .		\}
-.		el .tl '''\\*A\\n%\\*A'
+.		el .tl """\\*A\\n%\\*A"
 .	\}
 .	page:box
 .	note:print
@@ -105,18 +105,18 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de page:boxeven
 .	po \\n[note-offset-e]u
-.	ie d page-title-tmp \{\
-.		tl '''\\*B\T"TOC"\\*[page-title-tmp]\T\\*B'
+.	ie !"\\*[page-title-tmp]"" \{\
+.		tl """\\*B\\*[page-title-tmp]\\*B"
 .		rm page-title-tmp
 .	\}
-.	el .tl '''\T"TOC"\\*B\\*[page-title]\T\\*B'
+.	el .tl """\\*B\\*[page-title]\\*B"
 ..
 .de page:boxodd
-.	ie d page-title-tmp \{\
-.		tl '\\*B\T"TOC"\\*[page-title-tmp]\T\\*B'''
+.	ie !"\\*[page-title-tmp]"" \{\
+.		tl "\\*B\\*[page-title-tmp]\\*B"""
 .		rm page-title-tmp
 .	\}
-.	el .tl '\T"TOC"\\*B\\*[page-title]\T\\*B'''
+.	el .tl "\\*B\\*[page-title]\\*B"""
 ..
 .de page:box
 .	sp |\\n[page-box]v
