@@ -338,8 +338,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	font:head
 .	ad l
 .	head:print 1 \\$*
-.	\" a>?b : maximum of a and b.
-.	lnr h-length \\w'\\$*'u+3v<?\\n[text-length]u
+.	nr h-l \\w"\\$*"u+3v
+.	ie \\n[h-l]u>\\n[text-length]u .nr h-length \\n[h-lu]u
+.	el .nr h-length \\n[text-length]u
 .	sp -.5v
 .	var:print \s+(30\D'l \\n[h-length]u'\s-(30
 .	sp .5v
