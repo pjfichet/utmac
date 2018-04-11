@@ -6,8 +6,8 @@ Numbered note\**.
 .\" Since the char "*" is special in markdown, we use the
 .\" following (ugly) trick to escape it if markdown is
 .\" produced, but not in other case.
-.US uw .ds star \\e*
-.US ! uw .ds star *
+.ie r tmac-uw .ds star \\e*
+.el .ds star *
 This is a numbered note. Note that you must manually insert
 the string \*e\*[star]\*[star] to tell to utmac where to put
 the number in the text.

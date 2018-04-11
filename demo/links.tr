@@ -8,11 +8,11 @@ Internal link
 .bp
 .PP
 .LK keyword2
-.LP "internal link" ,
+.LT "internal link" ,
 .LL keyword1
-.LP url ,
+.LT url ,
 .LU http://example.com
-.LP mail .
+.LT mail .
 .LM mail@example.com
 .
 .

@@ -25,10 +25,10 @@ This is a numbered note.
 .H3 Link macros
 .PP
 Default paragraph with a link to
-.LP utroff.org ,
+.LT utroff.org ,
 .LU http://utroff.org
 an
-.LP email ,
+.LT email ,
 .LU mail@example.com
 an indexed
 .KN Lastname Firstname
