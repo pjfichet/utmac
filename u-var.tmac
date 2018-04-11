@@ -79,7 +79,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de var:start
 .	\" Start a document
 .	if \\n[var-start] \{\
-.		if !\\n[tmac-u-lang] .so \V[TROFFMACS]/u-en
 .		if !d data-file .ds data-file \\n(.F
 .		\"tm \tFile: \\*[data-file], font: \\*[data-font], lang: \\*[data-lang].
 .	\}
@@ -106,3 +105,5 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .so \*[tmac-dir]/u-ref
 .\" Ugrind macros
 .so \*[tmac-dir]/u-grind
+.\" Localization
+.if !r tmac-u-lang .so \V[TROFFMACS]/u-en
