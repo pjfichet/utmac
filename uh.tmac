@@ -246,7 +246,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr head-3 0 1
 .nr head-4 0 1
 .de head:print
-.	lnr i \\$1
+.	nr head-toprint \\$1
 .	shift
 .	\" Define anchor string
 .	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
@@ -261,7 +261,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" Print a line trap to get page-num
 .	var:print \\P[page:num]\\c
 .	\" Print pdf bookmark
-.	pdf:bookmark \\ni "\\$*" \\c
+.	pdf:bookmark \\n[head-toprint] "\\$*" \\c
 .	\" Print pdf anchor
 .	pdf:anchor \\*[head-level] \\c
 .	\" Print heading linking to toc
@@ -271,8 +271,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	hy \\n[text-hyphen]
 .	nr var-layout 0
 .	\" After the line break, page-num is set, so we can record
-.	toc:record \\ni \\$*
-.	sum:record \\ni \\*[head-level] \\n[page-num] "\\$*"
+.	toc:record \\n[head-toprint] "\\$*"
+.	sum:record \\n[head-toprint] \\*[head-level] \\n[page-num] "\\$*"
 ..
 .de H1
 .	nr head-1 +1
@@ -343,12 +343,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de toc:record
 .	\" record for TOC.
 .	\" $1 indent $2 title string
-.	lnr i \\$1
-.	shift
 .	ev toc
 .	br
 .	par:init \" par:toc don't reset paragraph
-.	par:toc \\ni
+.	par:toc \\$1
+.	shift
 .	da toc:print
 .		pdf:link \\*[head-level] "\\$*" "\Ea\Et\\n[page-num]"
 .		in 0

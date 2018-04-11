@@ -51,8 +51,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	if !r pdf-firsthead\{\
 .		nr pdf-firsthead \\$1
 .	\}
-.	lnr i \\$1-\\n[pdf-firsthead]
-.	var:print \X"PDFMARK: Bookmark \\ni \\$2"\\c
+.	nr pdf-level \\$1-\\n[pdf-firsthead]
+.	var:print \X"PDFMARK: Bookmark \\n[pdf-level] \\$2"\\c
 ..
 .de pdf:anchor
 .	\" $1 anchor
