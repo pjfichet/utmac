@@ -37,13 +37,15 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" $1 trap number
 .	\" $2 keyword
 .	\" $3 word
-.	lnr idx-previoustrap (\\$1 -1)
+.	nr idx-previoustrap (\\$1 -1)
 .	\" Delete the previous if it exists
 .	\" (Traps printed in notes may appear later and are skipped.)
 .	if d idx\\n[idx-previoustrap] .rm idx:\\n[idx-previoustrap]
-.	lds idx-key \\$2
+.	ds idx-key \\$2
 .	shift 2
 .	as idx-list @@@\\*[idx-key]> \\$*:: \\n%
+.	rr idx-previoustrap
+.	rm idx-key
 ..
 .de XI
 .	\" Write the index list to a file

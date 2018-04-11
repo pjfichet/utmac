@@ -266,11 +266,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" Define anchor string
 .	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
 .	\" Separate last letter of the heading to decorate it
-.	lds head-beg \\$*
-.	lds head-end \\$*
+.	ds head-beg \\$*
+.	ds head-end \\$*
 .	chop head-beg
 .	substring head-end -1 -1
-.	lds head-string \\*[head-beg]\\*F\\*[head-end]\\*F
+.	ds head-string \\*[head-beg]\\*F\\*[head-end]\\*F
 .	nh
 .	in 0
 .	\" Print a line trap to get page-num
@@ -425,11 +425,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	di
 .	\" number of lines in last diversion:
-.	lnr sum-lines (\\n(dnu-1v)/\\n[note-line]u
+.	nr sum-lines (\\n(dnu-1v)/\\n[note-line]u
 .	\" size of each column
-.	lnr sum-divide \\n[sum-lines]/2
+.	nr sum-divide \\n[sum-lines]/2
 .	\" rest of division:
-.	lnr sum-modulo \\n[sum-lines]%2
+.	nr sum-modulo \\n[sum-lines]%2
 .	\" if modulo, add one line to the size of the column:
 .	ie \\n[sum-modulo]>0 .nr sum-divide +1
 .	\" actually place the trap
@@ -484,7 +484,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" start a note
 .	\" Do not append text of note to note:div
 .	\" before that line is printed.
-.	lnr i \\n[note-olt] \" erase trap later
+.	nr i \\n[note-olt] \" erase trap later
 .	\" Call numbered macro in line trap:
 .	var:print \&\\P[note:olt-\\n+[note-olt]]\&\c
 .	\" Define macro called by line trap
@@ -504,6 +504,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		font:text
 .		note:mvtrap
 \\..
+.	rr i
 .	\" Divert text of note to line trap macro
 .	ev ev-note
 .	br
@@ -527,13 +528,13 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de note:mvtrap
 .	\" place or move a trap for notes
 .	\" number of lines in last diversion:
-.	lnr note-lines \\n(dnu/\\n[note-line]u
+.	nr note-lines \\n(dnu/\\n[note-line]u
 .	\" size of all the notes:
 .	nr note-size +\\n[note-lines]
 .	\" size of each column
-.	lnr note-divide \\n[note-size]/2
+.	nr note-divide \\n[note-size]/2
 .	\" rest of division:
-.	lnr note-modulo \\n[note-size]%2
+.	nr note-modulo \\n[note-size]%2
 .	\" if modulo, add one line to size of column:
 .	ie \\n[note-modulo]>0 .nr note-divide +1
 .	\" line of page in which the actual note appears:

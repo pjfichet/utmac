@@ -57,8 +57,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\" headings
 .de H1
 .	txt:break
-.	lnr head-width \\n[txt-length] 1
-.	lds head-string #
+.	nr head-width \\n[txt-length] 1
+.	ds head-string #
 .	while \\n-[head-width] .as head-string #
 .	var:print \\*[head-string]
 .	br
@@ -69,8 +69,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de H2
 .	txt:break
 .	length head-tmp \\$*
-.	lnr head-width \\n[head-tmp] 1
-.	lds head-string #####
+.	nr head-width \\n[head-tmp] 1
+.	ds head-string #####
 .	while \\n-[head-width] .as head-string #
 .	var:print # \\$*
 .	br
@@ -79,8 +79,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de H3
 .	txt:break
 .	length head-tmp \\$*
-.	lnr head-width \\n[head-tmp] 1
-.	lds head-string ===
+.	nr head-width \\n[head-tmp] 1
+.	ds head-string ===
 .	while \\n-[head-width] .as head-string =
 .	var:print # \\$*
 .	br
@@ -89,8 +89,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de H4
 .	txt:break
 .	length head-tmp \\$*
-.	lnr head-width \\n[head-tmp] 1
-.	lds head-string ---
+.	nr head-width \\n[head-tmp] 1
+.	ds head-string ---
 .	while \\n-[head-width] .as head-string -
 .	var:print # \\$*
 .	br

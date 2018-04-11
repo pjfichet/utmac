@@ -302,11 +302,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" Define anchor string
 .	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
 .	\" Separate last letter of the heading to decorate it
-.	lds head-beg \\$*
-.	lds head-end \\$*
+.	ds head-beg \\$*
+.	ds head-end \\$*
 .	chop head-beg
 .	substring head-end -1 -1
-.	lds head-string \\*[head-beg]\\*F\\*[head-end]\\*F
+.	ds head-string \\*[head-beg]\\*F\\*[head-end]\\*F
 .	nh
 .	in 0
 .	\" Print a line trap to get page-num

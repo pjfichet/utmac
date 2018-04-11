@@ -79,22 +79,29 @@ this.
 .	xml:print \\*[xml-tag ?xml version="1.0" encoding="UTF-8"?]
 .	xml:print \\*[xml-tag UTMAC]
 .	\" format date
-.	ie \\n[mo]<10 .lds month 0\\n[mo]
-.	el .lds month \\n[mo]
-.	ie \\n[dy]<10 .lds day 0\\n[dy]
-.	el .lds  day \\n[dy]
-.	ie \\n[hours]<10 .lds hours 0\\n[hours]
-.	el .lds hours \\n[hours]
-.	ie \\n[minutes]<10 .lds minutes 0\\n[mo]
-.	el .lds minutes \\n[minutes]
-.	ie \\n[seconds]<10 .lds seconds 0\\n[seconds]
-.	el .lds seconds \\n[seconds]
-.	lds data-date1 \\n[year]-\\*[month]-\\*[day]
-.	lds data-date2 \\*[hours]:\\*[minutes]:\\*[seconds]
+.	ie \\n[mo]<10 .ds month 0\\n[mo]
+.	el .ds month \\n[mo]
+.	ie \\n[dy]<10 .ds day 0\\n[dy]
+.	el .ds  day \\n[dy]
+.	ie \\n[hours]<10 .ds hours 0\\n[hours]
+.	el .ds hours \\n[hours]
+.	ie \\n[minutes]<10 .ds minutes 0\\n[mo]
+.	el .ds minutes \\n[minutes]
+.	ie \\n[seconds]<10 .ds seconds 0\\n[seconds]
+.	el .ds seconds \\n[seconds]
+.	ds data-date1 \\n[year]-\\*[month]-\\*[day]
+.	ds data-date2 \\*[hours]:\\*[minutes]:\\*[seconds]
 .	xml:print \\*[xml-tag DD]\\*[data-date1]\
 T\\*[data-date2]\\*[xml-tag /DD]
 .	xml:print \\*[xml-tag DG]heirloom \
 nroff -mux\\*[xml-tag /DG]
+.	rm month
+.	rm day
+.	rm hours
+.	rm minutes
+.	rm seconds
+.	rm data-date1
+.	rm data-date2
 ..
 .de xml:stop
 .	\" stop xml file

@@ -100,10 +100,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" $3 is head anchor name
 .	\" $4 is head page
 .	\" $5 is head text
-.	lds sum-level \\$1
-.	lds sum-head \\$2
-.	lds sum-anchor \\$3
-.	lds sum-page \\$4
+.	ds sum-level \\$1
+.	ds sum-head \\$2
+.	ds sum-anchor \\$3
+.	ds sum-page \\$4
 .	shift 2
 .	if '\\*[sum-toprint]'\\*[sum-level]' \{
 .		\" All headings are on the same level, no indent
