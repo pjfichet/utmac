@@ -21,42 +21,21 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"""""""""""""""""""""""""""""""""""""
 .\" idx: Create an index of words.
 .\"
-.nr idx-trap 0 1
-.de idx:trap
-.	\" Place an output line trap to get the real page number
-.	\" $1 key
-.	\" $2 word to index
-.	de idx:\\n+[idx-trap]
-.		\" Add the trap number to delete the trap later
-.		idx:record \\n[idx-trap] \\$*
-\\..
-.	var:print \\P[idx:\\n[idx-trap]]\\c
-..
 .ds idx-list
 .de idx:record
-.	\" Delete previous trap,
-.	\" and record an index entry.
-.	\" $1 trap number
-.	\" $2 keyword
-.	\" $3 word
-.	nr idx-previoustrap (\\$1 -1)
-.	\" Delete the previous if it exists
-.	\" (Traps printed in notes may appear later and are skipped.)
-.	if d idx\\n[idx-previoustrap] .rm idx:\\n[idx-previoustrap]
-.	ds idx-key \\$2
-.	shift 2
+.	\" Record an index entry.
+.	\" $1 keyword
+.	\" $2 word
+.	ds idx-key \\$1
+.	shift 1
 .	as idx-list @@@\\*[idx-key]> \\$*:: \\n%
-.	rr idx-previoustrap
-.	rm idx-key
 ..
 .de XI
 .	\" Write the index list to a file
 .	\" format it, and source it.
-.	br
 .	ds idx-file /tmp/\\*[data-file].idx.tr
-.	\" inconv fixes a bug in heirloom troff
-.	sy echo "\\*[idx-list]" | sed -e "s/@@@/\\\\n/g" | iconv -f latin1 -t utf8 > \\*[idx-file]
-.	sy idx -d \\*[idx-file] > \\*[idx-file].b
+.	sy echo "\\*[idx-list]" | sed -e "s/@@@/\\\\n/g" > \\*[idx-file]
+.	sy @BINDIR@/idx -d \\*[idx-file] > \\*[idx-file].b
 .	so \\*[idx-file].b
 .	sy rm \\*[idx-file] \\*[idx-file].b
 ..
@@ -70,7 +49,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de idx:par
 .	\" paragraph macro for each index line
 .	br
-.	par:init
 .	in 3v
 .	ti 0
 ..
@@ -79,6 +57,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	de \\$1<
 .		\" Index header (output of idx)
 .		H3 \\$2
+.		PB
 \\..
 .	de \\$1>
 .		\" Index entry (output of idx)
@@ -87,7 +66,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 \\..
 .	de K\\$1
 .		\" Index a word (user macro)
-.		idx:trap \\$1 \\\\$*
+.		idx:record \\$1 \\\\$*
 \\..
 ..
 .\"""""""""""""""""""""""""""""""""""""

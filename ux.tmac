@@ -1,3 +1,4 @@
+.\" ux: translate to xml.
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -17,8 +18,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" ux: translate to xml.
 .
-.do xflag 3
-.warn w
 .nr tmac-ux 1
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" various macros
@@ -27,11 +26,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de var:null
 ..
+.nh \" Do not hyphenate xml files!
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" strings definition
 .ig
 Since we use .char to translate "<" , ">" and "&", and since
-";" might be translated to "\~;", we can't these glyphs to
+";" might be translated to "\~;", we can't use these glyphs to
 build the xml file. We use #[ #] to define xml tags, and #(
 #) to define chars.
 
@@ -51,7 +51,7 @@ this.
 .char < \\*[xml-gly lt]
 .char > \\*[xml-gly gt]
 .char & \\*[xml-gly amp]
-.char - \-
+.char - \[u002D]
 .\" the detag pre-processor replace by strings
 .\" tags inserted by the user. Escape these tags.
 .ds #[ #~[
@@ -63,7 +63,7 @@ this.
 .de xml:print
 .	\" print xml
 .	br
-.	fi
+.	\"fi
 .	lang:xmlrchar
 \&\\$*
 .	br
@@ -95,8 +95,7 @@ this.
 .	ds data-date2 \\*[hours]:\\*[minutes]:\\*[seconds]
 .	xml:print \\*[xml-tag DD]\\*[data-date1]\
 T\\*[data-date2]\\*[xml-tag /DD]
-.	xml:print \\*[xml-tag DG]heirloom \
-nroff -mux\\*[xml-tag /DG]
+.	xml:print \\*[xml-tag DG]nroff -mux\\*[xml-tag /DG]
 .	rm month
 .	rm day
 .	rm hours
@@ -107,51 +106,100 @@ nroff -mux\\*[xml-tag /DG]
 ..
 .de xml:stop
 .	\" stop xml file
-.	pl \\n(nlu +3v
-.	if d xml-block \{\
-.		xml:print \\*[xml-deline]
-.		xml:print \\*[xml-block]
+.	\" See: http://lists.gnu.org/archive/html/groff/2009-04/msg00019.html
+\c
+.	ne 3v
+.	lang:xmlrchar
+.	if !"\\*[xml-block]"" \{\
+.		br
+\\*[xml-deline]
+.		br
+\\*[xml-block]
 .	\}
-.	xml:print \\*[xml-tag /UTMAC]
+.	br
+\\*[xml-tag /UTMAC]
 .	pl \\n(nlu
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" block macros
 .de xml:block1
 .	\" multine line block
-.	while \\n(.$ \{\
-.		de \\$1
-.			if d xml-block \{\
-.			xml:print \\*[xml-deline]
-.			xml:print \\\\*[xml-block]
-.			\}
-.			sp 1v
-.			xml:print \\*[xml-tag \\$1]
-.			xml:print \\*[xml-deline]
-.			ds xml-block \\*[xml-tag /\\$1]
-\\..
-.		shift
+.	if !"\\*[xml-block]"" \{\
+.		xml:print \\*[xml-deline]
+.		xml:print \\*[xml-block]
 .	\}
+.	sp 1v
+.	xml:print \\*[xml-tag \\$1]
+.	xml:print \\*[xml-deline]
+.	ds xml-block \\*[xml-tag /\\$1]
+.	fi
 ..
 .de xml:block2
 .	\" single line block
-.	while \\n(.$ \{\
-.		de \\$1
-.			ie d xml-block \{\
+.	ds block2-tag \\$1
+.	shift
+.	if \\n(.$ \{\
+.		if !"\\*[xml-block]"" \{\
 .			xml:print \\*[xml-deline]
 .			xml:print \\\\*[xml-block]
 .			rm xml-block
-.			\}
-.			sp 1v
-.			xml:print \\*[xml-tag \\$1]\\\\$*\\*[xml-tag /\\$1]
-\\..
-.		shift
+.		\}
+.		sp 1v
+.		xml:print \\*[xml-tag \\*[block2-tag]]\\$*\
+\\*[xml-tag /\\*[block2-tag]]
 .	\}
+.	fi
 ..
-.xml:block1 PB PP PC PQ PL PR
-.xml:block2 DA DF DI DK DS DT H1 H2 H3 H4
-.de xml:PX
-.	if d xml-block \{\
+.de PB
+.	xml:block1 PB
+..
+.de PP
+.	xml:block1 PP
+..
+.de PC
+.	xml:block1 PC
+..
+.de PQ
+.	xml:block1 PQ
+..
+.de PL
+.	xml:block1 PL
+..
+.de PR
+.	xml:block1 PR
+..
+.de DA
+.	xml:block2 DA \\$*
+..
+.de DF
+.	xml:block2 DF \\$*
+..
+.de DI
+.	xml:block2 DI \\$*
+..
+.de DK
+.	xml:block2 DK \\$*
+..
+.de DS
+.	xml:block2 DS \\$*
+..
+.de DT
+.	xml:block2 DT \\$*
+..
+.de H1
+.	xml:block2 H1 \\$*
+..
+.de H2
+.	xml:block2 H2 \\$*
+..
+.de H3
+.	xml:block2 H3 \\$*
+..
+.de H4
+.	xml:block2 H4 \\$*
+..
+.de PX
+.	if !"\\*[xml-block]"" \{\
 .	xml:print \\*[xml-deline]
 .	xml:print \\\\*[xml-block]
 .	\}
@@ -163,11 +211,10 @@ nroff -mux\\*[xml-tag /DG]
 .	lang:xmlrchar
 .	nf
 ..
-.als PX xml:PX
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Lists
 .de PI
-.	ie d xml-block \{\
+.	ie !"\\*[xml-block]"" \{\
 .		ie '\\*[xml-block]'\\*[xml-tag /PI]\\*[xml-tag /PLIST]' \{\
 .			xml:print \\*[xml-deline]
 .			xml:print \\*[xml-tag /PI]
@@ -194,7 +241,7 @@ nroff -mux\\*[xml-tag /DG]
 .\" Notes
 .nr margin-num 0 1
 .	\" print an unbreakable thin space before number
-.ds * \U'202F'\\*[xml-tagbeg]NN num=\(dq\\n+[margin-num]\(dq/\\*[xml-tagend]
+.ds * \[u202F]\\*[xml-tagbeg]NN num=\(dq\\n+[margin-num]\(dq/\\*[xml-tagend]
 .nr note-in 0
 .de NT
 .	nr note-in 1
@@ -252,20 +299,21 @@ nroff -mux\\*[xml-tag /DG]
 .ds M \ER'f-m 1-\En[f-m]'\E*[font-mono\En[f-m]]
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" vgrind
-.de xml:vgrind
-.	\" build fonts used by vgrind
-.	while \\n(.$ \{\
-.		ds +\\$1 \\*[xml-tag code\\$1]
-.		ds -\\$1 \\*[xml-tag /code\\$1]
-.		shift
-.	\}
-..
-.xml:vgrind K V C S
+.ds +K \\*[xml-tag codeK]
+.ds -K \\*[xml-tag /codeK]
+.ds +V \\*[xml-tag codeV]
+.ds -V \\*[xml-tag /codeV]
+.ds +C \\*[xml-tag codeC]
+.ds -C \\*[xml-tag /codeC]
+.ds +S \\*[xml-tag codeS]
+.ds -S \\*[xml-tag /codeS]
 .\"char - \[u002D] \" for groff
 .ds - \-
 .ds _ _
 .ds e \e
-.als vS xml:PX
+.de vS
+.	PX
+..
 .de vE
 .	br
 .	xml:print \\*[xml-deline]
@@ -283,12 +331,14 @@ nroff -mux\\*[xml-tag /DG]
 ..
 .de link:print
 .	\" Print link using text defined by .LT macro if it exists
-.	if !d link-text \{\
+.	if "\\*[link-text]"" \{\
 .		ds link-text \\$2
 .		ds link-end \\$3
 .		ds link-beg \\$4
 .	\}
+.	nf
 .	xml:print \\*[link-beg]\\*[xml-tag L\\$1 name=\(dq\\$2\(dq]\\*[link-text]\\*[xml-tag /L\\$1]\\*[link-end]
+.	fi
 .	rm link-text
 .	rm link-beg
 .	rm link-end
@@ -330,29 +380,34 @@ nroff -mux\\*[xml-tag /DG]
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" source macros
-.so \V[TROFFMACS]/u-ref
-.ie "\V[UTMAC]"" .so \V[TROFFMACS]/u-en
-.el .so \V[UTMAC]
-.RO \" remove opcit
+.if !\n(.g \{\
+.	\" For neatroff
+.	de mso
+.		so \n(.D/\\$1
+\\..
+.\}
+.\"mso u-ref.tmac
+.\"RO \" remove opcit
+.\"if !\n[tmac-u-lang] .mso u-en.tmac
 .\""""""""""""""""""""""""""""""""""""""""""""""""
-.als H0 var:null
-.als H* var:null
-.als S1 var:null
-.als S2 var:null
-.als S3 var:null
-.als S4 var:null
-.als S* var:null
-.als RV var:null
-.als RH var:null
-.als RP var:null
-.als TD var:null
-.als TI var:null
-.als XI var:null
-.als XT var:null
-.als page:num var:null
-.als vF var:null
-.als vH var:null
-.als vO var:null
-.als vC var:null
+.\"als H0 var:null
+.\"als H* var:null
+.\"als S1 var:null
+.\"als S2 var:null
+.\"als S3 var:null
+.\"als S4 var:null
+.\"als S* var:null
+.\"als RV var:null
+.\"als RH var:null
+.\"als RP var:null
+.\"als TD var:null
+.\"als TI var:null
+.\"als XI var:null
+.\"als XT var:null
+.\"als page:num var:null
+.\"als vF var:null
+.\"als vH var:null
+.\"als vO var:null
+.\"als vC var:null
 .xml:start
 .\""""""""""""""""""""""""""""""""""""""""""""""""

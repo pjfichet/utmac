@@ -25,7 +25,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .SH FILES
 .PP
 The following files are installed on the directory
-@MACDIR@: \fB@TMAC@\fR.
+@MACDIR@:
 .TP
 \&\fIuh, ul, us, ut, uw, ux\fR
 Layout macros.

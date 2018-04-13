@@ -1,3 +1,4 @@
+.\" u-grind: grind support.
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -29,10 +30,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nf
 .	in 1v
 .	font:code
-.	var:print \X'SetColor \\*[col-0]'\c
+.	var:print \m[\\*[col-0]]\c
 ..
 .de vE
-.	var:print \X'SetColor black'
+.	var:print \m[black]
 .	br
 .	sp -1.5v
 .	ev
@@ -65,20 +66,20 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\" C comments, S strings
 .nr col-p 0 \" previous color
 .nr col-c 0 \" current color
-.ds col-0 .2 .2 .2 rgb \" default: grey
-.ds col-1 .3 .1 .5 rgb \" keyword: blue
-.ds col-2 .5 .1 .5 rgb \" variable: cyan
-.ds col-3 .3 .6 .5 rgb \" comment: green
-.ds col-4 .8 .1 .5 rgb \" string: magenta
+.ds col-0 grey \" default: grey
+.ds col-1 blue \" keyword: blue
+.ds col-2 cyan \" variable: cyan
+.ds col-3 green \" comment: green
+.ds col-4 magenta \" string: magenta
 .\" record the previous color, and reset it if needed.
-.ds +K \ER'col-p \En[col-c]'\ER'col-c 1'\X'SetColor \E*[col-\En[col-c]]'
-.ds +V \ER'col-p \En[col-c]'\ER'col-c 2'\X'SetColor \E*[col-\En[col-c]]'
-.ds +C \ER'col-p \En[col-c]'\ER'col-c 3'\X'SetColor \E*[col-\En[col-c]]'
-.ds +S \ER'col-p \En[col-c]'\ER'col-c 4'\X'SetColor \E*[col-\En[col-c]]'
-.ds -K \ER'col-c \En[col-p]'\ER'col-p 0'\X'SetColor \E*[col-\En[col-c]]'
-.ds -V \ER'col-c \En[col-p]'\ER'col-p 0'\X'SetColor \E*[col-\En[col-c]]'
-.ds -C \ER'col-c \En[col-p]'\ER'col-p 0'\X'SetColor \E*[col-\En[col-c]]'
-.ds -S \ER'col-c \En[col-p]'\ER'col-p 0'\X'SetColor \E*[col-\En[col-c]]'
+.ds +K \ER'col-p \En[col-c]'\ER'col-c 1'\\m[\E*[col-\En[col-c]]]
+.ds +V \ER'col-p \En[col-c]'\ER'col-c 2'\\m[\E*[col-\En[col-c]]]
+.ds +C \ER'col-p \En[col-c]'\ER'col-c 3'\\m[\E*[col-\En[col-c]]]
+.ds +S \ER'col-p \En[col-c]'\ER'col-c 4'\\m[\E*[col-\En[col-c]]]
+.ds -K \ER'col-c \En[col-p]'\ER'col-p 0'\\m[\E*[col-\En[col-c]]]
+.ds -V \ER'col-c \En[col-p]'\ER'col-p 0'\\m[\E*[col-\En[col-c]]]
+.ds -C \ER'col-c \En[col-p]'\ER'col-p 0'\\m[\E*[col-\En[col-c]]]
+.ds -S \ER'col-c \En[col-p]'\ER'col-p 0'\\m[\E*[col-\En[col-c]]]
 .ds e \e
 .ds - \-
 .ds _ _

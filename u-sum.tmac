@@ -43,7 +43,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .de sum:file
 .	\" Define the tmp file to use
-.	 if !d sum-file \{\
+.	 if "\\*[sum-file]"" \{\
 .		ds sum-file /tmp/\\*[data-file].sum.tr
 .		sy touch \\*[sum-file]
 .	\}
@@ -65,9 +65,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .am doc:end
 .	\" Write summary to file
-.	if d sum-file \{\
+.	if !"\\*[sum-file]"" \{\
 .		\" inconv fixes a bug in heirloom troff
-.		sy echo \\*[sum-list] | sed -e "s/@@@/\\\\n./g" | iconv -f latin1 -t utf8 > \\*[sum-file]
+.		sy echo \\*[sum-list] | sed -e "s/@@@/\\\\n./g" > \\*[sum-file]
 .	\}
 ..
 .de sum:source

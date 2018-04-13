@@ -1,3 +1,4 @@
+.\" uw: translate to markdown wiki syntax.
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -21,7 +22,13 @@ of PI to next line (to avoid problems with fonts).
 .\"""""""""""""""""""""""""""""""""""""
 .\" uw: translate to markdown wiki syntax.
 .
-.so \V[TROFFMACS]/ut
+.if !\n(.g \{\
+.	\" For neatroff
+.	de mso
+.		so \n(.D/\\$1
+\\..
+.\}
+.mso ut.tmac
 .nr tmac-uw 1
 .rr tmac-ut
 .nr txt-length 9999999c
@@ -98,7 +105,9 @@ of PI to next line (to avoid problems with fonts).
 .\" notes
 .ds * ^\\n+[txt-note]^
 .de txt:note-start
-.	als NE txt:note-stopdiv
+.	de NE
+.		txt:note-stopdiv
+\\..
 .	nr note-in 1
 .	ev note
 .	br
@@ -112,7 +121,7 @@ of PI to next line (to avoid problems with fonts).
 .\" links
 .de link:print
 .	\" links
-.	ie d link-text \{\
+.	ie !"\\*[link-text]"" \{\
 .		var:print \\*[link-beg][\\*[link-text]]\c
 .		lang:xmlrchar
 .		var:print (\\$1)\c

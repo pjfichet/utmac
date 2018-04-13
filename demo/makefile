@@ -1,17 +1,17 @@
-# Formatting text with Troff
+# Formatting text with Neatroff
 
 # Default macro
-M=-mul
-#M=-muh -mu-apolline -mu-fr
+TMAC=-mul
+#TMAC=-muh -mu-apolline -mu-fr
 
 # Prefix directory
-PREFIX=/opt/utroff
-# Where to find heirloom troff binaries 
+PREFIX=$(HOME)/dev
+# Where to find neatroff and utroff binaries 
 BINDIR=$(PREFIX)/bin
-# Where to find heirloom troff libraries
+# Where to find neatroff libraries
 LIBDIR=$(PREFIX)/lib
-# Where to find utroff xsl stylesheet
-XSLDIR=$(LIBDIR)/xsl
+# Where to find troffxml xsl stylesheet
+XSLDIR=$(LIBDIR)/xslt
 # Where to find utmac macros
 MACDIR=$(LIBDIR)/tmac
 # Where to find troff fonts
@@ -19,68 +19,63 @@ FNTDIR=$(LIBDIR)/font
 # Where to find OTF fonts
 OTFDIR=/usr/share/fonts/OTF:/usr/share/fonts/ttf-linux-libertine/
 
-# Where to find Heirloom tools
-# Heirloom troff
-TROFF=$(BINDIR)/troff
-# Heirloom nroff
-NROFF=$(BINDIR)/nroff
-# Heirloom dpost
-DPOST=$(BINDIR)/dpost
-# Heirloom tbl
-TBL=$(BINDIR)/tbl
-# Heirloom eqn
-EQN=$(BINDIR)/eqn
-
-# Where to find Utroff tools
-# Utroff refer
+# Neatroff tools
+ROFF=$(BINDIR)/roff
+PDF=$(BINDIR)/pdf
+POST=$(BINDIR)/post
+# Utroff tools
 REFER=$(BINDIR)/refer
-# Utroff soelim
-SOELIM=$(BINDIR)/soelim
-# Utroff ugrind
 UGRIND=$(BINDIR)/ugrind
-# Utroff prexml
 PREXML=$(BINDIR)/prexml
-# Utroff postxml
 POSTXML=$(BINDIR)/postxml
 
+# Groff tools
+NROFF=groff -Tutf8 -M$(MACDIR)
+SOELIM=soelim
+
+
 # ps2pdf setting
+FONTS=$(FNTDIR)/:$(OTFDIR)/
 PDFFLAGS1=-q -dPDFSETTINGS=/prepress -dEmbedAllFonts=true \
-		  -sFONTPATH=$(TROFFONTS)
+		  -sFONTPATH=$(FONTS)
 PDFFLAGS2=-dBATCH -dNOPAUSE -sDEVICE=pdfwrite \
 		  -sProcessColorModel=DeviceGray
 PDFCRYPT=-sOwnerPassword="`dd if=/dev/random bs=12 count=1 2>/dev/null \
 		| md5sum | awk '{ print $$1 }'` " -dEncryptionR=3 \
 		-dKeyLength=128 -dPermissions=-300
 
-
-
-TROFFMACS=$(MACDIR)/
-TROFFONTS=$(FNTDIR)/:$(OTFDIR)/
-export TROFFONTS
-export TROFFMACS
-
 all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrind.pdf
 
 %.tmp: %.tr
 	@echo "Generating $@"
-	@#$(SOELIM) $< | $(UGRIND) | $(EQN) | $(TBL) | $(REFER) -a -b -dAE -p $$(basename $< .tr).ref > $@
-	@$(SOELIM) $< | $(UGRIND) | $(REFER) -a -b -dAE -p $$(basename $< .tr).ref > $@
+	@#$(SOELIM) $< $(EQN) | $(TBL) > $@
+	@#$(SOELIM) $< | $(UGRIND) | $(REFER) -a -b -dAE -p refer.ref > $@
+	@#$(SOELIM) $< | $(UGRIND) | $(EQN) | $(TBL) | $(REFER) -a -b -dAE -p refer.ref > $@
+	@cp $< $@
 
 %.to: %.tmp
-	@echo "Generating $@ with $(M), pass 1"
-	@$(TROFF) -rRH=0 $(M) $< 2>&1 > /dev/null
-	@echo "Generating $@ with $(M), pass 2"
-	@$(TROFF) -rRH=0 $(M) $< 2>&1 > /dev/null
-	@echo "Generating $@ with $(M), pass 3"
-	@$(TROFF) -rRH=1 $(M) $< > $@
+	@echo "Generating $@ with $(TMAC)"
+	@$(ROFF) $(TMAC) $< > $@
 
-%.ps: %.to
+%.ps:
 	@echo "Generating $@"
-	@cat $< | $(DPOST) -pa4 >$@
+	@$(ROFF) $(TMAC) $< > /dev/null 2>&1 
+	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
+	@$(ROFF) $(TMAC) $< | $(POST) -pa4 >$@
 
-%.pdf: %.ps
+%.ps.pdf: %.ps
 	@echo "Generating $@"
 	@ps2pdf $(PDFFLAGS1) $< $@
+
+%.pdf: %.tmp
+	@echo "Generating $@"
+	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
+	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
+	@$(ROFF) $(TMAC) $< | $(PDF) -pa4 > $@
+
+%.c.pdf: %.pdf
+	@echo "Compressing $<"
+	@mutool convert -o $@ -O compress,compress-fonts $<
 
 %-crypt.pdf: %.ps
 	@echo "Generating $@"
@@ -88,21 +83,19 @@ all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrin
 
 %.txt: %.tmp
 	@echo "Generating $@"
-	@$(NROFF) -Tlocale -mut $< > $@
+	@$(NROFF) -mut $< > $@
 
 %.mkd: %.tmp
 	@echo "Generating $@"
-	@$(NROFF) -Tlocale -muw $< > $@
+	@$(NROFF) -muw $< > $@
 
 %.man: %.tr
 	@echo "Generating $@"
-	@cat $< | $(SOELIM) | $(UGRIND) \
-		| $(REFER) -p $$(basename $< .tr).ref > $@ \
-		| $(NROFF) -Tlocale -mum $< > $@
+	@$(SOELIM) $< | $(UGRIND) | $(NROFF) -mum $< > $@
 
 %.xml: %.tmp
 	@echo "Generating $@"
-	@$(PREXML) < $< | $(NROFF) -Tlocale -mux | $(POSTXML) > $@
+	@$(PREXML) < $< | $(UGRIND) | $(NROFF) -mux | $(POSTXML) > $@
 
 %.html: %.xml
 	@echo "Generating $@"

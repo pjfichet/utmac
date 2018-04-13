@@ -1,3 +1,4 @@
+.\" ul: Letters
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -17,7 +18,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\""""""""""""""""""""""""""""""""""""""
 .\" ul: letters
 .
-.do xflag 3
 .\""""""""""""""""""""""""""""""""""""""
 .\" default variables
 .nr tmac-ul 1
@@ -47,16 +47,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr var-orphan \n[page-head]+1
 .nr var-widow \n[page-foot]-2
 .nr var-blank \n[page-foot]-1
-.papersize a4
-.mediasize a4
-.padj
+.\" paragraph at once adjustment (delete to avoid it).
+.ds text-adj p
 .\""""""""""""""""""""""""""""""""""""""
 .\" Document
 .de doc:start
 .	\" start document
 .	par:doc
 .	em doc:end
-.	pdf:data
 .	\" begin first page
 .	wh 0 page:head
 .	page:head
@@ -64,7 +62,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de doc:end
 .	\" end document
 .	br
-.	if d note:div .note:head
+.	if \\n[note-div] .note:head
 .	pdf:data
 ..
 .\""""""""""""""""""""""""""""""""""""""
@@ -74,7 +72,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" print diverted note
 .	ch page:head
 .	par:doc
-.	\"sp |\\n[page-head]v
 .	note:head
 .	sp |\\n[page-head]v
 .	ns
@@ -85,12 +82,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de page:foot
 .	\" print footer
-.	\"ch page:foot
 .	note:foot
 .	var:todo code:foot
 .	ev ev-foot
 .	br
-.	if \\n%=1 .if d data:write .data:write
 .	par:doc
 .	br
 .	\"page:box
@@ -99,7 +94,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ev
 .	var:todo code:init
 ..
-.ds page-title-tmp
 .de page:boxeven
 .	ie !"\\*[page-title-tmp]"" \{\
 .		tl "\\*[page-title-tmp]"""
@@ -125,15 +119,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	el .tl ""\\*I\\*[page-title]\\*I""
 .	ev
 ..
-.de page:num
-.	\" get real page number in padj mode
-.	nr page-num \\n%
-..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Paragraphs
 .de par:doc
 .	\" start paragraph
-.	ad b
+.	ad \\*[text-adj]b
 .	fi
 .	rj 0 \" Test for .PT
 .	hy \\n[text-hyphen]
@@ -144,7 +134,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '	in 0 \" Avoid break!
 .	\"ti 1v
 .	font:text
-.	typo:text
+.	ss 11 11
 ..
 .de par:init
 .	var:start
@@ -181,33 +171,32 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ie \\n(.$ \{\
 .		po \\n[list-offset]u
 .		ll \\n[list-length]u
-.		ad r
+.		ad \\*[text-adj]r
 .		nr par-list \\n(nlu
 .		var:print \\$*
 .		br
 .		sp |\\n[par-list]u
 .		po \\n[text-offset]u
 .		ll \\n[text-length]u
-.		ad b
+.		ad \\*[text-adj]b
 .	\}
 .	el \{\
 .		var:print \(en
 .	\}
-.	\"ad l
 ..
 .de PL
 .	par:start
-.	ad l
+.	ad \\*[text-adj]l
 .	sp 1v
 ..
 .de PR
 .	par:start
-.	ad r
+.	ad \\*[text-adj]r
 .	sp 1v
 ..
 .de PC
 .	par:start
-.	ad c
+.	ad \\*[text-adj]c
 .	sp 1v
 ..
 .de PX
@@ -222,7 +211,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	sp 1v
 .	po \\n[note-offset]u
 .	ll \\n[note-length]u
-.	ad l
+.	ad \\*[text-adj]l
 .	nf
 .	nr note-in 1
 ..
@@ -268,7 +257,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ds sum-anchor \\$2
 .	ds sum-page \\$3
 .	shift 3
-.	pdf:link \\*[sum-anchor] "\\$*" "\a\t\\*[sum-page]\\c"
+.	pdf:link \\*[sum-anchor] "\\$*" "\a\t\\*[sum-page]"
+.	\" TODO: why do we need ".sp -1v"?
+.	sp -1v
 ..
 .de sum:stop
 .	br
@@ -304,29 +295,20 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	shift
 .	\" Define anchor string
 .	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
-.	\" Separate last letter of the heading to decorate it
-.	ds head-beg \\$*
-.	ds head-end \\$*
-.	chop head-beg
-.	substring head-end -1 -1
-.	ds head-string \\*[head-beg]\\*F\\*[head-end]\\*F
 .	nh
 .	in 0
-.	\" Print a line trap to get page-num
-.	var:print \\P[page:num]\\c
 .	\" Print pdf bookmark
 .	pdf:bookmark \\n[head-toprint] "\\$*" \\c
 .	\" Print pdf anchor
 .	pdf:anchor \\*[head-level] \\c
 .	\" Print heading linking to toc
-.	pdf:link TOC "\\*[head-string]"
+.	pdf:link TOC "\\$*"
 .	br
 .	font:endhead
 .	hy \\n[text-hyphen]
 .	nr var-layout 0
-.	\" After the line break, page-num is set, so we can record
 .	toc:record \\n[head-toprint] "\\$*"
-.	sum:record \\n[head-toprint] \\*[head-level] \\n[page-num] "\\$*"
+.	sum:record \\n[head-toprint] \\*[head-level] \\n% "\\$*"
 ..
 .de H1
 .	nr head-1 +1
@@ -339,7 +321,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	vs \\n[text-line]u*2u
 .	ps 25p
 .	font:head
-.	ad l
+.	ad \\*[text-adj]l
 .	head:print 1 \\$*
 .	nr h-l \\w"\\$*"u+3v
 .	ie \\n[h-l]u>\\n[text-length]u .nr h-length \\n[h-lu]u
@@ -365,7 +347,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	po \\n[text-offset]u
 .	sp 3v
 .	ps 20p
-.	ad r
+.	ad \\*[text-adj]r
 .	vs \\n[text-line]u*2u
 .	font:head
 .	head:print 2 \\$*
@@ -391,7 +373,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	po \\n[text-offset]u
 .	ps 12
 .	font:head
-.	ad l
+.	ad \\*[text-adj]l
 .	head:print 3 \\$*
 .	sp 0.5v
 .	ns
@@ -402,7 +384,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	par:init
 .	sp 1v
-.	ad l
+.	ad \\*[text-adj]l
 .	font:head
 .	head:print 4 \\$*
 .	ns
@@ -426,7 +408,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	par:toc \\$1
 .	shift
 .	da toc:print
-.		pdf:link \\*[head-level] "\\$*" "\Ea\Et\\n[page-num]"
+.		pdf:link \\*[head-level] "\\$*" "\a\t\\n%"
 .		in 0
 .		br
 .	di
@@ -457,10 +439,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr note-in 0 \" inside a note
 .nr note-last 1 \" position of last note
 .nr note-anchor 0 \" position of note anchor
-.nr note-olt 0 1 \" output line trap number
 .
 .de note:init
-.	ad b
+.	ad \\*[text-adj]b
 .	fi
 .	hy \\n[note-hyphen]
 .	ll \\n[note-length]u
@@ -468,76 +449,69 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	vs \\n[note-line]u
 .	ps \\n[note-font]u
 '	in 0 \" Avoid break!
+.	ss 10 10
 .	font:note
-.	typo:note
 ..
 .de NS
 .	\" Start a note
 .	\" Do not append text of note to note:div
 .	\" before that line is printed.
 .	nr note-in 1
-.	\" Put a line trap to call the numbered macro
-.	var:print \&\\P[note:olt-\\n+[note-olt]]\&\c
 .	ev ev-note
 .	br
 .	note:init
 .	\" Divert text of note to line trap macro
-.	di note:plt-\\n[note-olt]
+.	di note:trap
 .		if \\n(.$=0 .var:print \\*B\\*U\\n*\\*U\\*B
 ..
 .de NE
+.	\" Close the diversion
 .	br
 .	di
 .	ev
-.	\" Define the numbered macro
-.	de note:olt-\\n[note-olt]
-.		nr note-write 1
-.		\" erase previous trap
-.		nr i \\n[note-olt]-1
-.		rm note:olt-\\\\ni
-.		br
-.		ev ev-note
-.		note:init
-.		po \\n[note-offset]u
-.		nf
-.		note:beg \\n(dn
-.		note:plt-\\n[note-olt]
-.		br
-.		if d note:div .di \" close divertion if in footer
-.		note:end
-.		fi
-.		ev
-.		rr note-write
-.		po \\n[text-offset]u
-.		font:text
-\\..
-.	nr note-in 0
-.	font:text
-..
-.de note:beg
+.	nr note-write 1
+.	\" prepare the environment to write the note
+.	ev ev-note
+.	note:init
+.	po \\n[note-offset]u
+.	nf
+.
 .	\" Find a correct position for the note
-.	\" $1: size of the note
 .	nr note-anchor \\n(nlu-1v
-.	nr note-start \\n[note-anchor]u-\\$1u
+.	nr note-start \\n[note-anchor]u-\\n(dnu
 .	ie \\n[note-last]u>=\\n[note-start]u \{
 .		sp |\\n[note-last]u
 .	\}
 .	el .sp |\\n[note-start]u
-..
-.de note:end
+.
+.	\" Write the note
+.	note:trap
+.	br
+.	if \\n[note-div] .di \" close divertion if in footer
+.	ev
+.
 .	\" Record the position of the note
 .	nr note-last \\n(nlu
 .	sp |\\n[note-anchor]u
+.
+.	\" reset the environment to write text
+.	fi
+.	rr note-write
+.	po \\n[text-offset]u
+.	font:text
+.	font:text
+.	nr note-in 0
 ..
 .de note:foot
-.	if r note-write \{\
+.	if \\n[note-write] \{\
 .		da note:div
+.		nr note-div 1
 .		br
 .	\}
 ..
 .de note:head
 .	\" print diversion from previous page
-.	if d note:div \{\
+.	if \\n[note-div] \{\
 .		sp |\\n[page-head]v-1v
 .		po \\n[note-offset]u
 .		ev ev-note
@@ -547,6 +521,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	 	br
 .		ev
 .		rm note:div
+.		nr note-div 0
 .	\}
 .	nr note-last \\n(nlu
 ..
@@ -564,6 +539,5 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .als NB NT
 .\""""""""""""""""""""""""""""""""""""""
 .\" Load other macros and start
-.so \V[TROFFMACS]/u-var
-.if !r tmac-u-fonts .so \V[TROFFMACS]/u-libertine
+.so \n(.D/u-var.tmac
 .doc:start

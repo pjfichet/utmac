@@ -18,7 +18,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .
 .
-.TH UTMAC 7 ´2017‐12‐11´
+.TH UTMAC 7 ´2018‐04-13´
 .
 .
 .
@@ -30,16 +30,17 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .SH DESCRIPTION
 .PP
-The \fIU troff macros\fR — \fIutmac\fR — is a set of
-\fItroff\fR macros which uses the typographic features of
-\fIHeirloom Troff\fR. Bibliography, indexes, table of
-content and summaries can be automatically inserted.
-\fIUtmac\fR informs about orphans, widows and blanks at the
-bottom of page, and provides macros to help the user to fix
-them manually. \fIUtmac\fR can produce terminal output, high
-quality pdf files, ReStructuredText files, plain text file,
-and clean xml files — and so, with some xsl stylesheet,
-flat open document texts (fodt) and html files.
+The \fIU troff macros\fR — \fIutmac\fR — is a set of \fItroff\fR
+macros aiming to produce beautiful documents easily. Bibliography,
+indexes, table of content and summaries can be automatically inserted.
+\fIUtmac\fR informs about orphans, widows and empty lines at the
+bottom of page. \fIUtmac\fR can produce pdf files, ReStructuredText
+files, plain text file, and clean xml files — and so, with some xsl
+stylesheet, flat open document texts (fodt) and html files.
+.PP
+\fIUtmac\fR is made to be used with \fBneatroff\fR to produce
+postscript and pdf files. To produce plain text files, manual pages,
+and xml files, \fBgroff -Tutf8 -M@MACDIR@\fI can be used instead.
 .
 .
 .
@@ -68,8 +69,8 @@ Translate an \fIutmac\fR document to a flat text file (such as
 README files) with \fInroff\fR.
 .TP
 \&\fIus\fR
-Made for technical documentation. It use a common
-layout, almost like the old troff \fIms\fR.
+Made for technical documentation. It uses a common
+layout, reminiscent of the old troff \fIms\fR.
 .TP
 \&\fIuw\fR
 Translate an \fIutmac\fR document to the markdown wiki format.
@@ -282,24 +283,6 @@ Right align paragraph.
 .TP
 \&\fBPX\fR
 Example paragraph. Text is not filled.
-.
-.
-.
-.SS Typographic macros
-.RS 3
-.TP
-\&\fBTD\fR
-Use micro‐typography to decrease the witdh of a paragraph.
-It can be inserted at the begining (just after \fIPP\fR) of
-a well choosen paragraph to avoid orphans or widows. A well
-chooseen paragraph is a long one, with a short last line.
-.TP
-\&\fBTI\fR
-Use micro‐typography to increase the width of a paragraph.
-It can be inserted at the begining (just after \fIPP\fR) of
-a well choosen paragraph to avoid a blank at the bottom of a
-page. A well choosen paragraph is a long one, with a long
-last line.
 .
 .
 .
@@ -541,25 +524,7 @@ Yes, what is the use of such a book?
 .
 .
 .
-.SH ENVIRONMENT
-.TP
-\&\fBTROFFMACS\fR
-This is a \fItroff\fR environment variable, that \fIutmac\fR
-use to find tmacs file. It must be defined for \fIutmac\fR
-to work.
-.TP
-\&\fBTROFFONTS\fR
-This is a \fItroff\fR environment variable that \fIutmac\fR
-use to find font files. By default, this variable should
-contain the path to the opentype libertine font.
-.TP
-\&\fBUTMAC\fR
-Locale tmac file that \fIutmac\fR will load. It should
-contain localization macros. See \fB@MACDIR@/u‐locale\fR for
-an example.
-.
-.
-.
+
 .SH SEE ALSO
 .PP
 utmac‐hack(7), u‐ref(7), postxml(1), idx(1), refer(1).

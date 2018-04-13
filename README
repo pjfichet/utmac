@@ -1,27 +1,37 @@
-Utmac - set of troff macros for heirloom troff
-==============================================
+Utmac - set of troff macros
+===========================
 
-The U troff macros — utmac — is a set of troff macros which uses the
-typographic features of Heirloom Troff. Bibliography, indexes, table
-of content and summaries can be automatically inserted.  Utmac informs
-about orphans, widows and blanks at the bottom of page, and provides
-macros to help the user to fix them manually. Utmac can produce
-terminal output, high quality pdf files, ReStructuredText files, plain
-text file, and clean xml files — and so, with some xsl stylesheet,
-flat open document texts (fodt) and html files.
+The U troff macros — utmac — is a set of macros aiming to produce
+beautiful documents easily. Bibliography, indexes, table of content
+and summaries can be automatically inserted. Utmac informs about
+orphans, widows and empty lines at the bottom of page. Utmac can
+produce pdf files, ReStructuredText files, plain text files, and clean
+xml files — and so, with some xsl stylesheet, flat open document texts
+(fodt) and html files.
+
+While historicaly Utmac was using Gunnar Ritter's troff (also called
+heirloom troff), it is now using Ali Gholami Rudi's neatroff. Neatroff
+is a wonderful text processor, performing a paragraph at once
+adjustment, while being easy to use and install.
+
+Usage
+=====
+
+Utmac is documented in the manual pages "utmac", "u-ref", and
+"utmac-hack".  Here is only a quick reference.
 
 The following macro files can be used by the user (called with the ‐m
 option of troff):
 - uh: Made with humanities in mind. It uses marginal notes instead of
   footnotes.
 - ul: A macro to write letters and short texts.
-- uml Translate an utmac document to manpage with nroff.
-- utl Translate an utmac document to a flat text file (such as README
+- um: Translate an utmac document to manpage with nroff.
+- ut: Translate an utmac document to a flat text file (such as README
   files) with nroff.
-- us: Made for technical documentation. It use a common layout,
+- us: Made for technical documentation. It uses a common layout,
   reminiscent of the old troff ms.
 - uw: Translate an utmac document to the markdown wiki format.
-- ux: Translate an \fIutmac\fR document to xml. This macro must be used
+- ux: Translate an utmac document to xml. This macro must be used
   with the postxml (from troffxml) post‐processor.
 
 Additionaly, some configuration can be achieved by loading these
@@ -33,51 +43,40 @@ macros:
 - u-biolinum: Use the Linux Biolinum font.
 - u-biolib: Use a mix of Linux Libertine and Biolinum.
 
-# Build and install
--------------------
+So, to format a document in french with the biolinum font, you should
+do:
+	troff -mu-fr -mu-biolinum -mul f.tr | pdf -pA4 > f.pdf
 
-To build and install, do :
+# Installation
+--------------
+
+To build and install, edit the makefile to suit your needs, and do:
 
     make
     make install
 
-To uninstall, and clean the src directory, do :
+To uninstall, and clean this directory, do:
 
     make uninstall
     make clean
 
-# Environment
--------------
-
-Utmac internally uses some environment variable that you must set:
-
-TROFFMACS This is a troff environment variable, that utmac use
-  to find tmacs file.
-TROFFONTS This is a troff environment variable that utmac use to find
-  font files. By default, this variable should contain the path to the
-  libertine font (/usr/share/fonts/ttf-linux-libertine/ in my system).
-
 # Dependencies
 --------------
 
-- Utmac have been made to be used with Heirloom [n|t]roff. Its last
-  version can now be found on github:
-  <https://github.com/n-t-roff/heirloom-doctools>.
-  And I wrote a makefile to ease its installation for Utmac:
-  <https://github.com/pjfichet/install-heirloom-troff>.
-- Utmac uses by default the libertine font, which must be in the
-  TROFFONTS path.
-- Some of the heirloom tools have been modified, others have been
-  created for Utmac. To benefit of all the functions of Utmac,
-  you should install:
+- Utmac is supposed to be used with Neatroff <http://litcave.rudi.ir>.
+- By default, Utmac uses the libertine font, which must be transferred
+  in the neatroff font format.
+- To benefit of all the functions of Utmac, you can also install:
     - refer <http://github.com/pjfichet/refer>, to format bibliography
       references.
     - idx <http://github.com/pjfichet/idx>, to index keywords in your
       documents.
     - ugrind <http://github.com/pjfichet/ugrind>, to highlight source
       code in your documents.
+	- tchars <http://github.com/pjfichet/tchars>, to write polytonic
+	  greek.
     - troffxml <http://github.com/pjfichet/troffxml>, to convert your
-      troff documents to various xml formats.
+      utmac documents to xml, html, and fodt.
 
 # License
 ---------

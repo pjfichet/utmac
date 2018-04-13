@@ -19,9 +19,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .nr tmac-u-var 1
 .\""""""""""""""""""""""""""""""""""""""
-.\"warn w all mac
-.warn w
-.spreadwarn 1m
 .\" Various macros
 .de var:null
 .	\" do nothing
@@ -33,28 +30,30 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" print args
 \&\\$*
 ..
-.de var:tm
+.de var:log
 .	\" print meaningful message to stderr
-.	tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
+.	if \\n(RH \{\
+.		tm \t\\$*, \\*[lang-line] \\n(.c, \\*[lang-file] \
 \\n(.F; \\*[lang-page] \\n%.
+.	\}
 ..
 .
 .\""""""""""""""""""""""""""""""""""""""
-.\" Set locale
 .de RL
-.	so \V[TROFFMACS]/u-\\$1
+.	\" Set locale
+.	so \n(.D/u-\\$1.tmac
 ..
-.if !r RV .nr RV 0
+.if !\n(RV .nr RV 0
 .de RV
 .	\" reverse recto-verso
 .	nr RV 1-\\n(RV
 ..
-.if !r RP .nr RP 1
+.if !\n(RP .nr RP 1
 .de RP
 .	\" reverse print page number
 .	nr RP 1-\\n(RP
 ..
-.if !r RH .nr RH 1
+.if !\n(RH .nr RH 1
 .de RH
 .	\" Reverse help printing
 .	nr RH 1-\\n(RH
@@ -65,13 +64,13 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" inform about orphans, widows, and blanks
 .	if \\n(RH \{\
 .		if \\n[var-layout] .if \\n(nl=\\n[var-orphan]v \{\
-.			var:tm \\*[lang-Orphan]
+.			var:log \\*[lang-Orphan]
 .		\}
 .		if \\n(nl=\\n[var-widow]v \{\
-.			var:tm \\*[lang-Widow]
+.			var:log \\*[lang-Widow]
 .		\}
 .		if \\n(nl=\\n[var-blank]v \{\
-.			var:tm \\*[lang-Blank]
+.			var:log \\*[lang-Blank]
 .		\}
 .		nr var-layout 1
 .	\}
@@ -81,31 +80,28 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de var:start
 .	\" Start a document
 .	if \\n[var-start] \{\
-.		if !d data-file .ds data-file \\n(.F
+.		if !\\n[tmac-u-fonts] .so \n(.D/u-libertine.tmac
+.		if !\\n[tmac-u-lang] .so \n(.D/u-en.tmac
+.		if "\\*[data-file]"" .ds data-file \\n(.F
 .		\"tm \tFile: \\*[data-file], font: \\*[data-font], lang: \\*[data-lang].
 .	\}
 .	nr var-start 0
 ..
 .\""""""""""""""""""""""""""""""""""""""
-.\" Here we go!
-.\" Tmac directory, and user macro
-.ds tmac-dir \V[TROFFMACS]
-.ds tmac-locale \V[UTMAC]
+.\" Load macros
 .\" Typgraphy macros
-.so \*[tmac-dir]/u-typo
-.\" Summary macros
-.so \*[tmac-dir]/u-sum
+.so \n(.D/u-typo.tmac
 .\" PDF marks and links
-.so \*[tmac-dir]/u-pdf
-.\" Include EPS files macros
-.so \*[tmac-dir]/u-eps
+.so \n(.D/u-pdf.tmac
 .\" Link macros
-.so \*[tmac-dir]/u-links
+.so \n(.D/u-links.tmac
+.\" Summary macros
+.so \n(.D/u-sum.tmac
 .\" Index macros
-.so \*[tmac-dir]/u-idx
+.so \n(.D/u-idx.tmac
 .\" Refer macros
-.so \*[tmac-dir]/u-ref
+.so \n(.D/u-ref.tmac
+.\" Include EPS files macros
+.so \n(.D/u-eps.tmac
 .\" Ugrind macros
-.so \*[tmac-dir]/u-grind
-.\" Localization
-.if !r tmac-u-lang .so \V[TROFFMACS]/u-en
+.so \n(.D/u-grind.tmac

@@ -1,3 +1,4 @@
+.\" u-biolinum: biolinum font.
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -18,64 +19,45 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .\"""""""""""""""""""""""""""""""""""""
 .\" u-biolinum: biolinum font.
-.do xflag 3
+.
 .nr tmac-u-biolinum 1
 .ds data-font biolinum
-.so \n(.D/u-fonts
-.\"""""""""""""""""""""""""""""""""""""
+.so \n(.D/u-fonts.tmac
+.\""""""""""""""""""""""""""""
 .\" Mount fonts for text
 .\"
 .\"	ex: fp 11 f-000 LinLibertine_R otf
 .\" (start at 11 since position 9 and 10 are reserved)
 .
-.nr z 10 1
 .de font:mount
 .	\" $1: bold and italic numbers
 .	\" $2: name of font
 .
 .	\" mount XX0: Default
-.	fp \\n+z f-\\$10 \\$2 otf
+.	fp - f-\\$10 \\$2
 .	\" 1: small caps
-.	fp \\n+z f-\\$11 \\$2 otf
-.	feature f-\\$11 +smcp
-.	fdeferlig f-\\$11 ff fi fl ft ffi ffl fft
+.	fp - f-\\$11 \\$2
+.	ff f-\\$11 +smcp
 .	\" mount XX2: acronyms
-.	fp \\n+z f-\\$12 \\$2 otf
-.	feature f-\\$12 +smcp
-.	fdeferlig f-\\$12 ff fi fl ft ffi ffl fft
+.	fp - f-\\$12 \\$2
+.	ff f-\\$12 +smcp
 .	fzoom f-\\$12 .9
 .	track f-\\$12 1 .7 40 0
 .	\" mount XX3: superscripts
-.	fp \\n+z f-\\$13 \\$2 otf
-.	feature f-\\$13 +sups
-.	fdeferlig f-\\$13 ff fi fl ft ffi ffl fft
+.	fp - f-\\$13 \\$2
+.	ff f-\\$13 +sups
 .	\" mount XX4: inferior
-.	fp \\n+z f-\\$14 \\$2 otf
-.	feature f-\\$14 +sinf
-.	fdeferlig f-\\$14 ff fi fl ft ffi ffl fft
+.	fp - f-\\$14 \\$2
+.	ff f-\\$14 +sinf
 ..
 .font:mount 00 LinBiolinum_R
-.	flig f-000 ff \[f_f] fi \[f_i]
-.	flig f-000 fl \[f_l] ffl \[f_f_l]
-.	flig f-000 st \[s_t]
 .font:mount 01 LinBiolinum_RI
-.	flig f-010 ff \[f_f] fi \[f_i]
-.	flig f-010 fl \[f_l] ffl \[f_f_l]
-.	flig f-010 st \[s_t]
 .font:mount 10 LinBiolinum_RB
-.	flig f-100 ff \[f_f] fi \[f_i]
-.	flig f-100 fl \[f_l] ffl \[f_f_l]
-.	flig f-100 st \[s_t]
 .font:mount 11 LinBiolinum_RB
-.	flig f-110 ff \[f_f] fi \[f_i]
-.	flig f-110 fl \[f_l] ffl \[f_f_l]
-.	flig f-110 st \[s_t]
 .\" 6 monospace
-.fp \n+z f-006 LinLibertine_M otf
-.fdeferlig f-006 ff fi fl ft ffi ffl fft
+.fp - f-006 LinLibertine_M
 .fzoom f-006 .8
-.track f-006 1 -.1 40 -0
-.rr z
+.tkf f-006 1 -.1 40 -0
 .rm font:mount
 .
 .

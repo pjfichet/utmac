@@ -1,3 +1,4 @@
+.\" ut: translate to plain text file.
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -17,8 +18,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"""""""""""""""""""""""""""""""""""""
 .\" ut: translate to plain text file.
 .
-.do xflag 3
-.warn w
 .nr tmac-ut 1
 .\"""""""""""""""""""""""""""""""""""""
 .\" Various macros
@@ -31,7 +30,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\" doc
 .nr txt-length 65
 .de doc:end
-'	if d txt:printnote 'txt:printnote
+'	txt:printnote
 .	pl \\n(nlu
 ..
 .em doc:end
@@ -57,11 +56,19 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" headings
+.de head:string
+.	\" $1: character to add
+.	if \\n[head-width] \{\
+.		as head-string \\$1
+.		nr head-width -1
+.		head:string \\$1
+.	\}
+..
 .de H1
 .	txt:break
 .	nr head-width \\n[txt-length] 1
-.	ds head-string #
-.	while \\n-[head-width] .as head-string #
+.	ds head-string
+.	head:string #
 .	var:print \\*[head-string]
 .	br
 .	tl '#'\\$*'#'
@@ -72,8 +79,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	txt:break
 .	length head-tmp \\$*
 .	nr head-width \\n[head-tmp] 1
-.	ds head-string #####
-.	while \\n-[head-width] .as head-string #
+.	ds head-string ##
+.	head:string #
 .	var:print # \\$*
 .	br
 .	var:print \\*[head-string]
@@ -82,8 +89,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	txt:break
 .	length head-tmp \\$*
 .	nr head-width \\n[head-tmp] 1
-.	ds head-string ===
-.	while \\n-[head-width] .as head-string =
+.	ds head-string ==
+.	head:string =
 .	var:print # \\$*
 .	br
 .	var:print \\*[head-string]
@@ -92,8 +99,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	txt:break
 .	length head-tmp \\$*
 .	nr head-width \\n[head-tmp] 1
-.	ds head-string ---
-.	while \\n-[head-width] .as head-string -
+.	ds head-string --
+.	head:string -
 .	var:print # \\$*
 .	br
 .	var:print \\*[head-string]
@@ -149,17 +156,21 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .ds * \U'00A0'(\\n+[txt-note])
 .nr note-in 0
 .de txt:printnote
-.	br
-.	sp 1v
-.	ev note
-.	txt:conf
-.	if d txt:note .txt:note
-.	br
-.	ev
-.	rm txt:note
+.	if \\n[txt-note] \{\
+.		br
+.		sp 1v
+.		ev note
+.		txt:conf
+.		if d txt:note .txt:note
+.		br
+.		ev
+.		rm txt:note
+.	\}
 ..
 .de txt:note-start
-.	als NE txt:note-stopdiv
+.	de NE
+.		txt:note-stopdiv
+\\..
 .	nr note-in 1
 .	ev note
 .	br
@@ -179,14 +190,20 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr note-in 0
 .	PP
 ..
-.als NS txt:note-start
+.de NS
+.	txt:note-start
+..
 .de NT
 .	nr note-in 1
-.	als NE txt:note-stop
+.	de NE
+.		txt:note-stop
+\\..
 ..
 .de NB
 .	nr note-in 1
-.	als NE txt:note-stop
+.	de NE
+.		txt:note-stop
+\\..
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Link macros
@@ -220,18 +237,19 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .als LU link:print
 .\"""""""""""""""""""""""""""""""""""""
 .\" Index keywords
-.als KA var:null
-.als KN var:null
-.als KO var:null
-.als KT var:null
-.als KW var:null
+.\" KA var:null
+.\" KN var:null
+.\" KO var:null
+.\" KT var:null
+.\" KW var:null
 .\"""""""""""""""""""""""""""""""""""""
 .\" fonts
 .\" Delete all fonts
 .de txt:font
-.	while \\n(.$ \{\
+.	if \\n(.$ \{\
 .		ds \\$1
 .		shift
+.		txt:font \\$*
 .	\}
 ..
 .txt:font B I C A U L F M
@@ -246,34 +264,39 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .ds _ _
 .\"""""""""""""""""""""""""""""""""""""
 .\" source
-.so \V[TROFFMACS]/u-ref
-.RO \" Remove opcit
-.ie "\V[UTMAC]"" .so \V[TROFFMACS]/u-en
-.el .so \V[UTMAC]
+.if !\n(.g \{\
+.	\" For neatroff
+.	de mso
+.		so \n(.D/\\$1
+\\..
+.\}
+.\"mso u-ref.tmac
+.\"RO \" Remove Op. Cit.
+.\"if !\n[tmac-u-lang] .mso u-en.tmac
 .\"""""""""""""""""""""""""""""""""""""
-.als DA var:null
-.als DI var:null
-.als DK var:null
-.als DS var:null
-.als DT var:null
-.als RV var:null
-.als RH var:null
-.als RP var:null
-.als H0 var:null
-.als H* var:null
-.als S2 var:null
-.als S3 var:null
-.als S4 var:null
-.als S* var:null
-.als TD var:null
-.als TI var:null
-.als vF var:null
-.als vH var:null
-.als vO var:null
-.als vC var:null
-.als page:num var:null
-.als XI var:null
-.als XT var:null
+.\"als DA var:null
+.\"als DI var:null
+.\"als DK var:null
+.\"als DS var:null
+.\"als DT var:null
+.\"als RV var:null
+.\"als RH var:null
+.\"als RP var:null
+.\"als H0 var:null
+.\"als H* var:null
+.\"als S2 var:null
+.\"als S3 var:null
+.\"als S4 var:null
+.\"als S* var:null
+.\"als TD var:null
+.\"als TI var:null
+.\"als vF var:null
+.\"als vH var:null
+.\"als vO var:null
+.\"als vC var:null
+.\"als page:num var:null
+.\"als XI var:null
+.\"als XT var:null
 .\"""""""""""""""""""""""""""""""""""""
 .\" start
 .ns
