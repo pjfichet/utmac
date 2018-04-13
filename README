@@ -12,26 +12,26 @@ flat open document texts (fodt) and html files.
 
 The following macro files can be used by the user (called with the ‐m
 option of troff):
-- uh Made with humanities in mind. It use marginal notes instead of
+- uh: Made with humanities in mind. It uses marginal notes instead of
   footnotes.
-- ul A macro to write letters and short texts.
-- um Translate an utmac document to manpage with nroff.
-- ut Translate an utmac document to a flat text file (such as README
+- ul: A macro to write letters and short texts.
+- uml Translate an utmac document to manpage with nroff.
+- utl Translate an utmac document to a flat text file (such as README
   files) with nroff.
-- us Made for technical documentation. It use a common layout,
+- us: Made for technical documentation. It use a common layout,
   reminiscent of the old troff ms.
-- uw Translate an utmac document to the markdown wiki format.
-- ux Translate an \fIutmac\fR document to xml. This macro must be used
+- uw: Translate an utmac document to the markdown wiki format.
+- ux: Translate an \fIutmac\fR document to xml. This macro must be used
   with the postxml (from troffxml) post‐processor.
 
 Additionaly, some configuration can be achieved by loading these
 macros:
-- u-en English localization (default).
-- u-fr French localization.
-- u-apolline Use the Porchez Typofonderie Apolline Font.
-- u-libertine Use the Linux Libertine font.
-- u-biolinum Use the Linux Biolinum font.
-- u-biolib Use a mix of Linux Libertine and Biolinum.
+- u-en: English localization (default).
+- u-fr: French localization.
+- u-apolline: Use the Porchez Typofonderie Apolline Font.
+- u-libertine: Use the Linux Libertine font.
+- u-biolinum: Use the Linux Biolinum font.
+- u-biolib: Use a mix of Linux Libertine and Biolinum.
 
 # Build and install
 -------------------
@@ -49,26 +49,35 @@ To uninstall, and clean the src directory, do :
 # Environment
 -------------
 
-Utmac internally use some environment variable that you must set
-before the first use of utmac :
+Utmac internally uses some environment variable that you must set:
 
 TROFFMACS This is a troff environment variable, that utmac use
   to find tmacs file.
 TROFFONTS This is a troff environment variable that utmac use to find
   font files. By default, this variable should contain the path to the
-  libertine font (/usr/share/fonts/ttf-linux-libertine in my system).
+  libertine font (/usr/share/fonts/ttf-linux-libertine/ in my system).
 
 # Dependencies
 --------------
 
-- Utmac have been made to be used with Heirloom [n|t]roff, which last
+- Utmac have been made to be used with Heirloom [n|t]roff. Its last
   version can now be found on github:
   <https://github.com/n-t-roff/heirloom-doctools>.
-- Some of the heirloom tools have been modified, others have been
-  created for utmac : refer, idx, grind, soelim troffxml. They can be
-  found on the utroff <http://utroff.org> website.
-- Utmac use by default the libertine font, which must be in the
+  And I wrote a makefile to ease its installation for Utmac:
+  <https://github.com/pjfichet/install-heirloom-troff>.
+- Utmac uses by default the libertine font, which must be in the
   TROFFONTS path.
+- Some of the heirloom tools have been modified, others have been
+  created for Utmac. To benefit of all the functions of Utmac,
+  you should install:
+    - refer <http://github.com/pjfichet/refer>, to format bibliography
+      references.
+    - idx <http://github.com/pjfichet/idx>, to index keywords in your
+      documents.
+    - ugrind <http://github.com/pjfichet/ugrind>, to highlight source
+      code in your documents.
+    - troffxml <http://github.com/pjfichet/troffxml>, to convert your
+      troff documents to various xml formats.
 
 # License
 ---------
