@@ -4,14 +4,14 @@ Utmac - set of troff macros
 The U troff macros — utmac — is a set of macros aiming to produce
 beautiful documents easily. Bibliography, indexes, table of content
 and summaries can be automatically inserted. Utmac informs about
-orphans, widows and empty lines at the bottom of page. Utmac can
+orphans, widows and empty lines at the bottom of a page. It can
 produce pdf files, ReStructuredText files, plain text files, and clean
 xml files — and so, with some xsl stylesheet, flat open document texts
 (fodt) and html files.
 
 While historicaly Utmac was using Gunnar Ritter's troff (also called
 heirloom troff), it is now using Ali Gholami Rudi's neatroff. Neatroff
-is a wonderful text processor, performing a paragraph at once
+is a wonderful troff implementation, performing a paragraph at once
 adjustment, while being easy to use and install.
 
 Usage
@@ -25,7 +25,7 @@ option of troff):
 - uh: Made with humanities in mind. It uses marginal notes instead of
   footnotes.
 - ul: A macro to write letters and short texts.
-- um: Translate an utmac document to manpage with nroff.
+- um: Translate an utmac document to the manpage format with nroff.
 - ut: Translate an utmac document to a flat text file (such as README
   files) with nroff.
 - us: Made for technical documentation. It uses a common layout,
@@ -39,47 +39,52 @@ macros:
 - u-en: English localization (default).
 - u-fr: French localization.
 - u-apolline: Use the Porchez Typofonderie Apolline Font.
-- u-libertine: Use the Linux Libertine font.
+- u-libertine: Use the Linux Libertine font (default).
 - u-biolinum: Use the Linux Biolinum font.
 - u-biolib: Use a mix of Linux Libertine and Biolinum.
 
-So, to format a document in french with the biolinum font, you should
+So, to format an english document, you will do:
+	$ roff -mul f.tr | pdf -pa4 > f.pdf
+
+While to format a document in french with the biolinum font, you should
 do:
-	troff -mu-fr -mu-biolinum -mul f.tr | pdf -pA4 > f.pdf
+	$ troff -mu-fr -mu-biolinum -muh f.tr | pdf -pa4 > f.pdf
 
 # Installation
 --------------
 
 To build and install, edit the makefile to suit your needs, and do:
 
-    make
-    make install
+    $ make
+    $ make install
 
 To uninstall, and clean this directory, do:
 
-    make uninstall
-    make clean
+    $ make uninstall
+    $ make clean
 
 # Dependencies
 --------------
 
-- Utmac is supposed to be used with Neatroff <http://litcave.rudi.ir>.
-  The subdirectory "neatroff" contains a makefile to help you build
-  a install neatroff for utmac.
-- By default, Utmac uses the libertine font, which must be transferred
-  in the neatroff font format. The makefile in the subdirectory "neatroff"
-  will do that for you.
-- To benefit of all the functions of Utmac, you can also install:
-    - refer <http://github.com/pjfichet/refer>, to format bibliography
-      references.
-    - idx <http://github.com/pjfichet/idx>, to index keywords in your
-      documents.
-    - ugrind <http://github.com/pjfichet/ugrind>, to highlight source
-      code in your documents.
-	- tchars <http://github.com/pjfichet/tchars>, to write polytonic
-	  greek.
-    - troffxml <http://github.com/pjfichet/troffxml>, to convert your
-      utmac documents to xml, html, and fodt.
+Utmac is supposed to be used with Neatroff <http://litcave.rudi.ir>.  The
+subdirectory "neatroff" contains a makefile to help you to build and install
+it for the needs of utmac.
+
+By default, Utmac uses the libertine font, which must be transferred in the
+neatroff font format. The makefile in the subdirectory "neatroff" will do that
+for you.
+
+To benefit of all the functions of Utmac, you can also install:
+- refer <http://github.com/pjfichet/refer>, to format bibliography
+  references.
+- idx <http://github.com/pjfichet/idx>, to index keywords in your
+  documents.
+- ugrind <http://github.com/pjfichet/ugrind>, to highlight source
+  code in your documents.
+- tchars <http://github.com/pjfichet/tchars>, to write polytonic
+  greek.
+- troffxml <http://github.com/pjfichet/troffxml>, to convert your
+  utmac documents to xml, html, and fodt.
 
 # License
 ---------
