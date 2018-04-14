@@ -26,7 +26,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de var:null
 ..
-.nh \" Do not hyphenate xml files!
+.nh \" Do not hyphenate xml files
+.nf \" Do not fill at all...
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" strings definition
 .ig
@@ -205,7 +206,7 @@ T\\*[data-date2]\\*[xml-tag /DD]
 .	\}
 .	sp 1v
 .	ie \\n(.$=0 .xml:print \\*[xml-tag PX]
-.	el .xml:print \\*[xml-tag PX name=\(dq\\$1\(dq]
+.	el .xml:print \\*[xml-tag PX name=\[dq]\\$1\[dq]]
 .	xml:print \\*[xml-deline]
 .	ds xml-block \\*[xml-tag /PX]
 .	lang:xmlrchar
@@ -241,7 +242,7 @@ T\\*[data-date2]\\*[xml-tag /DD]
 .\" Notes
 .nr margin-num 0 1
 .	\" print an unbreakable thin space before number
-.ds * \[u202F]\\*[xml-tagbeg]NN num=\(dq\\n+[margin-num]\(dq/\\*[xml-tagend]
+.ds * \[u202F]\\*[xml-tagbeg]NN num=\[dq]\\n+[margin-num]\[dq]/\\*[xml-tagend]
 .nr note-in 0
 .de NT
 .	nr note-in 1
@@ -261,7 +262,7 @@ T\\*[data-date2]\\*[xml-tag /DD]
 .	nr note-in 1
 .	xml:print \\*[xml-deline]
 .	ie \\n(.$ .xml:print \\*[xml-tag NS]
-.	el .xml:print \\*[xml-tagbeg]NS\ num=\(dq\\n[margin-num]\(dq\\*[xml-tagend]
+.	el .xml:print \\*[xml-tagbeg]NS\ num=\[dq]\\n[margin-num]\[dq]\\*[xml-tagend]
 .	xml:print \\*[xml-deline]
 .	ds xml-line \\*[xml-tag /NS]
 ..
@@ -323,6 +324,9 @@ T\\*[data-date2]\\*[xml-tag /DD]
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Link macros
+.ds link-text
+.ds link-beg
+.ds link-end
 .de LT
 .	\" text to print
 .	ds link-text \\$1
@@ -331,17 +335,22 @@ T\\*[data-date2]\\*[xml-tag /DD]
 ..
 .de link:print
 .	\" Print link using text defined by .LT macro if it exists
+.	\" $1: Keyword defining the kind of link
+.	\" $2: url
+.	\" $3, $4: text after and before
 .	if "\\*[link-text]"" \{\
 .		ds link-text \\$2
 .		ds link-end \\$3
 .		ds link-beg \\$4
 .	\}
-.	nf
-.	xml:print \\*[link-beg]\\*[xml-tag L\\$1 name=\(dq\\$2\(dq]\\*[link-text]\\*[xml-tag /L\\$1]\\*[link-end]
-.	fi
-.	rm link-text
-.	rm link-beg
-.	rm link-end
+.	xml:print \\*[link-beg]\
+\\*[xml-tagbeg]L\\$1 name=\[dq]\\$2\[dq]\\*[xml-tagend]\
+\\*[link-text]\
+\\*[xml-tagbeg]/L\\$1\\*[xml-tagend]\
+\\*[link-end]
+.	ds link-text
+.	ds link-beg
+.	ds link-end
 ..
 .de LK
 .	link:print K \\$*
@@ -360,7 +369,7 @@ T\\*[data-date2]\\*[xml-tag /DD]
 .de idx:print
 .	\" Insert a keyword
 .	xml:print \\*[xml-deline]
-.	xml:print \\*[xml-tag K\\$1 name=\(dq\\$2\(dq/]
+.	xml:print \\*[xml-tag K\\$1 name=\[dq]\\$2\[dq]/]
 .	xml:print \\*[xml-deline]
 ..
 .de KA
@@ -386,6 +395,7 @@ T\\*[data-date2]\\*[xml-tag /DD]
 .		so \n(.D/\\$1
 \\..
 .\}
+.
 .\"mso u-ref.tmac
 .\"RO \" remove opcit
 .\"if !\n[tmac-u-lang] .mso u-en.tmac
