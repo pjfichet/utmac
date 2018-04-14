@@ -22,7 +22,7 @@ MAN= u-ref.7 utmac.7 utmac-hack.7
 all: $(TMAC:%=%.tr) $(MAN)
 
 
-%.tmac: %.tr
+%.tr: %.tmac
 	sed -e "s#@BINDIR@#$(BINDIR)#g" $< > $@
 
 %.7: %.man
