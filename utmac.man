@@ -1,4 +1,4 @@
-.\" Utroff utmac manual
+.\"
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -15,10 +15,14 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
+.\" DA Pierre-Jean Fichet
+.\" DS Utroff utmac manual
+.\" DT Utroff utmac manual
+.\" DK utroff utmac u-ref uw ux um ut us uh refer iso-690 troff nroff heirloom tmac xml pdf markdown html fodt
 .
 .
 .
-.TH UTMAC 7 ´2018‐04-13´
+.TH UTMAC 7 2018-04-14
 .
 .
 .
@@ -40,7 +44,7 @@ stylesheet, flat open document texts (fodt) and html files.
 .PP
 \fIUtmac\fR is made to be used with \fBneatroff\fR to produce
 postscript and pdf files. To produce plain text files, manual pages,
-and xml files, \fBgroff -Tutf8 -M@MACDIR@\fI can be used instead.
+and xml files, \fBgroff -k -Tutf8 -M@MACDIR@\fR can be used instead.
 .
 .
 .
@@ -52,7 +56,7 @@ and xml files, \fBgroff -Tutf8 -M@MACDIR@\fI can be used instead.
 .RS 3
 .PP
 The following macro files can be used by the user (called
-with the \fB‐m\fR option of troff):
+with the \fB-m\fR option of troff):
 .TP
 \&\fIuh\fR
 Made with humanities in mind. It use marginal notes instead
@@ -79,7 +83,7 @@ Translate an \fIutmac\fR document to the markdown wiki format.
 Translate an \fIutmac\fR document to xml. This macro must be
 used with the
 postxml(1)
-post‐processor.
+post-processor.
 .PP
 Additionnaly, some configuration can be achieved by loading the
 following macros:
@@ -91,15 +95,15 @@ English localization (default).
 French localization.
 .TP
 \&\fIu-apolline\fR
-Use the Porchez Typofonderie Apolline Font.
+Use the Porchez Typofonderie Apolline font.
 .TP
 \&\fIu-libertine\fR
-Use the Linux Libertine font.
+Use the linux libertine font.
 .TP
 \&\fIu-biolinum\fR
-Use the Linux Biolinum font.
+Use the linux biolinum font.
 .TP
-\&\fIu-biolib\fR
+\&\fIu-biollib\fR
 Use a mix of Linux Libertine and Biolinum.
 .
 .
@@ -160,7 +164,7 @@ troff -rRV=1 -muh file
 .EE
 .TP
 \&\fBRV\fR \fInum\fR
-If \fInum\fR=1, use a recto‐verso layout.
+If \fInum\fR=1, use a recto-verso layout.
 Default is 0.
 .TP
 \&\fBRI\fR \fInum\fR
@@ -273,7 +277,7 @@ Quote paragraph.
 .TP
 \&\fBPI\fR [\fIbullet\fR]
 List paragraph. Default bullet is usually an emdash
-(\fI\Ee(em\fR).
+(\fI\e(em\fR).
 .TP
 \&\fBPL\fR
 Left align paragraph.
@@ -286,6 +290,24 @@ Example paragraph. Text is not filled.
 .
 .
 .
+.SS Typographic macros
+.RS 3
+.TP
+\&\fBTD\fR
+Use micro-typography to decrease the witdh of a paragraph.
+It can be inserted at the begining (just after \fIPP\fR) of
+a well choosen paragraph to avoid orphans or widows. A well
+chooseen paragraph is a long one, with a short last line.
+.TP
+\&\fBTI\fR
+Use micro-typography to increase the width of a paragraph.
+It can be inserted at the begining (just after \fIPP\fR) of
+a well choosen paragraph to avoid a blank at the bottom of a
+page. A well choosen paragraph is a long one, with a long
+last line.
+.
+.
+.
 .SS Note macros
 .RS 3
 .TP
@@ -294,7 +316,7 @@ Start a numbered note.
 The default is to print a number before the
 note, but if an argument is given, no number will be
 printed. To insert a number reference to the note in the
-text, use the \fB*\fR string, say insert: \fB\Ee**\fR where
+text, use the \fB*\fR string, say insert: \fB\e**\fR where
 you want the number to appear.
 .TP
 \&\fBNT\fR
@@ -410,10 +432,10 @@ Print a bibliography. If \fIbibliography\fR is omitted,
 \fIUtmac\fR
 will use the \fI$REFER\fR environment variable. The bibliography
 begins with the \fBH3\fR macro. \fIUtmac\fR try to sort the
-bibliography using \fIurefer\fR \fB‐i\fR option, but this
-doesn’t give correct result on some bibliography
+bibliography using \fIurefer\fR \fB-i\fR option, but this
+doesn't give correct result on some bibliography
 list. For a perfect result, you should sort your
-bibliography with \fIsortbib\fR. See \fBu‐ref\fR(7).
+bibliography with \fIsortbib\fR. See \fBu-ref\fR(7).
 .TP
 \&\fBXI\fR
 Print the existing indexes. To index something, use an keyword macro. Each index begin with the \fBH3\fR macro.
@@ -431,11 +453,11 @@ letter string. As in the xml style, these strings must
 enclose the text and can be embedded:
 .PP
 .EX
-Roman \fB\Ee*I\fRitalic, \fB\Ee*B\fRbolditalic\fB\Ee*B\fR\fB\Ee*I\fR, roman.
+Roman \fB\e*I\fRitalic, \fB\e*B\fRbolditalic\fB\e*B\fR\fB\e*I\fR, roman.
 .EE
 .PP
 So, in an \fIutmac\fR document, you must avoid the raw troff
-\fB\Eef\fR and \fB.fp\fR commands.
+\fB\ef\fR and \fB.fp\fR commands.
 .PP
 Font strings are defined as follow:
 .TP
@@ -481,61 +503,67 @@ troff -muh alice.tr \fB|\fR dpost \fB|\fR ps2pdf - alice.pdf
 .EE
 .PP
 .EX
-\fB.\fR\fI\Ee" Start example\fR
-\fB.\fR\fI\Ee" Use recto verso\fR
+\fB.\fR\fI\e" Start example\fR
+\fB.\fR\fI\e" Use recto verso\fR
 \fB.\fR\fBRV\fR
-\fB.\fR\fI\Ee" Define metadatas\fR
+\fB.\fR\fI\e" Define metadatas\fR
 \fB.\fR\fBDA\fR Lewis Carroll
-\fB.\fR\fBDT\fR Alice’s adventures in wonderland and Through the looking glass
+\fB.\fR\fBDT\fR Alice's adventures in wonderland and Through the looking glass
 \fB.\fR\fBDK\fR alice nabuchodonosor jabberwocky
-\fB.\fR\fI\Ee" Build first page\fR
+\fB.\fR\fI\e" Build first page\fR
 \fB.\fR\fBH0\fR Lewis Carroll
-\fB.\fR\fBH1\fR Alice’s adventures
-\fB.\fR\fI\Ee" Insert a summary of chapter headings\fR
+\fB.\fR\fBH1\fR Alice's adventures
+\fB.\fR\fI\e" Insert a summary of chapter headings\fR
 \fB.\fR\fBS2\fR
-\fB.\fR\fI\Ee" First chapter heading\fR
-\fB.\fR\fBH2\fR Alice’s adventures in wonderland
-\fB.\fR\fI\Ee" A short exergue\fR
+\fB.\fR\fI\e" First chapter heading\fR
+\fB.\fR\fBH2\fR Alice's adventures in wonderland
+\fB.\fR\fI\e" A short exergue\fR
 \fB.\fR\fBNT\fR
 All in the golden afternoon
 Full leisurly we glide
 \fB.\fR\fBNE\fR
-\fB.\fR\fI\Ee" First paragraph\fR
+\fB.\fR\fI\e" First paragraph\fR
 \fB.\fR\fBH3\fR Down the rabbitt hole
-\fB.\fR\fI\Ee" Some text with font definitions, and a note appeal\fR
+\fB.\fR\fI\e" Some text with font definitions, and a note appeal\fR
 \fB.\fR\fBPP\fR
-\fB\Ee*C\fRAlice\fB\Ee*C\fR was beginning to be very tired of sitting by her
+\fB\e*C\fRAlice\fB\e*C\fR was beginning to be very tired of sitting by her
 sister on the bank, and of having nothing to do: once or
 twice she had peeped into the book her sister was reading,
-but it had no pictures or conversations in it, "\fB\Ee*I\fRand what
-is the use of a book\fB\Ee*I\fR" thought \fB\Ee*C\fRAlice\fB\Ee*C\fR, "\fB\Ee*I\fRwithout
-pictures or conversations?\fB\Ee*I\fR\fB\Ee**\fR"
-\fB.\fR\fI\Ee" A note\fR
+but it had no pictures or conversations in it, "\fB\e*I\fRand what
+is the use of a book\fB\e*I\fR" thought \fB\e*C\fRAlice\fB\e*C\fR, "\fB\e*I\fRwithout
+pictures or conversations?\fB\e*I\fR\fB\e**\fR"
+\fB.\fR\fI\e" A note\fR
 \fB.\fR\fBNS\fR
 Yes, what is the use of such a book?
 \fB.\fR\fBNE\fR
-\fB.\fR\fI\Ee" Some other chapters and paragraphs...\fR
+\fB.\fR\fI\e" Some other chapters and paragraphs...\fR
 \fB.\fR\fBH3\fR The pool of tears
 \fB.\fR\fBH2\fR Through the looking glass
-\fB.\fR\fI\Ee" Table of content\fR
+\fB.\fR\fI\e" Table of content\fR
 \fB.\fR\fBXT\fR
-\fB.\fR\fI\Ee" Stop example\fR
+\fB.\fR\fI\e" Stop example\fR
 .EE
 .
 .
 .
-
 .SH SEE ALSO
 .PP
-utmac‐hack(7), u‐ref(7), postxml(1), idx(1), refer(1).
+utmac-hack(7),
+u-ref(7),
+postxml(1),
+idx(1),
+refer(1).
 .
 .
 .
 .SH LICENSE
 .PP
 \fIUtmac\fR macros and this manual page are distributed under
-the ISC license..
+the
+isc license.
+.
+.
 .
 .SH AUTHOR
 .PP
-Pierre‐Jean Fichet.
+Pierre-Jean Fichet.

@@ -1,4 +1,4 @@
-.\" Utroff u‐ref manual
+.\"
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -15,27 +15,31 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
+.\" DA Pierre-Jean Fichet
+.\" DS Utroff u-ref manual
+.\" DT Utroff u-ref manual
+.\" DK utroff u-ref utmac refer iso-690 troff nroff heirloom tmac xml
 .
 .
 .
-.TH U‐REF 7 ´2017‐12‐11´
+.TH U-REF 7 2018-04-14
 .
 .
 .
 .SH NAME
 .PP
-\fBU‐ref\fR: Format references for the U troff macros.
+\fBU-ref\fR: Format references for the U troff macros.
 .
 .
 .
 .SH DESCRIPTION
 .PP
-The \fIu‐ref\fR macro manage references in \fIrefer\fR
+The \fIu-ref\fR macro manage references in \fIrefer\fR
 format for the \fIU troff macros\fR set (\fIutmac\fR).
-\fIu‐ref\fR has high level built‐in capabilities:
+\fIu-ref\fR has high level built-in capabilities:
 .IP \(bu
-It formats the bibliography following the \fIiso‐690\fR
-bibliography standart which define a lot of fields, and which
+It formats the bibliography following the \fIiso-690\fR
+bibliography standart which defines a lot of fields, and which
 fix the order on which they must appear.
 .IP \(bu
 It formats differently footnotes references and bibliography
@@ -52,9 +56,9 @@ replacement strings.
 It builds an index of references that can be printed with
 the \fB.AR\fR macro.
 .PP
-\fIu‐ref\fR use a new version of \fIrefer\fR instead of the
+\fIu-ref\fR use a new version of \fIrefer\fR instead of the
 original \fIheirloom refer\fR to handle correctly the
-\fBIso‐690\fR bibliography standart.
+\fBIso-690\fR bibliography standart.
 .
 .
 .
@@ -103,17 +107,17 @@ the reference. The first line following the \fB.[\fR macro
 must contain words to find the correct reference. Following
 lines can contain fields definition.
 .IP \(bu
-Since \fIu‐ref\fR write the reference in a note by
-default, you must add the \fB\Ee**\fR string to insert,
+Since \fIu-ref\fR write the reference in a note by
+default, you must add the \fB\e**\fR string to insert,
 where appropriate, a note number in the text.
 .IP \(bu
 Since the note number is inserted manually, you should use the
-bare mode of \fIrefer\fR (the \fB‐b\fR option), so that the
-\fIrefer\fR command line is on the form: \fBrefer ‐b ‐p
+bare mode of \fIrefer\fR (the \fB-b\fR option), so that the
+\fIrefer\fR command line is on the form: \fBrefer -b -p
 file.ref\fR.
 .PP
 .EX
-He said: «a short citation\fB\Ee**\fR».
+He said: «a short citation\fB\e**\fR».
 \fB.\fR\fB[\fR
 Keywords...
 %p 3
@@ -124,14 +128,14 @@ Keywords...
 .
 .SH FIELDS
 .PP
-\fIu‐ref\fR use uppercase and lowercase fields. The
+\fIu-ref\fR use uppercase and lowercase fields. The
 conventional meaning of each field is as follows:
 .TP
 \&\fBA\fR
 The name of an author. If the name contains a title such as
 \fIJr.\fR at the end, it should be separated from the last
 name by a comma. There can be multiple occurrences of the
-\fBA\fR field.  The order is significant.  It is a good idea
+\fBA\fR field. The order is significant. It is a good idea
 always to supply an \fBA\fR field or a \fBQ\fR field.
 .TP
 \&\fBB\fR
@@ -160,7 +164,7 @@ for sorting purpose and to be sure that the name of the
 editor appear before the title of the book, but on the other
 end, the standart says that \fIed\fR should be written
 without parenthesis, thing that might be confusing for
-\fIrefer\fR.  You should try both solution and choose the
+\fIrefer\fR. You should try both solution and choose the
 best one in each situation.
 .TP
 \&\fBF\fR
@@ -189,12 +193,12 @@ For a serie of journals, the name of the serie.
 .TP
 \&\fBK\fR
 Keywords used for searching. This field is required by
-\fIu‐ref\fR to replace citations by \fIIdem.\fR and co. It
-must be defined for \fIu‐ref\fR to work properly, and
+\fIu-ref\fR to replace citations by \fIIdem.\fR and co. It
+must be defined for \fIu-ref\fR to work properly, and
 should contain only ascii characters.
 .TP
 \&\fBL\fR
-Label. Not used by \fIu‐ref\fR.
+Label. Not used by \fIu-ref\fR.
 .TP
 \&\fBM\fR
 The collection in which the reference is published.
@@ -205,8 +209,8 @@ Journal issue number.
 \&\fBO\fR
 Other information.
 This is usually printed at the end of the reference, before
-the field G. It’s the place to mention the support of an
-electronic document (e‐mail, pdf, html...)
+the field G. It's the place to mention the support of an
+electronic document (e-mail, pdf, html...)
 .TP
 \&\fBP\fR
 \fBTotal\fR number of page of the book.
@@ -214,11 +218,11 @@ electronic document (e‐mail, pdf, html...)
 \&\fBp\fR
 Exact page of the citation, or position of the article in a
 book. A range of pages can be specified as
-\fBm-n\fR.
+\fBm−n\fR.
 .TP
 \&\fBQ\fR
 The name of the author, if the author is not a person. This
-will only be used if there are no \fBA\fR fields.  There can
+will only be used if there are no \fBA\fR fields. There can
 only be one \fBQ\fR field.
 .TP
 \&\fBR\fR
@@ -232,7 +236,7 @@ Title. For an article in a book or a journal, this should
 be the title of the article.
 .TP
 \&\fBU\fR
-Co‐author (translator, illustrator...). Should be preceded
+Co-author (translator, illustrator...). Should be preceded
 by its function:
 \fItr.\fR
 for a translator, etc.
@@ -243,22 +247,22 @@ For a whole serie, the number of books in that serie.
 .TP
 \&\fBw\fR
 Type (\fBw\fRhich) of an electronic document (online,
-CD‐ROM...)
+CD-ROM...)
 .TP
 \&\fBX\fR
 Annotation.
 .TP
 \&\fBx\fR
 URL of an online document.
-\fIu‐ref\fR
-doesn’t have macro to hyphenate correctly urls. In you
+\fIu-ref\fR
+doesn't have macro to hyphenate correctly urls. In you
 bibliography database, you should use the special character
-\fB\Ee:\fR
+\fB\e:\fR
 to tell troff where to hyphenate the url, for example like
 this:
 .PP
 .EX
-%x http:\fB\Ee:\fR//\fB\Ee:\fRexample.\fB\Ee:\fRcom/
+%x http:\fB\e:\fR//\fB\e:\fRexample.\fB\e:\fRcom/
 .EE
 .TP
 \&\fBy\fR
@@ -275,24 +279,31 @@ the last such field will be used.
 .
 .SH FILES
 .PP
-\fB@MACDIR@/u‐ref\fR, the macro file.
+\fB@MACDIR@/u-ref\fR, the macro file.
 .
 .
 .
 .SH SEE ALSO
 .PP
-iso‐690,
-utmac(7), refer(1), referformat(7).
+Iso-690 bibliography standart,
+utmac(7),
+refer(1),
+referformat(7).
+.PP
+Rossitza Kyheng wrote an overview of the iso-690 bibliography
+stanadart in an online french article:
+\&La référence bibliographique, normes et praxis <http//www.revue-texto.net/Reperes/Themes/Kyheng_References.html>.
 .
 .
 .
 .SH LICENSE
 .PP
-\fIu‐ref\fR macro and this manual page are distributed under
-the ISC license.
+\fIu-ref\fR macro and this manual page are distributed under
+an
+isc license.
 .
 .
 .
 .SH AUTHOR
 .PP
-Pierre‐Jean Fichet.
+Pierre-Jean Fichet.

@@ -1,4 +1,4 @@
-.\" Utroff utmac hacker manual
+.\"
 .ig
 Copyright (C) 2012-2018 Pierre Jean Fichet
 <pierrejean dot fichet at posteo dot net>
@@ -15,70 +15,74 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
+.\" DA Pierre-Jean Fichet
+.\" DS Utroff utmac hacker manual
+.\" DT Utroff utmac hacker manual
+.\" DK utroff utmac u-ref uw ux um ut us uh refer iso-690 troff nroff heirloom tmac xml pdf markdown html fodt
 .
 .
 .
-.TH UTMAC‐HACK 7 ´2017‐12‐11´
+.TH UTMAC-HACK 7 2018-04-14
 .
 .
 .
 .SH FILES
 .PP
 The following files are installed on the directory
-@MACDIR@:
+@MACDIR@: \fB@TMAC@\fR.
 .TP
 \&\fIuh, ul, us, ut, uw, ux\fR
 Layout macros.
 .TP
-\&\fIu‐ref\fR
+\&\fIu-ref\fR
 Format a refer bibliography. See
-u‐ref(7).
+u-ref(7).
 .TP
-\&\fIu‐grind\fR
-Handle the \fIugrind\fR pre‐processor.
+\&\fIu-grind\fR
+Handle the \fIugrind\fR pre-processor.
 .TP
-\&\fIu‐idx\fR
+\&\fIu-idx\fR
 Index macros.
 .TP
-\&\fIu‐links\fR
+\&\fIu-links\fR
 Macros for links.
 .TP
-\&\fIu‐pdf\fR
+\&\fIu-pdf\fR
 Handles pdf links and metadatas.
 .TP
-\&\fIu‐eps\fR
+\&\fIu-eps\fR
 Include eps files in a document.
 .TP
-\&\fIu‐sum\fR
+\&\fIu-sum\fR
 Creates summaries.
 .TP
-\&\fIu‐var\fR
+\&\fIu-var\fR
 Defines various macros shared by all utmac files.
 .TP
-\&\fIu‐en\fR \fIu‐fr\fR
+\&\fIu-en\fR \fIu-fr\fR
 Localization macros, for english and french. They should be
 loaded by the file defined by the \fBUTMAC\fR environment
 variable. If the \fBUTMAC\fR environment variable is not
 defined, english is loaded.
 .TP
-\&\fIu‐font\fR
+\&\fIu-font\fR
 Font macros shared by all font files.
 .TP
-\&\fIu‐apolline\fR, \fIu‐libertine\fR, \fIu‐biolinum\fR, \fIu‐biolib\fR
+\&\fIu-apolline\fR, \fIu-libertine\fR, \fIu-biolinum\fR, \fIu-biolib\fR
 Mount the specified font. By default,
-\fIu‐libertine\fR is loaded.
+\fIu-libertine\fR is loaded.
 .
 .
 .
 .SH TESTS
 .PP
-Once loaded, each macro file sets the register \fBtmac‐\fR\fIname\fR
-(where \fIname\fR is the file name) to ’1’. This register can be used
+Once loaded, each macro file sets the register \fBtmac-\fR\fIname\fR
+(where \fIname\fR is the file name) to '1'. This register can be used
 within tests to adapt the content on the macro used to format the
 document:
 .PP
 .EX
-\fB.\fR\fBie\fR \fBr\fR tmac‐ux This is printed if formatted with ‐mux.
+\fB.\fR\fBie\fR \fB\e\en[tmac-ux]\fR This is printed if formatted with -mux.
 \fB.\fR\fBel\fR This is printed otherwise.
 .EE
 .
@@ -94,14 +98,14 @@ The name of the macros are of the form
 \fBmodule:name\fR.
 .IP \(bu
 The name of the strings and number registers are of the form
-\fBmodule‐name\fR.
+\fBmodule-name\fR.
 .PP
 Externally, all macro contain two uppercase letters,
 while all fonts are strings containing one uppercase letter.
 .PP
 So, \fIutmac\fR reserve the following names:
 .IP \(bu
-Names containing the characters \fB:\fR and \fB‐\fR.
+Names containing the characters \fB:\fR and \fB-\fR.
 .IP \(bu
 Names containing one or two uppercase letters.
 .
@@ -109,16 +113,22 @@ Names containing one or two uppercase letters.
 .
 .SH SEE ALSO
 .PP
-utmac(7), u‐ref(7), postxml(1), idx(1), refer(1).
+utmac(7),
+u-ref(7),
+postxml(1),
+idx(1),
+refer(1).
 .
 .
 .
 .SH LICENSE
 .PP
 \fIUtmac\fR macros and this manual page are distributed under
-the ISC license.
+an
+isc license
+.
 .
 .
 .SH AUTHOR
 .PP
-Pierre‐Jean Fichet.
+Pierre-Jean Fichet.
