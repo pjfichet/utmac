@@ -68,7 +68,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de H2
 .	man:block
 .	man:sep
-.	man:print .TH \\$1 \\$2 \'\\*[data-date]\'
+.	man:print .TH \\$1 \\$2 \\*[data-date]
 ..
 .de H3
 .	man:block
@@ -169,7 +169,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .ds f-10 \\efB
 .ds f-11 \\ef(BI
 .\"""""""""""""""""""""""""""""""""""""
-.\" vgrind
+.\" vgrind and strings
 .ds +K \\*B
 .ds +V \\*B
 .ds +C \\*I
@@ -178,12 +178,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .ds -V \\*B
 .ds -C \\*I
 .ds -S \\*I
-.ds - \-
+.ds - \[u002D]
 .ds _ _
-.ds e \E\Ee
+.ds e \\ee
 .ds -- \e(en
 .ds *) *
-.ds deslash "\\$*
+.ds deslash "\E\E$*
+.char - \[u002D]
+.char ' \[u0027]
 .\"""""""""""""""""""""""""""""""""""""
 .als RV man:null
 .als RH man:null
