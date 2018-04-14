@@ -64,8 +64,11 @@ To uninstall, and clean this directory, do:
 --------------
 
 - Utmac is supposed to be used with Neatroff <http://litcave.rudi.ir>.
+  The subdirectory "neatroff" contains a makefile to help you build
+  a install neatroff for utmac.
 - By default, Utmac uses the libertine font, which must be transferred
-  in the neatroff font format.
+  in the neatroff font format. The makefile in the subdirectory "neatroff"
+  will do that for you.
 - To benefit of all the functions of Utmac, you can also install:
     - refer <http://github.com/pjfichet/refer>, to format bibliography
       references.

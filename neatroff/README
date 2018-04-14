@@ -1,0 +1,35 @@
+Installing Neatroff
+===================
+
+This makefile will only provide a minimal neatroff installation:
+it will install roff, post, pdf, mkfn, hyphenations files, and will
+transfer the Linux Libertine font in a neatroff compatible format.
+
+For a complete troff distribution based on neatroff, you
+should prefer <http://github.com/aligrudi/neatroff_make>.
+
+Dependencies
+------------
+
+You will need the Linux Libertine font. It is usually packaged
+by linux distributions.
+
+Usage
+-----
+
+You should edit the makefile to suit your needs and run:
+
+	$ make all
+
+That will download, build, and install roff, post, pdf, mkfn and
+hyphenations files. That will also transfer the linux libertine font
+in a format compatible with neatroff. The other possible targets are:
+
+	help: short usage.
+	bin: build roff, post, pdf, mkfn.
+	install: install roff, post, pdf, and mkfn.
+	fonts: install the linux libertine font.
+	hyphen: download the hyphenation files.
+	all: install everything
+	clean: clean the current directory.
+	uninstall: uninstall everything.
