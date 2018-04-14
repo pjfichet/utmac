@@ -48,7 +48,7 @@ So, to format an english document, you will do:
 
 While to format a document in french with the biolinum font, you should
 do:
-	$ troff -mu-fr -mu-biolinum -muh f.tr | pdf -pa4 > f.pdf
+	$ roff -mu-fr -mu-biolinum -muh f.tr | pdf -pa4 > f.pdf
 
 # Installation
 --------------
