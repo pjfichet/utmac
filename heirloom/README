@@ -1,0 +1,41 @@
+Makefile for Heirloom Troff
+===========================
+
+This makefile aims to ease the installation of the heirloom doctools
+(<https://github.com/n-t-roof/heirloom-doctools>) for Utroff.
+
+- It provides a safer configuration by installing everything in
+  /opt/utroff. Indeed, heirloom's makefile does not have a
+  `make uninstall` target. So erasing that directory is the
+  simplest way to uninstall cleanly.
+- It creates the needed directories (heirloom makefile does not).
+- It allows to build only a subset of heirloom tools.
+- It substitutes the hardcoded path indicated in the manual pages
+  with the real ones.
+
+Usage
+-----
+
+1. Edit config.mk.
+
+2. Download the desired version (the newest github version is advised):
+
+    make github
+	# or
+    make sourceforge
+
+3. configure, build, install:
+
+    make configure
+    make build
+    make install
+
+4. Optionally clean the working directory:
+
+    make clean
+
+5. Using a VERY INSECURE script, you can attempt to uninstall.
+   But you would probably better do it manually with `rm`.
+
+    make uninstall
+

@@ -63,8 +63,7 @@ TROFFONTS This is a troff environment variable that utmac use to find
 - Utmac have been made to be used with Heirloom [n|t]roff. Its last
   version can now be found on github:
   <https://github.com/n-t-roff/heirloom-doctools>.
-  And I wrote a makefile to ease its installation for Utmac:
-  <https://github.com/pjfichet/install-heirloom-troff>.
+  There is a makefile to install it easily in the "heirloom" directory.
 - Utmac uses by default the libertine font, which must be in the
   TROFFONTS path.
 - Some of the heirloom tools have been modified, others have been
