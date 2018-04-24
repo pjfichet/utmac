@@ -18,17 +18,17 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\" DA Pierre-Jean Fichet
 .\" DS Utroff utmac manual
 .\" DT Utroff utmac manual
-.\" DK utroff utmac u-ref uw ux um ut us uh refer iso-690 troff nroff heirloom tmac xml pdf markdown html fodt
+.\" DK utroff utmac u-ref troff
 .
 .
 .
-.TH UTMAC 7 2018-04-14
+.TH UTMAC 7 2018-04-24
 .
 .
 .
 .SH NAME
 .PP
-\fButmac\fR: macro set for heirloom troff.
+\fButmac\fR: A troff macro set
 .
 .
 .
@@ -290,24 +290,6 @@ Example paragraph. Text is not filled.
 .
 .
 .
-.SS Typographic macros
-.RS 3
-.TP
-\&\fBTD\fR
-Use micro-typography to decrease the witdh of a paragraph.
-It can be inserted at the begining (just after \fIPP\fR) of
-a well choosen paragraph to avoid orphans or widows. A well
-chooseen paragraph is a long one, with a short last line.
-.TP
-\&\fBTI\fR
-Use micro-typography to increase the width of a paragraph.
-It can be inserted at the begining (just after \fIPP\fR) of
-a well choosen paragraph to avoid a blank at the bottom of a
-page. A well choosen paragraph is a long one, with a long
-last line.
-.
-.
-.
 .SS Note macros
 .RS 3
 .TP
@@ -335,26 +317,21 @@ End \fINS\fR, \fINT\fR or \fINB\fR.
 .SS Include macros
 .RS 3
 .PP
-These macros are used to include an encapsulated postscript
-document. These documents are often images, which can be
-produced with the \fBconvert\fR command from
-\fBImageMagick\fR:
+These macros are used to include an encapsulated postscript document
+or a pdf one. These documents are often images, which can be produced
+with the \fBconvert\fR command from \fBImageMagick\fR for \fIeps\fR
+files and \fBps2pdf\fR for \fIpdf\fR files:
 .PP
 .EX
 convert image.jpg image.eps
+ps2pdf -dEPSCrop image.eps image.pdf
 .EE
 .TP
-\&\fBIL\fR \fIeps\fR [\fIscale\fR] [\fIflag\fR]
-Include and left align the \fIeps\fR document. The document
-size is scaled by \fIscale\fR and the optional \fIflag\fR
-argument is used to format its appearance (see Heirloom Troff
-documentation for a description of these flags).
+\&\fBEPS\fR \fIfile.eps\fR [\fIl\fR|\fIc\fR|\fIr\fR|\fIindent\fR] [\fIwidth\fR] [\fIheight\fR]
+Include an \fIeps\fR file.
 .TP
-\&\fBIC\fR \fIeps\fR [\fIscale\fR] [\fIflags\fR]
-Idem, except that the document is centered.
-.TP
-\&\fBIR\fR \fIeps\fR [\fIscale\fR] [\fIflags\fR]
-Idem, except that the document is right aligned.
+\&\fBPDF\fR \fIfile.pdf\fR [\fIl\fR|\fIc\fR|\fIr\fR|\fIindent\fR] [\fIwidth\fR] [\fIheight\fR]
+Include a \fIpdf\fR file.
 .
 .
 .

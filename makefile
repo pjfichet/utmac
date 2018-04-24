@@ -13,7 +13,7 @@ MACDIR=$(LIBDIR)/tmac
 # install binary
 INSTALL=install
 
-TMAC= u-apolline u-biolib u-biolinum u-en u-eps u-fonts u-fr uh u-idx \
+TMAC= u-apolline u-biolib u-biolinum u-en u-include u-fonts u-fr uh u-idx \
 	u-libertine u-links ul um u-pdf u-ref us u-sum u-typo u-var \
 	u-grind ut uw ux
 
@@ -45,3 +45,6 @@ uninstall:
 clean:
 	rm -f $(TMAC:%=%.tr) $(MAN)
 
+tmac.eps:
+	@echo Downloading tmac.eps from neatroff_make
+	@wget -q https://raw.githubusercontent.com/aligrudi/neatroff_make/master/tmac/tmac.eps
