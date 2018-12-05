@@ -47,6 +47,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr var-orphan \n[page-head]+1
 .nr var-widow \n[page-foot]-2
 .nr var-blank \n[page-foot]-1
+.ds color-head "#2e5767
+.ds color-line "#ddd
+.ds color-text "#0f1c21
 .\" paragraph at once adjustment (delete to avoid it).
 .ds text-adj p
 .\""""""""""""""""""""""""""""""""""""""
@@ -54,6 +57,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de doc:start
 .	\" start document
 .	par:doc
+\m[\\*[color-text]]
+.	sp -1v
 .	em doc:end
 .	\" begin first page
 .	wh 0 page:head
@@ -291,24 +296,22 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr head-3 0 1
 .nr head-4 0 1
 .de head:print
-.	nr head-toprint \\$1
-.	shift
 .	\" Define anchor string
 .	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
 .	nh
 .	in 0
 .	\" Print pdf bookmark
-.	pdf:bookmark \\n[head-toprint] "\\$*" \\c
+.	pdf:bookmark \\$1 "\\$2" \\c
 .	\" Print pdf anchor
 .	pdf:anchor \\*[head-level] \\c
 .	\" Print heading linking to toc
-.	pdf:link TOC "\\$*"
+.	pdf:link TOC "\\$2" "\\$3" "\\$4"
 .	br
 .	font:endhead
 .	hy \\n[text-hyphen]
 .	nr var-layout 0
-.	toc:record \\n[head-toprint] "\\$*"
-.	sum:record \\n[head-toprint] \\*[head-level] \\n% "\\$*"
+.	toc:record \\$1 "\\$2"
+.	sum:record \\$1 \\*[head-level] \\n% "\\$2"
 ..
 .de H1
 .	nr head-1 +1
@@ -322,12 +325,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ps 25p
 .	font:head
 .	ad \\*[text-adj]l
-.	head:print 1 \\$*
+.	head:print 1 "\\$*" "\m[]" "\m[\\*[color-head]]"
 .	nr h-l \\w"\\$*"u+3v
 .	ie \\n[h-l]u>\\n[text-length]u .nr h-length \\n[h-lu]u
 .	el .nr h-length \\n[text-length]u
 .	sp -.5v
-.	var:print \s+(30\D'l \\n[h-length]u'\s-(30
+.	var:print \m[\\*[color-line]]\s+(30\D'l \\n[h-length]u'\s-(30\m[]
 .	sp .5v
 .	br
 .	po \\n[text-offset]u
@@ -350,7 +353,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ad \\*[text-adj]r
 .	vs \\n[text-line]u*2u
 .	font:head
-.	head:print 2 \\$*
+.	head:print 2 "\\$*" "\m[]" "\m[\\*[color-head]]"
 .	br
 .	nr * 0 1 \" reset note number
 .	par:init
@@ -367,14 +370,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ne 3v
 .	sp 1.5v
 .	po \\n[note-offset]u
-\v'-0.30m'\s+(30\D'l \\n[note-length]u'\s-(30\v'+0.30m'
+\m[\\*[color-line]]\v'-0.30m'\s+(30\D'l \\n[note-length]u'\s-(30\v'+0.30m'\m[]
 .	br
 .	sp -1v
 .	po \\n[text-offset]u
 .	ps 12
 .	font:head
 .	ad \\*[text-adj]l
-.	head:print 3 \\$*
+.	head:print 3 "\\$*" "\m[]" "\m[\\*[color-head]]"
 .	sp 0.5v
 .	ns
 .	note:last
@@ -386,7 +389,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	sp 1v
 .	ad \\*[text-adj]l
 .	font:head
-.	head:print 4 \\$*
+.	head:print 4 "\\$*" "\m[]" "\m[\\*[color-head]]"
 .	ns
 .	note:last
 ..
@@ -435,7 +438,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\""""""""""""""""""""""""""""""""""""""
 .\" Notes in padj mode
 .nr * 0 1 \" note number
-.ds * \|\\*U\\n+*\\*U
+.ds * \|\m[\\*[head-color]]\\*U\\n+*\\*U\m[]
 .nr note-in 0 \" inside a note
 .nr note-last 1 \" position of last note
 .nr note-anchor 0 \" position of note anchor
@@ -462,7 +465,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	note:init
 .	\" Divert text of note to line trap macro
 .	di note:trap
-.		if \\n(.$=0 .var:print \\*B\\*U\\n*\\*U\\*B
+.		if \\n(.$=0 .var:print \m[\\*[head-color]]\\*B\\*U\\n*\\*U\\*B\m[]
 ..
 .de NE
 .	\" Close the diversion

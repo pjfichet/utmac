@@ -44,11 +44,16 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr var-blank \n[page-foot]-1
 .\" paragraph at once adjustment (delete to avoid it).
 .ds text-adj p
+.ds color-head "#000
+.ds color-line "#000
+.ds color-text "#000
 .\""""""""""""""""""""""""""""""""""""""
 .\" Document
 .de doc:start
 .	\" start document
 .	par:doc
+\m[\\*[color-text]]
+.	sp -1v
 .	em doc:end
 .	\" begin first page
 .	wh 0 page:head
@@ -127,7 +132,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\}
 .	el .page:boxodd
 .	ps 70
-.	tl "\D'l \\n[note-length]u'"""
+.	tl "\m[\\*[color-line]]\D'l \\n[note-length]u'\m[]"""
 .	ps \\n[text-font]u
 ..
 .\""""""""""""""""""""""""""""""""""""""
@@ -241,31 +246,29 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr head-3 0 1
 .nr head-4 0 1
 .de head:print
-.	nr head-toprint \\$1
-.	shift
 .	\" Define anchor string
 .	ds head-level \\n[head-1].\\n[head-2].\\n[head-3].\\n[head-4]
 .	nh
 .	in 0
 .	\" Print pdf bookmark
-.	pdf:bookmark \\n[head-toprint] "\\$*" \\c
+.	pdf:bookmark \\$1 "\\$2" \\c
 .	\" Print pdf anchor
 .	pdf:anchor \\*[head-level] \\c
 .	\" Define head string
-.	sy str="\\$*" && echo ".ds head-str ${str: -1}" > /tmp/\\*[data-file]-head.tr
+.	sy str="\\$2" && echo ".ds head-str ${str: -1}" > /tmp/\\*[data-file]-head.tr
 .	so /tmp/\\*[data-file]-head.tr
 .	sy rm /tmp/\\*[data-file]-head.tr
-.	ds head-string \\$*
+.	ds head-string "\\$2
 .	chop head-string
 .	\" Print heading linking to toc (using head-string)
-.	pdf:link TOC "\\*[head-string]\\*F\\*[head-str]\\*F"
+.	pdf:link TOC "\\*[head-string]\\*F\\*[head-str]\\*F" "\\$3" "\\$4"
 .	br
 .	font:endhead
 .	hy \\n[text-hyphen]
 .	nr var-layout 0
 .	\" After the line break, the page number is set, so we can record
-.	toc:record \\n[head-toprint] "\\$*"
-.	sum:record \\n[head-toprint] \\*[head-level] \\n% "\\$*"
+.	toc:record \\$1 "\\$2"
+.	sum:record \\$1 \\*[head-level] \\n% "\\$2"
 .	rr head-toprint
 ..
 .de H1
@@ -281,7 +284,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	sp |\\n[page-head]v-1v
 .	vs \\n[text-line]u*2u
 .	font:head
-.	head:print 1 \\$*
+.	head:print 1 "\\$*" "\m[]" "\m[\\*[color-head]]"
 .	br
 .	sp 2v
 ..
@@ -303,7 +306,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	sp |\\n[page-head]v-1v
 .	vs \\n[text-line]u*2u
 .	font:head
-.	head:print 2 \\$*
+.	head:print 2 "\\$*" "\m[]" "\m[\\*[color-head]]"
 .	nr * 0 1 \" reset note number
 ..
 .de H3
@@ -315,7 +318,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ps 16
 .	ad \\*[text-adj]l
 .	font:head
-.	head:print 3 \\$*
+.	head:print 3 "\\$*" "\m[]" "\m[\\*[color-head]]"
 ..
 .de H4
 .	nr head-4 +1
@@ -324,7 +327,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	sp 1v
 .	ad \\*[text-adj]l
 .	font:head
-.	head:print 4 \\$*
+.	head:print 4 "\\$*" "\m[]" "\m[\\*[color-head]]"
 ..
 .de H0
 .	ds page-title-tmp \\$*
@@ -392,7 +395,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\""""""""""""""""""""""""""""""""""""""
 .\" Notes
 .nr * 0 1
-.ds * \|\\*U\\n+*\\*U
+.ds * \|\m[\\*[color-head]]\\*U\\n+*\\*U\m[]
 .nr note-in 0
 .nr note-size 3 \" size of diversion
 .de note:init
@@ -437,7 +440,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	note:init-\\$1
 .	\" Append text of note to note:div\\$1
 .	da note:div\\$1
-.		if \\n(.$=2 .var:print \\*B\\*U\\n*\\*U\\*B
+.		if \\n(.$=2 .var:print \m[\\*[color-head]]\\*B\\*U\\n*\\*U\\*B\m[]
 ..
 .de NE
 .	br
