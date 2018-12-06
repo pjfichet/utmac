@@ -44,7 +44,7 @@ PDFCRYPT=-sOwnerPassword="`dd if=/dev/random bs=12 count=1 2>/dev/null \
 		| md5sum | awk '{ print $$1 }'` " -dEncryptionR=3 \
 		-dKeyLength=128 -dPermissions=-300
 
-all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrind.pdf
+all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrind.pdf orphan.pdf
 
 %.tmp: %.tr
 	@echo "Generating $@"

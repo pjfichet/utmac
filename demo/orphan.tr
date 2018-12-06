@@ -1,0 +1,19 @@
+.ig
+When formatted, this file will produce a widow and
+an orphan on the first page, and an empty blank line
+at the end of the second page.
+Utmac prints an error message about these glitches.
+..
+.so lorem.tr
+.PP
+Widow.
+.PP
+.lorem
+.sp |\n[page-foot]v-2v
+.PP
+Orphan.
+.lorem
+.sp |\n[page-foot]v-1v
+.PP
+Blank.
+.lorem
