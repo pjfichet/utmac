@@ -23,6 +23,8 @@ OTFDIR=/usr/share/fonts/OTF:/usr/share/fonts/ttf-linux-libertine/
 ROFF=$(BINDIR)/roff
 PDF=$(BINDIR)/pdf
 POST=$(BINDIR)/post
+TBL=$(BINDIR)/tbl
+EQN=$(BINDIR)/eqn
 # Utroff tools
 REFER=$(BINDIR)/refer
 UGRIND=$(BINDIR)/ugrind
@@ -30,7 +32,7 @@ PREXML=$(BINDIR)/prexml
 POSTXML=$(BINDIR)/postxml
 
 # Groff tools
-NROFF=groff -Tutf8 -M$(MACDIR)
+NROFF=groff -k -Tutf8 -M$(MACDIR)
 SOELIM=soelim
 
 
@@ -44,7 +46,9 @@ PDFCRYPT=-sOwnerPassword="`dd if=/dev/random bs=12 count=1 2>/dev/null \
 		| md5sum | awk '{ print $$1 }'` " -dEncryptionR=3 \
 		-dKeyLength=128 -dPermissions=-300
 
-all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrind.pdf orphan.pdf
+ALL=fonts index layout links notes para refer ugrind orphan
+
+all: $(ALL:%=%.ps.pdf)
 
 %.tmp: %.tr
 	@echo "Generating $@"
@@ -75,7 +79,11 @@ all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrin
 
 %.c.pdf: %.pdf
 	@echo "Compressing $<"
-	@mutool convert -o $@ -O compress,compress-fonts $<
+	@#mutool convert -o $@ -O compress,compress-fonts $<
+	@gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 \
+	-dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH \
+	-sOutputFile=$@ $<
+
 
 %-crypt.pdf: %.ps
 	@echo "Generating $@"
@@ -106,5 +114,4 @@ all: fonts.pdf index.pdf layout.pdf links.pdf notes.pdf para.pdf refer.pdf ugrin
 	@xsltproc $(XSLDIR)/utofodt.xsl $< > $@
 
 clean:
-	@rm -f *.ig *.tmp *.to *.ps *.pdf *.txt *.mkd *.man *.xml *.html *.fodt
-
+	@rm -f *.ig $(ALL:%=%.tmp) $(ALL:%=%.to) $(ALL:%=%.ps) $(ALL:%=%.ps.pdf) $(ALL:%=%.pdf) $(ALL:%=%.txt) $(ALL:%=%.txt) $(ALL:%=%.man) $(ALL:%=%.xml) $(ALL:%=%.html) $(ALL:%=%.fodt)
