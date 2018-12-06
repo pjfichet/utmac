@@ -96,36 +96,15 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\" Mail and Url macros
 .de LM
 .	\" Define a mail address
-.	ie \\n[note-in]=0 \{\
-.		\" We're not in a note
-.		ie !"\\*[link-text]"" \{\
-.			\" We have substitute text for the mail address
-.			\" Print this text, add a note containing the mail
-.			pdf:mail \\$1 "\\*[link-text]" "\\**\\*[link-end]" "\\*[link-beg]"
-.			NS
-.			lang:rchar
-.			pdf:mail \\$1 <\\$1>
-.			lang:char
-.			NE
-.		\}
-.		el \{\
-.			\" We don't have substitute text, print the mail
-.			lang:rchar
-.			pdf:mail \\$1 <\\$1> \\$2 \\$3
-.			lang:char
-.		\}
+.	ie !"\\*[link-text]"" \{\
+.		\" We have substitute text for the mail address
+.		pdf:mail \\$1 "\\*[link-text]" "\\*[link-end]" "\\*[link-beg]"
 .	\}
 .	el \{\
-.		\" We're yet in a note
-.		ie !"\\*[link-text]"" \{\
-.			\" We have substitute text for the mail address
-.			pdf:mail \\$1 "\\*[link-text]" "\\*[link-end]" "\\*[link-beg]"
-.		\}
-.		el \{\
-.			lang:rchar
-.			pdf:mail \\$1 <\\$1> \\$2 \\$3
-.			lang:char
-.		\}
+.		\" We don't have substitute text, print the mail
+.		lang:rchar
+.		pdf:mail \\$1 <\\$1> \\$2 \\$3
+.		lang:char
 .	\}
 .	rm link-text
 .	rm link-end
@@ -133,36 +112,15 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de LU
 .	\" Define an url
-.	ie \\n[note-in]=0 \{\
-.		\" We're not in a note
-.		ie !"\\*[link-text]"" \{\
-.			\" We have substitute text for the url
-.			\" Print this text, add a note containing the url
-.			pdf:url \\$1 "\\*[link-text]" "\\**\\*[link-end]" "\\*[link-beg]"
-.			NS
-.			lang:rchar
-.			pdf:url \\$1 <\\$1>
-.			lang:char
-.			NE
-.		\}
-.		el \{\
-.			\" We don't have substitute text, print the url 
-.			lang:rchar
-.			pdf:url \\$1 <\\$1> "\\$2" "\\$3"
-.			lang:char
-.		\}
+.	ie !"\\*[link-text]"" \{\
+.		\" We have substitute text for the url
+.		pdf:url \\$1 "\\*[link-text]" "\\*[link-end]" "\\*[link-beg]"
 .	\}
 .	el \{\
-.		\" We're yet in a note
-.		ie !"\\*[link-text]"" \{\
-.			\" We have substitute text for the url
-.			pdf:url \\$1 "\\*[link-text]" "\\*[link-end]" "\\*[link-beg]"
-.		\}
-.		el \{\
-.			lang:rchar
-.			pdf:url \\$1 <\\$1> "\\$2" "\\$3"
-.			lang:char
-.		\}
+.		\" We don't have substitute text, print the url 
+.		lang:rchar
+.		pdf:url \\$1 <\\$1> "\\$2" "\\$3"
+.		lang:char
 .	\}
 .	rm link-text
 .	rm link-end
