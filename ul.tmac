@@ -457,74 +457,73 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de NS
 .	\" Start a note
-.	\" Do not append text of note to note:div
-.	\" before that line is printed.
+.	\" Soft break:
+'	br
 .	nr note-in 1
 .	ev ev-note
 .	br
 .	note:init
 .	\" Divert text of note to line trap macro
-.	di note:trap
-.		if \\n(.$=0 .var:print \m[\\*[head-color]]\\*B\\*U\\n*\\*U\\*B\m[]
+.		nr note-pos \\n(nlu
+.		if \\n[note-last]u>=\\n(nlu .nr note-pos \\n[note-last]u
+.	da note:div
+.		\" we record the position when we divert the note.
+.		nr note-pos2 \\n[note-pos]u
+.		\" but, with "\!", we wait that the diversion is actually
+.		\" invoked to place the note (otherwise it is relative
+.		\" to the diversion position).
+\!.		sp |\\n[note-pos2]u
+.		if \\n(.$=0 .var:print \m[\\*[color-head]]\\*B\\*U\\n*\\*U\\*B\m[]
 ..
 .de NE
 .	\" Close the diversion
 .	br
 .	di
 .	ev
-.	nr note-write 1
-.	\" prepare the environment to write the note
-.	ev ev-note
-.	note:init
-.	po \\n[note-offset]u
-.	nf
-.
-.	\" Find a correct position for the note
-.	nr note-anchor \\n(nlu-1v
-.	nr note-start \\n[note-anchor]u-\\n(dnu
-.	ie \\n[note-last]u>=\\n[note-start]u \{
-.		sp |\\n[note-last]u
-.	\}
-.	el .sp |\\n[note-start]u
-.
-.	\" Write the note
-.	note:trap
-.	br
-.	if \\n[note-div] .di \" close divertion if in footer
-.	ev
-.
-.	\" Record the position of the note
-.	nr note-last \\n(nlu
-.	sp |\\n[note-anchor]u
-.
-.	\" reset the environment to write text
-.	fi
-.	rr note-write
-.	po \\n[text-offset]u
-.	font:text
-.	font:text
 .	nr note-in 0
+.	\" Record the position of the note
+.	tm \\n(nl \\n(dn
+.	nr note-last \\n[note-pos]u+\\n(dnu
+.	font:text
 ..
 .de note:foot
-.	if \\n[note-write] \{\
-.		da note:div
-.		nr note-div 1
-.		br
-.	\}
+.	\" Print the notes (in page:foot)
+.	\" Create a diversion for overfull notes
+.	wh \\n[page-foot]v note:trap
+.	\" prepare the environment to write the note
+.	po \\n[note-offset]u
+.	ev ev-note
+.	note:init
+.	nf
+.	\" Write the notes
+.	note:div
+.	fi
+.	ev
+.	rm note:div
+.	\" Close the diversion in note:trap if we openned it
+.	if \\n[note-pre] .di
+.	ch note:trap
+.	font:text
+..
+.de note:trap
+.	\" divert overfull notes to next page
+.	var:log \\*[lang-divert1]
+.	nr note-pre 1
+.	di note:pre
 ..
 .de note:head
-.	\" print diversion from previous page
-.	if \\n[note-div] \{\
-.		sp |\\n[page-head]v-1v
+.	\" print the diversion from the previous page (from page:head)
+.	if \\n[note-pre] \{\
+.		sp |\\n[page-head]v
 .		po \\n[note-offset]u
 .		ev ev-note
 .		note:init
 .		nf
-.		note:div
-.	 	br
+.		note:pre
+.		fi
 .		ev
-.		rm note:div
-.		nr note-div 0
+.		rm note:pre
+.		nr note-pre 0
 .	\}
 .	nr note-last \\n(nlu
 ..
@@ -539,7 +538,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de NT
 .	NS no
 ..
-.als NB NT
+.de NB
+.	NS no
+..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Load other macros and start
 .so \n(.D/u-var.tmac
