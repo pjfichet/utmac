@@ -22,7 +22,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .
 .
-.TH UTMAC 7 2018-04-24
+.TH UTMAC 7 2018-12-06
 .
 .
 .
@@ -116,10 +116,11 @@ content can contain header macros, summary macros, paragraph
 macros, typographic macros, note macros, include macros, links
 macros, keywords macros.
 .PP
-All macros have two letters; the first one define the gender of the
+Most macros have two letters; the first one define the gender of the
 macro: meta\fBD\fRatas, \fBR\fRegister, \fBH\fReading, \fBS\fRummary,
-\fBP\fRaragraph, \fBT\fRypographic, \fBN\fRotes, \fBI\fRnclude,
-\fBL\fRinks, \fBK\fReywords, Appendi\fBX\fR.
+\fBP\fRaragraph, \fBT\fRypographic, \fBN\fRotes,
+\fBL\fRinks, \fBK\fReywords, Appendi\fBX\fR. Include macros are an
+exception: they are named \fBEPS\fR and \fBPDF\fR.
 .
 .
 .
