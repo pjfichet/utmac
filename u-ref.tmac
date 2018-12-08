@@ -119,11 +119,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" D "" .
 .	key:pun . \" needed if I or D are not defined.
 .	key:prt "\\*[lang-Col] " M "" .
-.	key:prt "" O "" .
-.	key:prt "\\*[lang-On] <" x ">" .
+.	key:url "\\*[lang-On] " x "" .
 .	key:prt "\\*[lang-Update] " y "" .
 .	key:prt "\\*[lang-Seen] " z "" .
 .	key:prt "\\*[lang-ISBN]: " G "" .
+.	key:prt "" O "" .
 .	key:lst .
 ..
 .de ref:text-1
@@ -147,11 +147,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:pun ,
 .	key:prt "" h "" ,
 .	key:prt "\\*[lang-p]\~" p "" ,
-.	key:beg (
-.	key:prt "\\*[lang-on] <" x ">" ,
-.	key:prt "\\*[lang-update] " y "" ,
-.	key:prt "\\*[lang-seen] " z "" .
-.	key:end )
+.	\"key:beg (
+.	\"key:url "\\*[lang-on] " x "" ,
+.	\"key:prt "\\*[lang-update] " y "" ,
+.	\"key:prt "\\*[lang-seen] " z "" .
+.	\"key:end )
 .	key:lst .
 ..
 .\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -177,11 +177,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:prt "" D "" .
 .	key:pun . \" needed if I or D are not defined.
 .	key:prt "\\*[lang-Col] " M "" .
-.	key:prt "" O "" .
-.	key:prt "\\*[lang-On] <" x ">" .
+.	key:url "\\*[lang-On] " x "" .
 .	key:prt "\\*[lang-Update] " y "" .
 .	key:prt "\\*[lang-Seen] " z "" .
 .	key:prt "\\*[lang-ISBN]: " G "" .
+.	key:prt "" O "" .
 .	key:lst .
 ..
 .de ref:text-3
@@ -205,11 +205,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:pun ,
 .	key:prt "" h "" ,
 .	key:prt "\\*[lang-p]\~" p "" ,
-.	key:beg (
-.	key:prt "\\*[lang-on] <" x ">" ,
-.	key:prt "\\*[lang-update] " y "" ,
-.	key:prt "\\*[lang-seen] " z "" .
-.	key:end )
+.	\"key:beg (
+.	\"key:url "\\*[lang-on] " x "" ,
+.	\"key:prt "\\*[lang-update] " y "" ,
+.	\"key:prt "\\*[lang-seen] " z "" .
+.	\"key:end )
 .	key:lst .
 ..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
@@ -233,11 +233,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:pun .
 .	key:prt "" P "\~\\*[lang-p]"
 .	key:prt "\\*[lang-Col] " M "" .
-.	key:prt "" O "" .
-.	key:prt "\\*[lang-On] <" x ">" .
+.	key:url "\\*[lang-On] " x "" .
 .	key:prt "\\*[lang-Update] " y "" .
 .	key:prt "\\*[lang-Seen] " z "" .
 .	key:prt "\\*[lang-ISBN]: " G "" .
+.	key:prt "" O "" .
 .	key:lst .
 ..
 .de ref:text-2
@@ -259,11 +259,11 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:pun ,
 .	key:prt "" h "" ,
 .	key:prt "\\*[lang-p]\~" p "" ,
-.	key:beg (
-.	key:prt "\\*[lang-on] <" x ">" ,
-.	key:prt "\\*[lang-update] " y "" ,
-.	key:prt "\\*[lang-seen] " z "" .
-.	key:end )
+.	\"key:beg (
+.	\"key:url "\\*[lang-on] " x "" ,
+.	\"key:prt "\\*[lang-update] " y "" ,
+.	\"key:prt "\\*[lang-seen] " z "" .
+.	\"key:end )
 .	key:lst .
 ..
 .\" Other kind of references
@@ -297,12 +297,37 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .		\" Should we write idem?
 .		if \\n[ref-idm]>0 .idm:\\*[ref-loc] \\$2
 .		if \\n[key-do]>0 \{\
-.			if !"\\*[key-field]"" \{\
-.			\" There is a previous field, print it.
-.			var:print \\*[key-field]\\*[key-end]\\*[key-pun]
-.			\}
+.			\" print the previous field
+.			key:div
+.			rm key:div
 .			\" Format the current field
-.			ds key-field \\*[key-beg]\\$1\\*([\\$2\\$3
+.			nr key-div 1
+.			de key:div
+\\*[key-beg]\\$1\\*([\\$2\\$3\\\\*[key-end]\\\\*[key-pun]
+\\..
+.			\" Record the punctuation
+.			ds key-pun \\$4
+.			ds key-beg
+.			ds key-end
+.			nr key-grp +1
+.			nr key-pun 1
+.		\}
+.	\}
+..
+.nr key-div 0
+.de key:url
+.	if !"\\*([\\$2"" \{\
+.		\" Should we write idem?
+.		if \\n[ref-idm]>0 .idm:\\*[ref-loc] \\$2
+.		if \\n[key-do]>0 \{\
+.			\" print the previous field
+.			key:div
+.			rm key:div
+.			\" Format the current field, which is an url
+.			nr key-div 1
+.			de key:div
+.				LU "\\*([\\$2" "\\$3\\\\*[key-end]\\\\*[key-pun]" "\\*[key-beg]\\$1"
+\\..
 .			\" Record the punctuation
 .			ds key-pun \\$4
 .			ds key-beg
@@ -316,7 +341,7 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	\" print last key of a reference
 .	\" $1: punctuation
 .	\" key-pun=0 if key-pun is not allowed 
-.	if !"\\*[key-field]"" \{\
+.	if \\n[key-div] \{\
 .		\" there is a defined field
 .		ie \\n[key-pun]=1 .ds key-pun \\$1
 .		el .ds key-pun
@@ -325,7 +350,8 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .		\" may insert a closing bracket.
 .		\" Cf ref:text-start and ref:text-stop
 .		if \\n(RN=0 .if '\\*[ref-loc]'text' .ds key-pun \\c
-.		var:print \\*[key-field]\\*[key-end]\\*[key-pun]
+.		key:div
+.		rm key:div
 .	\}
 ..
 .de key:pun
@@ -378,7 +404,9 @@ if not only first field is idem
 .		lang:rchar \" Needed for string comparison
 .		ie "\\*([\\$1"\\*(]\\$1" \{\
 .			ie \\n[ref-idm]>1 \{\
-.				ds key-field \\*[lang-Ibid]
+.				de key:div
+\\*[lang-Ibid]\\\\*[key-end]\\\\*[key-pun]
+\\..
 .				nr key-pun 0
 .				ds key-pun ,
 .				\"key:nopun
@@ -503,7 +531,8 @@ if not only first field is idem
 .de ref:init
 .	\" initialize variables
 .	ds key-beg
-.	if !"\\*[key-field]"" .rm key-field
+.	rm key:div
+.	nr key-div 0
 .	ds key-end
 .	ds key-pun
 .	nr key-grp 0 \" check if keys are printed
