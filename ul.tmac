@@ -80,8 +80,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	note:head
 .	sp |\\n[page-head]v
 .	ns
-.	po \\n[text-offset]u
-.	if \\n(RV=1 .if e .po \\n[text-offset-e]u
+.	par:po
+.	if \\n(RV=1 .if e .par:po
 .	wh \\n[page-foot]v page:foot
 .	wh 0 page:head
 ..
@@ -126,6 +126,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Paragraphs
+.de par:po
+.	if \\n(.$ .ds par-offset \\$1
+.	po \\*[par-offset]
+..
 .de par:doc
 .	\" start paragraph
 .	ad \\*[text-adj]b
@@ -151,12 +155,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	if \\n[note-last]u>=\\n(nlu .sp 1v
 .	par:init
 .	var:layout
-.	po \\n[text-offset]u
+.	par:po \\n[text-offset]u
 .	nr last-note \\n(nlu
 ..
 .de PB
 .	par:start
-.	po \\n[text-offset]u-3v
+.	par:po \\n[text-offset]u-3v
 .	ll \\n[text-length]u+3v
 .	in 3v
 .	ti 0
@@ -174,14 +178,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de PI
 .	par:start
 .	ie \\n(.$ \{\
-.		po \\n[list-offset]u
+.		par:po \\n[list-offset]u
 .		ll \\n[list-length]u
 .		ad \\*[text-adj]r
 .		nr par-list \\n(nlu
 .		var:print \\$*
 .		br
 .		sp |\\n[par-list]u
-.		po \\n[text-offset]u
+.		par:po \\n[text-offset]u
 .		ll \\n[text-length]u
 .		ad \\*[text-adj]b
 .	\}
@@ -214,7 +218,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de PF
 .	par:start
 .	sp 1v
-.	po \\n[note-offset]u
+.	par:po \\n[note-offset]u
 .	ll \\n[note-length]u
 .	ad \\*[text-adj]l
 .	nf
@@ -223,14 +227,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de PT
 .	par:start
 .	\"sp |\\n[addr-line]v
-.	po \\n[addr-offset]u
+.	par:po \\n[addr-offset]u
 .	ll \\n[addr-length]u
 .	nf
 .	rj 1000 \" Test
 ..
 .de PA
 .	PP
-.	po \\n[note-offset]u
+.	par:po \\n[note-offset]u
 ..
 .char \[repeat-char] \h'0.5m'.\h'0.5m'
 .de par:toc
