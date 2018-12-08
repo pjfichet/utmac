@@ -69,7 +69,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr pdf-linkv \\n(.sp
 .	ie \\n(.$>1 .nr pdf-linkh \\w'\\$2'
 .	el .nr pdf-linkh \\w'\\$1'
-.	var:print \\$4\v'+\\n(.sp*2u/10u'\
+\\$4\v'+\\n(.sp*2u/10u'\
 \X'link "\\$1" \\n[pdf-linkh] -\\n[pdf-linkv] /Border [0 0 0]'\
 \v'-\\n(.sp*2u/10u'\
 \\?"\\n(.$>1#\\$2#\\$1"\\$3
