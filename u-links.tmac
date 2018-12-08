@@ -118,8 +118,13 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\}
 .	el \{\
 .		\" We don't have substitute text, print the url 
+.		sy echo "\\$1" | sed -e "s/\\\\([^a-zA-Z0-9]\\\\)/ \\\\1 /g" | sed -e 's/^/.ds link-url "/g' > /tmp/\\*[data-file].url
+.		\"sy echo "\\$1" | sed -e "s/\\\\(.\\\\)/\\\\\\\\\\\\\\\\\\\\\\\\:\\\\1/g" | sed -e 's/^/.ds link-url "/g' > /tmp/\\*[data-file].url
+.		so /tmp/\\*[data-file].url
 .		lang:rchar
-.		pdf:url \\$1 <\\$1> "\\$2" "\\$3"
+.		char \% \&
+.		pdf:url \\$1 "\\s-1<\\s+1\|\\*[link-url]\|\\s-1>\\s+1" "\\$2" "\\$3"
+.		char \% \%
 .		lang:char
 .	\}
 .	rm link-text
