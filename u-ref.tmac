@@ -267,11 +267,19 @@ iso--jour: Q A T S V J     w N E U H P C I D     M   O x y z G
 .	key:lst .
 ..
 .\" Other kind of references
-.als ref:coll-0 ref:coll-2
-.als ref:text-0 ref:text-2
+.de ref:coll-0
+.	ref:coll-2
+..
+.de ref:text-0
+.	ref:text-2
+..
 .\" Tech-report references
-.als ref:coll-4 ref:coll-2
-.als ref:text-4 ref:text-2
+.de ref:coll-4
+.	ref:coll-2
+..
+.de ref:text-4
+.	ref:text-2
+..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" Key
 .de key:prt
@@ -469,7 +477,8 @@ is repeated.
 .		\}
 .	\}
 ..
-.als opc:coll var:null
+.de opc:coll
+..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" idx
 .de idx:text
@@ -481,7 +490,8 @@ is repeated.
 .		if !"\\*([J"" .KT "\\*([J"
 .		if !"\\*([S"" .KT "\\*([S"
 ..
-.als idx:coll var:null
+.de idx:coll
+..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" Print paragraph macros
 .
@@ -507,8 +517,10 @@ is repeated.
 .	el ]
 ..
 .\" idem:coll do it better for collected references
-.als ref:coll-start var:null
-.als ref:coll-stop var:null
+.de ref:coll-start
+..
+.de ref:coll-stop
+..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Refer macros
 .de ref:rename
@@ -583,7 +595,8 @@ is repeated.
 .	ds ref-loc text
 ..
 .\" For philia from http://utroff.org
-.als @ var:null
+.de @
+..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" User macros
 .de XB
