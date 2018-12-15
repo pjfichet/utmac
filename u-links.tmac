@@ -103,7 +103,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	el \{\
 .		\" We don't have substitute text, print the mail
 .		lang:rchar
-.		pdf:mail \\$1 <\\$1> \\$2 \\$3
+.		pdf:mail \\$1 \\*(lq\\$1\\*(rq \\$2 \\$3
 .		lang:char
 .	\}
 .	rm link-text
@@ -118,14 +118,18 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\}
 .	el \{\
 .		\" We don't have substitute text, print the url 
-.		sy echo "\\$1" | sed -e "s/\\\\([^a-zA-Z0-9]\\\\)/ \\\\1 /g" | sed -e 's/^/.ds link-url "/g' > /tmp/\\*[data-file].url
-.		\"sy echo "\\$1" | sed -e "s/\\\\(.\\\\)/\\\\\\\\\\\\\\\\\\\\\\\\:\\\\1/g" | sed -e 's/^/.ds link-url "/g' > /tmp/\\*[data-file].url
-.		so /tmp/\\*[data-file].url
+'		br
+.		\" Allow hyphenation after each character of the url
+.		hydash ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/:?\:\(hy\(en\(em-\-\(--
 .		lang:rchar
+.		\" Don't print '-' when hyphenating
 .		char \% \&
-.		pdf:url \\$1 "\\s-1<\\s+1\|\\*[link-url]\|\\s-1>\\s+1" "\\$2" "\\$3"
+.		pdf:url \\$1 "\\$1" "\\$2" "\\$3"
+'		br
 .		char \% \%
 .		lang:char
+.		\" Reset default hyphenation characters
+.		hydash \:\(hy\(en\(em-\-\(--
 .	\}
 .	rm link-text
 .	rm link-end
