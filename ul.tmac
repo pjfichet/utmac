@@ -182,7 +182,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		ll \\n[list-length]u
 .		ad \\*[text-adj]r
 .		nr par-list \\n(nlu
-.		var:print \\$*
+.		var:print \m[\\*[color-head]]\\$*\m[]
 .		br
 .		sp |\\n[par-list]u
 .		par:po \\n[text-offset]u
@@ -190,7 +190,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		ad \\*[text-adj]b
 .	\}
 .	el \{\
-.		var:print \(en
+.		var:print \m[\\*[color-head]]\(en\m[]
 .	\}
 ..
 .de PL
@@ -415,7 +415,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	par:toc \\$1
 .	shift
 .	da toc:print
-.		pdf:link \\*[head-level] "\\$*" "\a\t\\n%"
+.		pdf:link \\*[head-level] "\\$*" "\m[\\*[color-head]]\a\t\m[]\\n%"
 .		in 0
 .		br
 .	di
