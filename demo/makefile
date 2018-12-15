@@ -53,9 +53,9 @@ all: $(ALL:%=%.ps.pdf)
 %.tmp: %.tr
 	@echo "Generating $@"
 	@#$(SOELIM) $< $(EQN) | $(TBL) > $@
-	@#$(SOELIM) $< | $(UGRIND) | $(REFER) -a -b -dAE -p refer.ref > $@
+	@$(SOELIM) $< | $(UGRIND) | $(REFER) -a -b -dAE -p refer.ref > $@
 	@#$(SOELIM) $< | $(UGRIND) | $(EQN) | $(TBL) | $(REFER) -a -b -dAE -p refer.ref > $@
-	@cp $< $@
+	@#cp $< $@
 
 %.to: %.tmp
 	@echo "Generating $@ with $(TMAC)"
