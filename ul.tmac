@@ -29,6 +29,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr text-length 12c
 .nr text-hyphen 14
 .nr text-font 10p
+.nr h1-font 25p
+.nr h2-font 20p
+.nr h3-font 12p
 .nr text-line 13p \" change page-foot if you change this!
 .nr addr-offset 14c
 .nr addr-length 4.5c
@@ -378,7 +381,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	sp -1v
 .	po \\n[text-offset]u
-.	ps 12
+.	ps \\n[h3-font]u
 .	font:head
 .	ad \\*[text-adj]l
 .	head:print 3 "\\$*" "\m[]" "\m[\\*[color-head]]"
