@@ -1,0 +1,338 @@
+.\" u-ref: refer support.
+.ig
+Copyright (C) 2012-2018 Pierre Jean Fichet
+<pierrejean dot fichet at posteo dot net>
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+..
+.ig
+iso-book:    Q A E S V T     w     U H   C I D   P M N O x y z G
+iso-inbook:  Q A T E S V B   w   P U H   C I D     M N O x y z G
+iso-journal: Q A T S V J     w N E U H P C I D     M   O x y z G
+refer 1: journal -> iso-journal
+refer 2: book -> iso-book
+refer 3: article in book -> iso-inbook
+refer 0: other -> iso-book
+refer 4: tech-report -> iso-book
+..
+.\" Define the order of fields for each kind of reference.
+.\" For collected references (ref-coll-x)
+.\"		_ : stands for "ibid."
+.\"		% : page of previous citation
+.\" 	. , : punctuation
+.\"		( and ) : openning and closing parenthesis.
+.ds ref-coll-1 _ Q A T S V J . w N E U H P C I D . M x y z G O .
+.ds ref-coll-2 _ Q A E S V T w U H C I D P M N x y z G O .
+.ds ref-coll-3 _ Q A T E S V B w P U H C I D M N x y z G O .
+.ds ref-coll-0 \*[ref-collected-2]
+.ds ref-coll-4 \*[ref-collected-2]
+.\" For in text references (ref-text-x)
+.ds ref-text-1 _ Q A T S V J ( % w N E C I D ) , h p .
+.ds ref-text-2 _ Q A E S V T ( % w C I D ) , h p .
+.ds ref-text-3 _ Q A T E S V B ( % w C I D ) , h p .
+.ds ref-text-0 \*[ref-intext-2]
+.ds ref-text-4 \*[ref-intext-4]
+.ds ref-ibid-0 _ , h p .
+.
+.\" Define a macro for each field.
+.\" .ref:string is a shortcut useful for most fields.
+.\" Its arguments are:
+.\" <string before> <field> <string after> <punctuation>
+.de ref:coll:Q
+.	ref:string "" Q "" .
+..
+.de ref:coll:A
+.	ref:string "" A "" .
+..
+.de ref:coll:T
+.	ref:string "\\*I" T "\\*I" .
+..
+.de ref:coll:S
+.	ref:string "\\*I" S "\\*I" .
+..
+.de ref:coll:V
+.	ref:string "\\*[lang-Vol]. " V "" :
+..
+.de ref:coll:J
+.	ref:string « J » .
+..
+.de ref:coll:w
+.	ref:string ( w ) .
+..
+.de ref:coll:N
+.	ref:string "\\*[lang-No]]\~" N "" .
+..
+.de ref:coll:E
+.	ref:string "\\*[lang-Dir] " E "" .
+..
+.de ref:coll:U
+.	ref:string "" U "" .
+..
+.de ref:coll:H
+.	ref:string "" H "" .
+..
+.de ref:coll:P
+.	ref:string "\\*[lang-P]\~" P "" .
+..
+.de ref:coll:C
+.	ref:string "" C "" :
+..
+.de ref:coll:I
+.	ref:string "" I "" ,
+..
+.de ref:coll:D
+.	ref:string "" D "" .
+..
+.de ref:coll:M
+.	ref:string "\\*[lang-Col] " M "" .
+..
+.de ref:coll:x
+.	ref:string "\\*[lang-On] " x "" .
+..
+.de ref:coll:y
+.	ref:string "\\*[lang-Update] " y "" .
+..
+.de ref:coll:z
+.	ref:string "\\*[lang-Seen] " z "" .
+..
+.de ref:coll:G
+.	ref:string "\\*[lang-ISBN]: " G "" .
+..
+.de ref:coll:O
+.	ref:string "\*[\\*[color-head]]" O "\m[]" .
+..
+.de ref:text:Q
+.	ref:string "" Q "" ,
+..
+.de ref:text:A
+.	ref:string "" A "" ,
+..
+.de ref:text:T
+.	ref:string "\\*I" T "\\*I" ,
+..
+.de ref:text:S
+.	ref:string "\\*I" S "\\*I" ,
+..
+.de ref:text:V
+.	ref:string "\\*[lang-vol] " V "" :
+..
+.de ref:text:J
+.	ref:string « J » ,
+..
+.de ref:text:%
+.	ref:string "\\*[lang-opcit] " % "" ,
+..
+.de ref:text:w
+.	ref:string "" w "" ,
+..
+.de ref:text:N
+.	ref:string "\\*[lang-no]\~" N "" ,
+..
+.de ref:text:E
+.	ref:string "\\*[lang-dir] " E "" ,
+..
+.de ref:text:C
+.	ref:string "" C "" :
+..
+.de ref:text:I
+.	ref:string "" I "" ,
+..
+.de ref:text:D
+.	ref:string "" D "" ,
+..
+.de ref:text:h
+.	ref:string "" h "" ,
+..
+.de ref:text:p
+.	ref:string "\\*[lang-p]\~" p "" .
+..
+.\" Some fields need a manually defined macros.
+.\" Those macros must end by calling ref:resetfield.
+.de ref:coll:x
+.	\" Url, use the .LU macro.
+.	if "\\*[ref-punctuation]"" .ds ref-punctuation .
+\\*[lang-On]
+.LU "\\*([x" "\\*[ref-open]" "\\*[ref-close]\\*[ref-punctuation]"
+.	ref:resetfield
+..
+.de ref:coll:A
+.	\" Authors take care of the number register [A
+.	\" [A is set to one if
+.	ie \\n([A \\*([A
+.	el \\*([A.
+.	ref:resetfield
+..
+.de ref:coll:O
+.	\" Other takes care of the number register [O.
+.	\" [O is set to one if the field ends with a dot.
+.	ie \\n([O \\*([O
+.	el \\*([O.
+.	ref:resetfield
+..
+.de ref:ibid:ibid
+.	if "\\*[ref-punctuation]"." .ds ref-punctuation
+\\*[lang-Ibid]\\*[ref-punctuation]
+.	ref:resetfield
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Macros used by field macros.
+.de ref:string
+.	\" Most fields use these macro which defines the string to print.
+.	\" It takes care to override the default punctuation if needed.
+.	if "\\*[ref-punctuation]"" .ds ref-punctuation \\$4
+\\*[ref-open-parenthesis]\\$1\\*([\\$2\\$3\\*[ref-close-parenthesis]\\*[ref-punctuation]
+.	ref:resetfield
+..
+.de ref:resetfield
+.	\" reset strings used to print a field.
+.	rm ref-open-parenthesis
+.	rm ref-close-parenthesis
+.	rm ref-punctuation
+.	if \\n[ref-do-parenthesis]=1 \{\
+.		\" if ref-do-parenthesis=1 open a parenthesis on NEXT field.
+.		\" if ref-do-parenthesis=2 a parenthesis has been openned.
+.		nr ref-do-parenthesis +1
+.		ds ref-open-parenthesis \\*[ref-parenthesis]
+.	\}
+..
+.\" Special macros for punctuation
+.de ref:special:(
+.	\" Opens a parenthesis on NEXT field.
+.	\" Remove all punctuation before the parenthesis.
+.	ds ref-punctuation \&
+.	\" Define the parenthesis string.
+.	ds ref-parenthesis (
+.	\" if ref-do-parenthesis=1 open a parenthesis on NEXT field.
+.	\" if ref-do-parenthesis=2 a parenthesis is openned.
+.	nr ref-do-parenthesis 1 1
+..
+.de ref:special:)
+.	\" Close a parenthesis.
+.	\" Be sure not to open one here.
+.	rm ref-open-parenthesis
+.	rm ref-parenthesis
+.	\" Define the closing parenthesis.
+.	if \\n[ref-do-parenthesis]>1 .ds ref-close-parenthesis )
+.	rr ref-do-parenthesis
+..
+.de ref:special:.
+.	ds ref-punctuation .
+..
+.de ref:special:,
+.	ds ref-punctuation ,
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Refer interface macros
+.ds ref-location text
+.de ]<
+.	\" start collected references
+.	ds ref-location coll
+..
+.de ]>
+.	\" end collected references
+.	ds ref-location text
+..
+.de ]-
+.\" Initialize a reference
+.	ref:ibid:record Q A h p
+.	ref:reset A B C D E G H h I J L M N O P p
+.	ref:reset p Q R S T U V W X Y Z w x y z %
+.	nr [E 0
+.	nr [A 0
+.	nr [O 0
+.	rm ref-toprint
+.	ref:resetfield
+..
+.de ref:ibid:record
+.	\" Record some fields of the previous reference,
+.	\" for later comparison.
+.	if !\\n(]\\$1 \{\
+.		\" if the field has not been recorded by ref:ibid yet.
+.		.rm ]\\$1
+.		if !"\\*([\\$1"" .ds ]\\$1 "\\*([\\$1
+.		rr ]\\$1
+.	\}
+.	shift
+.	if \\n(.$ .ref:record \\$*
+..
+.de ref:reset
+.	\" reset fields
+.	rm [\\$1
+.	shift
+.	if \\n(.$ .ref:reset \\$*
+..
+.de ][
+.	\" print a reference
+.	\" refer provides the following arguments:
+.	\" if J, 		$1=1, $2=journal-article
+.	\" elif B,		$1=3, $2=article-in-book
+.	\" elif G or R,	$1=4, $2=tech-report
+.	\" elif I		$1=2, $2=book
+.	\" else			$1=0, $2=other
+.	\" Print all the fields
+.	ref:ibid
+.	ref:print \\*[ref-\\*[ref-location]-\\$1]
+.	\" And don't forget the last one.
+.	ref:\\*[ref-location]:\\*[ref-toprint]
+..
+.de ref:print
+.	\" Print the recorded field, and record \\$1 as next field to print.
+.	\" Call the special macro of the current key if it exists.
+.	ref:special:\\$1
+.	if !"\\*([\\$1"" \{\
+.		\" Call the macro of the recorded key
+.		ref:\\*[ref-location]:\\*[ref-toprint]
+.		\" record the current key
+.		ds ref-toprint \\$1
+.	\}
+.	\" And shift to the next key
+.	shift
+.	if \\n(.$ .ref:print \\$*
+..
+.de ref:ibid
+.	\" Check if we must print ibid. or op. cit.
+.	\" Check if the reference is the same as before
+.	ie "\\*([K"\\*(]K" \{\
+.		\" Print ibid.
+.		ds ref-location ibid
+.		\" Check if we must print h and p fields.
+.		if "\\*([h"\\*(]h" .ref:ibid:remove h
+.		if "\\*([p"\\*(]p" .ref:ibid:remove p
+.	\}
+.	el \{\
+.		\" Check if author fields are the same as before
+.		if "\\*([Q"\\*(]Q" \{\
+.			ref:ibid:remove Q
+.			ds [_ \\*[lang-Ibid]
+.		\}
+.		if "\\*([A"\\*(]A" \{\
+.			ref:ibid:remove A
+.			ds [_ \\*[ŀang-Ibid]
+.		\}
+.	\}
+.	\" Check the reference has been cited somewhere.
+.	\" If not, record the page of the first citation.
+.	ie \\n[ref-opcit-\\*([K] \{\
+.		ds [% \\n[ref-opcit-\\*([K]
+.		ref:delete C I D
+.	\}
+.	el .nr ref-opcit-\\*([K \\n%
+..
+.de ref:ibid:remove
+.	\" Delete ibid field, remembering they are deleted
+.	\" so that they can be compared again when evaluating
+.	\" the next reference.
+.	ds ]\\$1 \\*([\\$1
+.	rm [\\$1
+.	nr ]\\$1 1
+..
