@@ -1,0 +1,186 @@
+.ig
+Copyright (C) 2012-2018 Ali Gholami Rudi <ali at rudi dot ir>
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+..
+.\" A macro package for drawing simple charts and curves
+.\"
+.\" The main macros are as follows:
+.\"
+.\" .grbeg "xmin x1" "xmax x2" "ymin y1" "ymax y2" [opts]
+.\"   Begin a graph; the arguments specify the minimum and maximum
+.\"   x and y values.  The value of other variables may be specified
+.\"   similarly.  For instance, adding "barwid 2" sets the width of
+.\"   bars.
+.\"
+.\" .grend
+.\"   End the current graph.
+.\"
+.\" .grbar pos height [opts]
+.\"   Draw a bar at x=pos with the given height.  The width of
+.\"   the bar can be specified as "barwid N".
+.\"
+.\" .grcurbeg [opts]
+.\"   Begin a curve.
+.\"
+.\" .grcur x y
+.\"   Specify the next point in the current curve.
+.\"
+.\" .grcurend
+.\"   End and draw the current curve.
+.\"
+.\" .grnum x label
+.\"   Specify x-axis label at x.
+.\"
+.\" .grval y label
+.\"   Specify y-axis label at y.
+.\"
+.\" .grclr line fill
+.\"   Specify graph colours.
+.\"
+.de debug
+.	\"tm \\$1
+..
+.nr grlnsz 24		\" Line point size
+.nr grptsz 12		\" Text point size
+.nr grbarwid 1		\" Bar width
+.nr grratio 200		\" Aspect ratio (width / height * 100)
+.ds grclr.ln "#725	\" Line colour
+.ds grclr.fl "#fff	\" Fill colour
+.ds grclr.bd "#725  \" Border colour
+.de grbeg
+.	debug \\$0
+.	gr
+.	nr grxmin 0
+.	nr grxmax 0
+.	nr grymin 0
+.	nr grymax 0
+.	gropt "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6" "\\$7"
+.	nr grxwid 0\\n[grxmax]-\\n[grxmin]
+.	nr grywid 0\\n[grymax]-\\n[grymin]
+.	nr grwd \\n(.l-\\n(.i
+.	nr grht \\n[grwd]*100/\\n[grratio]
+.	nr grxoff \\n(.i
+.	nr gryoff \\n(.d+\\n[grht]
+.	ne \\n[grht]u
+.	ev grenv
+.	nf
+..
+.\" map graph positions to roff position
+.ds grx \\n[grxoff]+((\\$1-\\n[grxmin])*\\n[grwd]/\\n[grxwid])
+.ds gry \\n[gryoff]-((\\$1-\\n[grymin])*\\n[grht]/\\n[grywid])
+.ds grwd ((\\$1)*\\n[grwd]/\\n[grxwid])
+.ds grht ((\\$1)*\\n[grht]/\\n[grywid])
+.\" read graph options
+.de gropt
+.	debug \\$0
+.	if \\n(.$>=1 .if !"\\$1"" .nr gr\\$1
+.	if \\n(.$>=2 .if !"\\$2"" .nr gr\\$2
+.	if \\n(.$>=3 .if !"\\$3"" .nr gr\\$3
+.	if \\n(.$>=4 .if !"\\$4"" .nr gr\\$4
+.	if \\n(.$>=5 .if !"\\$5"" .nr gr\\$5
+.	if \\n(.$>=6 .if !"\\$6"" .nr gr\\$6
+.	if \\n(.$>=7 .if !"\\$7"" .nr gr\\$7
+..
+.de grbar
+.	debug \\$0
+.	gropt "\\$3" "\\$4" "\\$5" "\\$6" "\\$7"
+.	nr grxdiff \\*[grwd \\n[grbarwid]]
+.	nr grx1 \\*[grx \\$1]-(\\n[grxdiff]/2)
+.	nr gry1 \\*[gry \\n[grymin]]
+.	nr gry2 \\*[gry \\$2]
+.	nr grydiff (\\n[gry2]-\\n[gry1])
+.	ps \\n[grlnsz]
+\m[\\*[grclr.fl]]\v'|\\n[gry1]u'\h'|\\n[grx1]u'\D'P \\n[grxdiff]u 0u 0u \\n[grydiff]u -\\n[grxdiff]u 0u'\m[]
+\m[\\*[grclr.ln]]\v'|\\n[gry1]u'\h'|\\n[grx1]u'\D'p \\n[grxdiff]u 0u 0u \\n[grydiff]u -\\n[grxdiff]u 0u'\m[]
+.	ps
+.	sp -2
+..
+.de grnum
+.	debug \\$0
+.	nr grx1 \\*[grx \\$1]
+.	nr gry1 \\*[gry \\n[grymin]]
+\v'|\\n[gry1]u+1v'\h'|\\n[grx1]u-(\\w'\\$2'u/2u)'\\$2
+.	sp -1
+.	if \\n(.$>2&\\$3 \v'|\\n[gry1]u'\h'|\\n[grx1]u'\D'l 0 -\\n[grht]u'
+.	if \\n(.$>2&\\$3 .sp -1
+..
+.de grval
+.	debug \\$0
+.	nr grx1 \\*[grx \\n[grxmin]]
+.	nr gry1 \\*[gry \\$1]
+\v'|\\n[gry1]u'\h'|\\n[grx1]u-\\w'\\$2'u-1m'\\$2
+.	sp -1
+.	if \\n(.$>2&\\$3 \v'|\\n[gry1]u'\h'|\\n[grx1]u'\D'l \\n[grwd]u 0'
+.	if \\n(.$>2&\\$3 .sp -1
+..
+.de grlab.x
+.	debug \\$0
+\v'|\\n[gryoff]u+2v\\$2'\h'|\\n[grxoff]u+(\\n[grwd]u/2u)-(\\w'\\$2'u/2u)'\\$1
+.	sp -1
+..
+.de grlab.y
+.	debug \\$0
+\v'|\\n[gryoff]u-(\\n[grht]u/2u)'\h'|\\n[grxoff]u-2v\\$2'\
+\X'rotate 90'\h'-(\\w'\\$1'u/2u)'\\$1\X'rotate 0'
+.	sp -1
+..
+.de grcurbeg
+.	debug \\$0
+.	gropt "\\$1" "\\$2" "\\$3" "\\$4" "\\$5"
+.	ds grcur.s "
+.	nr grcur.x 0
+.	nr grcur.y 0
+.	nr grcur.beg 0
+.	nr grcur.xbeg 0
+.	nr grcur.ybeg 0
+..
+.de grcur
+.	debug \\$0
+.	nr grx \\*[grx \\$1]
+.	nr gry \\*[gry \\$2]
+.	if !\\n[grcur.beg] .nr grcur.xbeg \\n[grx]
+.	if !\\n[grcur.beg] .nr grcur.ybeg \\n[gry]
+.	nr grxdiff \\n[grx]-\\n[grcur.x]
+.	nr grydiff \\n[gry]-\\n[grcur.y]
+.	if \\n[grcur.beg] .as grcur.s "\D'l \\n[grxdiff]u \\n[grydiff]u'
+.	nr grcur.x \\n[grx]
+.	nr grcur.y \\n[gry]
+.	nr grcur.beg 1
+..
+.de grcurend
+.	debug \\$0
+.	ps \\n[grlnsz]
+\m[\\*[grclr.ln]]\v'|\\n[grcur.ybeg]u'\h'|\\n[grcur.xbeg]u'\\*[grcur.s]\m[]
+.	ps
+.	sp -1
+..
+.de grend
+.	debug \\$0
+.	ps \\n[grlnsz]
+\m[\\*[grclr.bd]]\v'|\\n[gryoff]u'\h'|\\n[grxoff]u'\D'p \\n[grwd]u 0 0 -\\n[grht]u -\\n[grwd]u 0'\m[]
+.	ps
+.	sp |\\n[gryoff]u
+.	ev
+..
+.de grclr
+.	debug \\$0
+.	if \\n(.$>0 .if !'-'\\$1' .ds grclr.ln "\\$1
+.	if \\n(.$>1 .if !'-'\\$2' .ds grclr.fl "\\$2
+..
+.de grloop
+.	debug \\$0
+.	nr grnext \\$2+\\$4
+.	\\$1 \\$2
+.	if \\n[grnext]<\\$3 .grloop \\$1 \\n[grnext] \\$3 \\$4
+..

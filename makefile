@@ -15,7 +15,7 @@ INSTALL=install
 
 TMAC= u-apolline u-biolib u-biolinum u-en u-include u-fonts u-fr uh u-idx \
 	u-libertine u-links ul um u-pdf u-ref us u-sum u-typo u-var \
-	u-grind ut uw ux
+	u-grind ut uw ux u-graph.tmac u-tbl.tmac
 
 MAN= u-ref.7 utmac.7 utmac-hack.7
 

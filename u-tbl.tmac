@@ -1,0 +1,235 @@
+.ig
+Copyright (C) 2012-2018 Ali Gholami Rudi <ali at rudi dot ir>
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+..
+.\" A macro package for simple tables
+.\"
+.\" This package creates simple tables, without using the tbl
+.\" preprocessor.  The main macros are as follows:
+.\"
+.\" .tblbeg colwid1 colwid2 ...
+.\"   This macro begins a table.  Its arguments are the widths of the
+.\"   columns.  At most seven columns are supported.  The width of the
+.\"   last column can be 0 to expand it to the end of the line.
+.\"
+.\" .tblbox all row col
+.\"   Specifies whether to draw box around the table (when all is 1),
+.\"   between the rows (when row is 1), or between its columns (when
+.\"   col is 1).
+.\"
+.\" .tblrow "column #1" "column #2" ...
+.\"   Starts a new row.  Parameters provide a compact way of
+.\"   specifying  the contents of a table row (instead of calling
+.\"   .tblcol for every column).
+.\"
+.\" .tblcol col
+.\"   Begins column number col for the current row.
+.\"
+.\" .tblmac mac1 mac2 ...
+.\"   Before writing the contents of each column, the corresponding
+.\"   macro in the list of the arguments of this macro is invoked (e.g.,
+.\"   mac2 is called when starting column #2).
+.\"
+.\" .tblrst
+.\"   This macro is called just before switching to new rows and columns
+.\"   and drawing the table.  It should reset the indentation (and other
+.\"   variables such as fonts, if necessary).
+.\"
+.\" .tblrec
+.\"   Reconfigures table columns; expects the same arguments as .tblbeg
+.\"   (can be used for multi-column cells).
+.\"
+.\" .tblend
+.\"   Ends a table.
+.\"
+.nr tblgap 1n
+.nr tblboxall 0
+.nr tblboxrow 0
+.nr tblboxcol 0
+.nr tblbrdrsz 30	\" border point size
+.nr tblvertsz 16	\" vertical line point size
+.nr tblhorisz 16	\" horizontal line point size
+.nr tblcolrev 0		\" reverse .tblcol column number (R2L tables)
+.ds tblcolor "#ddd
+.de tblrst
+.	in 0
+.	ad l
+..
+.de tblrec
+.	if \\n[tblrow.ok] .tblrowend 0
+.	nr tblwid1 0\\$1
+.	if "\\$1"0" .nr tblwid1 \\n(.l
+.	nr tblwid2 0\\$2
+.	if "\\$2"0" .nr tblwid2 \\n(.l-\\n[tblwid1]
+.	nr tblwid3 0\\$3
+.	if "\\$3"0" .nr tblwid3 \\n(.l-\\n[tblwid1]-\\n[tblwid2]
+.	nr tblwid4 0\\$4
+.	if "\\$4"0" .nr tblwid4 \\n(.l-\\n[tblwid1]-\\n[tblwid2]-\\n[tblwid3]
+.	nr tblwid5 0\\$5
+.	if "\\$5"0" .nr tblwid5 \\n(.l-\\n[tblwid1]-\\n[tblwid2]-\\n[tblwid3]-\\n[tblwid4]
+.	nr tblwid6 0\\$6
+.	if "\\$6"0" .nr tblwid6 \\n(.l-\\n[tblwid1]-\\n[tblwid2]-\\n[tblwid3]-\\n[tblwid4]-\\n[tblwid5]
+.	nr tblwid7 0\\$7
+.	if "\\$7"0" .nr tblwid7 \\n(.l-\\n[tblwid1]-\\n[tblwid2]-\\n[tblwid3]-\\n[tblwid4]-\\n[tblwid5]-\\n[tblwid6]
+.	nr tblwid8 0\\$8
+.	if "\\$8"0" .nr tblwid8 \\n(.l-\\n[tblwid1]-\\n[tblwid2]-\\n[tblwid3]-\\n[tblwid4]-\\n[tblwid5]-\\n[tblwid6]-\\n[tblwid7]
+.	nr tblwid9 0\\$9
+.	if "\\$9"0" .nr tblwid9 \\n(.l-\\n[tblwid1]-\\n[tblwid2]-\\n[tblwid3]-\\n[tblwid4]-\\n[tblwid5]-\\n[tblwid6]-\\n[tblwid7]-\\n[tblwid8]
+.	nr tblwid10 0\\$(10
+.	if "\\$(10"0" .nr tblwid10 \\n(.l-\\n[tblwid1]-\\n[tblwid2]-\\n[tblwid3]-\\n[tblwid4]-\\n[tblwid5]-\\n[tblwid6]-\\n[tblwid7]-\\n[tblwid8]-\\n[tblwid9]
+.	nr tblcnt \\n(.$
+.	nr tblwid \\n[tblwid1]+\\n[tblwid2]+\\n[tblwid3]+\\n[tblwid4]+\\n[tblwid5]+\\n[tblwid6]+\\n[tblwid7]+\\n[tblwid8]+\\n[tblwid9]+\\n[tblwid10]
+..
+.de tblbeg
+.	tblmac
+.	tblrst
+.	tblrec \\$^
+.	nr tblrow.one 1
+..
+.de tblmac
+.	rm tblrst1
+.	rm tblrst2
+.	rm tblrst3
+.	rm tblrst4
+.	rm tblrst5
+.	rm tblrst6
+.	rm tblrst7
+.	rm tblrst8
+.	rm tblrst9
+.	rm tblrst10
+.	ds tblrst1 "\\$1
+.	ds tblrst2 "\\$2
+.	ds tblrst3 "\\$3
+.	ds tblrst4 "\\$4
+.	ds tblrst5 "\\$5
+.	ds tblrst6 "\\$6
+.	ds tblrst7 "\\$7
+.	ds tblrst8 "\\$8
+.	ds tblrst9 "\\$9
+.	ds tblrst10 "\\$(10
+..
+.de tblbox
+.	if \\n[tblrow.ok] .tblrowend 0
+.	nr tblboxall 0\\$1
+.	nr tblboxrow 0\\$2
+.	nr tblboxcol 0\\$3
+..
+.de tblcolbeg
+.	nr tblcol.ok 1
+.	sp |\\n[tblrow.top]u
+.	tblrst
+.	nr tblcur \\$1
+.	if \\n[tblcolrev] .nr tblcur \\n[tblcnt]-\\$1+1
+.	\\*[tblrst\\n[tblcur]]
+.	if \\n[tblcur]=1 .in +0u
+.	if \\n[tblcur]=2 .in +\\n[tblwid1]u
+.	if \\n[tblcur]=3 .in +\\n[tblwid1]u+\\n[tblwid2]u
+.	if \\n[tblcur]=4 .in +\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u
+.	if \\n[tblcur]=5 .in +\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u
+.	if \\n[tblcur]=6 .in +\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u
+.	if \\n[tblcur]=7 .in +\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u+\\n[tblwid6]u
+.	if \\n[tblcur]=8 .in +\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u+\\n[tblwid6]u+\\n[tblwid7]u
+.	if \\n[tblcur]=9 .in +\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u+\\n[tblwid6]u+\\n[tblwid7]u+\\n[tblwid7]u
+.	if \\n[tblcur]=10 .in +\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u+\\n[tblwid6]u+\\n[tblwid7]u+\\n[tblwid8]u+\\n[tblwid9]u
+.	ll \\n(.iu+\\n[tblwid\\n[tblcur]]u
+.	in +\\n[tblgap]u
+.	ll -\\n[tblgap]u
+..
+.de tblcolend
+.	br
+.	nr tblcol.ok 0
+.	if \\n(.d>\\n[tblrow.bot] .nr tblrow.bot \\n(.d
+..
+.de tblrowbeg
+.	tblrst
+.	if (\\n[tblboxall]+\\n[tblboxrow])&(\\n[tblrow.one]) \s[\\n[tblbrdrsz]]\m[\\*[tblcolor]]\D'l \\n[tblwid]u 0'\m[]\s[]
+.	br
+.	nr tblrow.ok 1
+.	nr tblrow.one 0
+.	mk tblrow.top
+.	mk tblrow.bot
+..
+.de tblrowend
+.	if \\n[tblcol.ok] .tblcolend \\$1
+.	nr tblrow.ok 0
+.	tblrst
+.	sp |\\n[tblrow.bot]u
+.	nr tblht \\n[tblrow.bot]u-\\n[tblrow.top]u+.5v
+.	sp -.5v
+.	if \\n[tblboxall]:\\n[tblboxcol] \{\
+.		ps \\n[tblbrdrsz]
+\h'|0'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'
+.		ps
+.		sp -1
+.	\}
+.	if \\n[tblboxcol] \{\
+.		ps \\n[tblvertsz]
+\h'|\\n[tblwid1]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid1]u+\\n[tblwid2]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u+\\n[tblwid6]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u+\\n[tblwid6]u+\\n[tblwid7]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u+\\n[tblwid6]u+\\n[tblwid7]u+\\n[tblwid8]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'\
+\h'|\\n[tblwid1]u+\\n[tblwid2]u+\\n[tblwid3]u+\\n[tblwid4]u+\\n[tblwid5]u+\\n[tblwid6]u+\\n[tblwid7]u+\\n[tblwid8]u+\\n[tblwid9]u'\m[\\*[tblcolor]]\D'l 0 -\\n[tblht]u'\m[]\v'\\n[tblht]u'
+.		ps
+.		sp -1
+.	\}
+.	if \\n[tblboxrow]:(\\n[tblboxall]&\\$1) \{\
+.		ie \\$1 .ps \\n[tblbrdrsz]
+.		el .ps \\n[tblhorisz]
+\h'|0'\m[\\*[tblcolor]]\D'l \\n[tblwid]u 0'\m[]
+.		ps
+.		sp -1
+.	\}
+.	sp
+..
+.de tblcol
+.	br
+.	if \\n[tblcol.ok] .tblcolend \\$1
+.	tblcolbeg \\$1
+.	if \\n(.$>=2 \\$2
+..
+.de tblrow
+.	if \\n[tblrow.ok] .tblrowend 0
+.	tblrowbeg
+.	if \\n(.$>=1 .tblcol 1
+.	if \\n(.$>=1 \\$1
+.	if \\n(.$>=2 .tblcol 2
+.	if \\n(.$>=2 \\$2
+.	if \\n(.$>=3 .tblcol 3
+.	if \\n(.$>=3 \\$3
+.	if \\n(.$>=4 .tblcol 4
+.	if \\n(.$>=4 \\$4
+.	if \\n(.$>=5 .tblcol 5
+.	if \\n(.$>=5 \\$5
+.	if \\n(.$>=6 .tblcol 6
+.	if \\n(.$>=6 \\$6
+.	if \\n(.$>=7 .tblcol 7
+.	if \\n(.$>=7 \\$7
+.	if \\n(.$>=8 .tblcol 8
+.	if \\n(.$>=8 \\$8
+.	if \\n(.$>=9 .tblcol 9
+.	if \\n(.$>=9 \\$9
+.	if \\n(.$>=10 .tblcol 10
+.	if \\n(.$>=10 \\$(10
+..
+.de tblend
+.	br
+.	if \\n[tblcol.ok] .tblcolend
+.	if \\n[tblrow.ok] .tblrowend 1
+.	tblrst
+..
