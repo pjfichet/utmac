@@ -5,11 +5,11 @@ TMAC=-mul
 #TMAC=-muh -mu-apolline -mu-fr
 
 # Prefix directory
-PREFIX=$(HOME)/dev
+PREFIX=$(HOME)/.local
 # Where to find neatroff and utroff binaries 
 BINDIR=$(PREFIX)/bin
 # Where to find neatroff libraries
-LIBDIR=$(PREFIX)/lib
+LIBDIR=$(PREFIX)/share
 # Where to find troffxml xsl stylesheet
 XSLDIR=$(LIBDIR)/xslt
 # Where to find utmac macros
