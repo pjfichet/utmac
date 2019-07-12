@@ -1,13 +1,13 @@
 # Packaging directory
 DESTDIR=
 # Prefix directory
-PREFIX=$(HOME)/dev
+PREFIX=$(HOME)/.local
 # Utroff binaries (refer and idx) directory
 BINDIR=$(PREFIX)/bin
-# Man directory
-MANDIR=$(PREFIX)/man
 # Library directory
-LIBDIR=$(PREFIX)/lib
+LIBDIR=$(PREFIX)/share
+# Man directory
+MANDIR=$(LIBDIR)/man
 # Tmac directory
 MACDIR=$(LIBDIR)/tmac
 # install binary
@@ -15,7 +15,7 @@ INSTALL=install
 
 TMAC= u-apolline u-biolib u-biolinum u-en u-include u-fonts u-fr uh u-idx \
 	u-libertine u-links ul um u-pdf u-ref us u-sum u-typo u-var \
-	u-grind ut uw ux u-graph.tmac u-tbl.tmac
+	u-grind ut uw ux u-graph u-tbl
 
 MAN= u-ref.7 utmac.7 utmac-hack.7
 
