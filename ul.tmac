@@ -121,11 +121,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ev ev-box
 .	par:doc
 .	in 0
-.	po \\n[box-offset]u
-.	lt \\n[box-length]u
+.	po \\n[text-offset]u
+.	lt \\n[text-length]u
+.	sp |\\n[page-foot]v+2v
 .	ie !"\\*[page-title-tmp]"" \
-.		tl ""\\*I\\*[page-title-tmp]\\*I""
-.	el .tl ""\\*I\\*[page-title]\\*I""
+.		tl "\\*I\\*[page-title-tmp]\\*I"""
+.	el .tl "\\*I\\*[page-title]\\*I"""
 .	if \\n(RP \{\
 .		po \\n[text-offset]u
 .		lt \\n[text-length]u
