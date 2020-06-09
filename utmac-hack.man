@@ -18,11 +18,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\" DA Pierre-Jean Fichet
 .\" DS Utroff utmac hacker manual
 .\" DT Utroff utmac hacker manual
-.\" DK utroff utmac u-ref uw ux um ut us uh refer iso-690 troff nroff heirloom tmac xml pdf markdown html fodt
+.\" DK utroff utmac u-ref troff
 .
 .
 .
-.TH UTMAC-HACK 7 2018-04-14
+.TH UTMAC-HACK 7 2020-06-09
 .
 .
 .
@@ -85,6 +85,7 @@ document:
 \fB.\fR\fBie\fR \fB\e\en[tmac-ux]\fR This is printed if formatted with -mux.
 \fB.\fR\fBel\fR This is printed otherwise.
 .EE
+.PP
 .
 .
 .

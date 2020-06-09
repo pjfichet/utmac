@@ -22,7 +22,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .
 .
-.TH UTMAC 7 2018-12-06
+.TH UTMAC 7 2020-06-09
 .
 .
 .
@@ -163,6 +163,7 @@ format a document from the command line:
 .EX
 troff -rRV=1 -muh file
 .EE
+.PP
 .TP
 \&\fBRV\fR \fInum\fR
 If \fInum\fR=1, use a recto-verso layout.
@@ -327,6 +328,7 @@ files and \fBps2pdf\fR for \fIpdf\fR files:
 convert image.jpg image.eps
 ps2pdf -dEPSCrop image.eps image.pdf
 .EE
+.PP
 .TP
 \&\fBEPS\fR \fIfile.eps\fR [\fIl\fR|\fIc\fR|\fIr\fR|\fIindent\fR] [\fIwidth\fR] [\fIheight\fR]
 Include an \fIeps\fR file.
@@ -351,6 +353,7 @@ While this will print «link» followed by a dot:
 \fB.\fR\fBLT\fR link ». «
 \fB.\fR\fBLU\fR http://utroff.org
 .EE
+.PP
 .TP
 \&\fBLK\fR \fIkeyword\fR
 Insert an anchor named \fIkeyword\fR for internal links. Does not
@@ -434,6 +437,7 @@ enclose the text and can be embedded:
 Roman \fB\e*I\fRitalic, \fB\e*B\fRbolditalic\fB\e*B\fR\fB\e*I\fR, roman.
 .EE
 .PP
+.PP
 So, in an \fIutmac\fR document, you must avoid the raw troff
 \fB\ef\fR and \fB.fp\fR commands.
 .PP
@@ -480,6 +484,7 @@ troff -muh alice.tr \fB>\fR /dev/null
 troff -muh alice.tr \fB|\fR dpost \fB|\fR ps2pdf - alice.pdf
 .EE
 .PP
+.PP
 .EX
 \fB.\fR\fI\e" Start example\fR
 \fB.\fR\fI\e" Use recto verso\fR
@@ -521,6 +526,7 @@ Yes, what is the use of such a book?
 \fB.\fR\fBXT\fR
 \fB.\fR\fI\e" Stop example\fR
 .EE
+.PP
 .
 .
 .

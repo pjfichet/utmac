@@ -18,11 +18,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\" DA Pierre-Jean Fichet
 .\" DS Utroff u-ref manual
 .\" DT Utroff u-ref manual
-.\" DK utroff u-ref utmac refer iso-690 troff nroff heirloom tmac xml
+.\" DK utroff u-ref utmac refer iso-690 troff
 .
 .
 .
-.TH U-REF 7 2018-04-14
+.TH U-REF 7 2020-06-09
 .
 .
 .
@@ -56,7 +56,7 @@ replacement strings.
 It builds an index of references that can be printed with
 the \fB.AR\fR macro.
 .PP
-\fIu-ref\fR use a new version of \fIrefer\fR instead of the
+\fIu-ref\fR uses a new version of \fIrefer\fR instead of the
 original \fIheirloom refer\fR to handle correctly the
 \fBIso-690\fR bibliography standart.
 .
@@ -123,6 +123,7 @@ Keywords...
 %p 3
 \fB.\fR\fB]\fR
 .EE
+.PP
 .
 .
 .
@@ -264,6 +265,7 @@ this:
 .EX
 %x http:\fB\e:\fR//\fB\e:\fRexample.\fB\e:\fRcom/
 .EE
+.PP
 .TP
 \&\fBy\fR
 Update date of an electronic document.
