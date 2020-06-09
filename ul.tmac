@@ -53,6 +53,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .ds color-head "#2e5767
 .ds color-line "#ddd
 .ds color-text "#0f1c21
+.ds color-note "#0f1c21
 .\" paragraph at once adjustment (delete to avoid it).
 .ds text-adj p
 .pl 29.7c
@@ -61,7 +62,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de doc:start
 .	\" start document
 .	par:doc
-\m[\\*[color-text]]
+\m[\\*[color-text]]\m[\\*[color-text]]
 .	sp -1v
 .	em doc:end
 .	\" begin first page
@@ -91,6 +92,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de page:foot
 .	\" print footer
+.	note:foot
 .	ch page:foot
 .	ev ev-foot
 .	br
@@ -128,7 +130,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		po \\n[text-offset]u
 .		lt \\n[text-length]u
 .		sp |\\n[page-foot]v+2v
-.		tl """\m[\\*[color-head]]\\n%\m[]"
+.		tl """\m[\\*[color-head]]\\n%\m[\\*[color-text]]"
 .	\}
 .	ev
 ..
@@ -190,7 +192,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		ll \\n[list-length]u
 .		ad \\*[text-adj]r
 .		nr par-list \\n(nlu
-.		var:print \m[\\*[color-head]]\\$*\m[]
+.		var:print \m[\\*[color-head]]\\$*\m[\\*[color-text]]
 .		br
 .		sp |\\n[par-list]u
 .		par:po \\n[text-offset]u
@@ -198,7 +200,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		ad \\*[text-adj]b
 .	\}
 .	el \{\
-.		var:print \m[\\*[color-head]]\(en\m[]
+.		var:print \m[\\*[color-head]]\(en\m[\\*[color-text]]
 .	\}
 ..
 .de PL
@@ -337,12 +339,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ps 25p
 .	font:head
 .	ad \\*[text-adj]l
-.	head:print 1 "\\$*" "\m[]" "\m[\\*[color-head]]"
+.	head:print 1 "\\$*" "\m[\\*[color-text]]" "\m[\\*[color-head]]"
 .	nr h-l \\w"\\$*"u+3v
 .	ie \\n[h-l]u>\\n[text-length]u .nr h-length \\n[h-lu]u
 .	el .nr h-length \\n[text-length]u
 .	sp -.5v
-.	var:print \m[\\*[color-line]]\s+(30\D'l \\n[h-length]u'\s-(30\m[]
+.	var:print \m[\\*[color-line]]\s+(30\D'l \\n[h-length]u'\s-(30\m[\\*[color-text]]
 .	sp .5v
 .	br
 .	po \\n[text-offset]u
@@ -365,7 +367,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ad \\*[text-adj]r
 .	vs \\n[text-line]u*2u
 .	font:head
-.	head:print 2 "\\$*" "\m[]" "\m[\\*[color-head]]"
+.	head:print 2 "\\$*" "\m[\\*[color-text]]" "\m[\\*[color-head]]"
 .	br
 .	nr * 0 1 \" reset note number
 .	par:init
@@ -382,14 +384,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ne 3v
 .	sp 1.5v
 .	po \\n[note-offset]u
-\m[\\*[color-line]]\v'-0.30m'\s+(30\D'l \\n[note-length]u'\s-(30\v'+0.30m'\m[]
+\m[\\*[color-line]]\v'-0.30m'\s+(30\D'l \\n[note-length]u'\s-(30\v'+0.30m'\m[\\*[color-text]]
 .	br
 .	sp -1v
 .	po \\n[text-offset]u
 .	ps \\n[h3-font]u
 .	font:head
 .	ad \\*[text-adj]l
-.	head:print 3 "\\$*" "\m[]" "\m[\\*[color-head]]"
+.	head:print 3 "\\$*" "\m[\\*[color-text]]" "\m[\\*[color-head]]"
 .	sp 0.5v
 .	ns
 .	note:last
@@ -401,7 +403,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	sp 1v
 .	ad \\*[text-adj]l
 .	font:head
-.	head:print 4 "\\$*" "\m[]" "\m[\\*[color-head]]"
+.	head:print 4 "\\$*" "\m[\\*[color-text]]" "\m[\\*[color-head]]"
 .	ns
 .	note:last
 ..
@@ -423,7 +425,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	par:toc \\$1
 .	shift
 .	da toc:print
-.		pdf:link \\*[head-level] "\\$*" "\m[\\*[color-head]]\a\t\m[]\\n%"
+.		pdf:link \\*[head-level] "\\$*" "\m[\\*[color-head]]\a\t\m[\\*[color-text]]\\n%" "\m[\\*[color-text]]"
 .		in 0
 .		br
 .	di
@@ -450,7 +452,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\""""""""""""""""""""""""""""""""""""""
 .\" Notes in padj mode
 .nr * 0 1 \" note number
-.ds * \|\m[\\*[color-head]]\\*U\\n+*\\*U\m[]
+.ds * \|\m[\\*[color-head]]\\*U\\n+*\\*U\m[\\*[color-text]]
 .nr note-in 0 \" inside a note
 .nr note-last 1 \" position of last note
 .nr note-anchor 0 \" position of note anchor
@@ -485,7 +487,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		\" invoked to place the note (otherwise it is relative
 .		\" to the diversion position).
 \!.		sp |\\n[note-pos2]u
-.		if \\n(.$=0 .var:print \m[\\*[color-head]]\\*B\\*U\\n*\\*U\\*B\m[]
+.		ie \\n(.$=0 .var:print \m[\\*[color-head]]\\*B\\*U\\n*\\*U\\*B\m[\\*[color-note]]
+.		el .var:print \m[\\*[color-note]]\c
 ..
 .de NE
 .	\" Close the diversion
