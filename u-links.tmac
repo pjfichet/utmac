@@ -103,7 +103,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	el \{\
 .		\" We don't have substitute text, print the mail
 .		lang:rchar
-.		pdf:mail \\$1 \\*(lq\\$1\\*(rq \\$2 \\$3
+.		pdf:mail \\$1 ‹\|\\$1\|› \\$2 \\$3
 .		lang:char
 .	\}
 .	rm link-text
@@ -123,7 +123,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		lang:rchar
 .		\" Don't print '-' when hyphenating
 .		char \% \&
-.		pdf:url \\$1 "\\$1" "\\$2" "\\$3"
+.		pdf:url \\$1 "‹\|\\$1\|›" "\\$2" "\\$3"
 .		char \% \%
 .		lang:char
 .		\" Reset default hyphenation characters
