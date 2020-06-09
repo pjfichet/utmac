@@ -61,17 +61,17 @@ all: $(ALL:%=%.ps.pdf)
 	@echo "Generating $@ with $(TMAC)"
 	@$(ROFF) $(TMAC) $< > $@
 
-%.ps:
+%.ps: %.tmp
 	@echo "Generating $@"
 	@$(ROFF) $(TMAC) $< > /dev/null 2>&1 
 	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
 	@$(ROFF) $(TMAC) $< | $(POST) -pa4 >$@
 
-%.ps.pdf: %.ps
+%.pdf: %.ps
 	@echo "Generating $@"
 	@ps2pdf $(PDFFLAGS1) $< $@
 
-%.pdf: %.tmp
+%.neat.pdf: %.tmp
 	@echo "Generating $@"
 	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
 	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
