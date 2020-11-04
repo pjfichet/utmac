@@ -34,9 +34,13 @@ in a format compatible with neatroff. The other possible targets are:
 	clean: clean the current directory.
 	uninstall: uninstall everything.
 
-Patch
------
+Patches
+-------
 
-A small patch (invisible_links.diff) is applied to neatpost to prevent
+The patch "invisible_links.diff" is applied to neatpost to prevent
 some viewers to surround links with a black rectangle in the produced
+documents.
+
+The patch "metadata.diff" is applied to neatpost to allow the
+insertion of the "Subject" and "Keywords" metadatas in the produced
 documents.
