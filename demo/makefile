@@ -115,6 +115,7 @@ all: $(ALL:%=%.ps.pdf)
 clean:
 	@rm -f *.ig $(ALL:%=%.tmp) $(ALL:%=%.to) $(ALL:%=%.ps)  \
 	$(ALL:%=%.ps.pdf) $(ALL:%=%.pdf) $(ALL:%=%.neat.pdf) \
+	$(ALL:%=%.c.pdf) $(ALL:%=%.neat.c.pdf) \
 	$(ALL:%=%.txt) $(ALL:%=%.man) $(ALL:%=%.xml) \
 	$(ALL:%=%.html) $(ALL:%=%.fodt)
 
