@@ -50,6 +50,7 @@ roff: neatroff
 	cd neatroff && $(MAKE) FDIR="$(FNTDIR)" MDIR="$(MACDIR)"
 
 post: neatpost
+	cd neatpost && git apply ../invisible_links.diff
 	cd neatpost && $(MAKE) FDIR="$(FNTDIR)" MDIR="$(MACDIR)"
 
 install: $(BINDIR)

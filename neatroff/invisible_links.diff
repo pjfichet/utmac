@@ -1,0 +1,20 @@
+diff --git a/ps.c b/ps.c
+index c888f1e..b468d15 100644
+--- a/ps.c
++++ b/ps.c
+@@ -310,13 +310,13 @@ void outlink(char *lnk, int hwid, int vwid)
+ {
+ 	o_flush();
+ 	if (lnk[0] == '#' || isdigit((unsigned char) lnk[0])) {
+-		outf("[ /Rect [ %d %d t %d %d t ] %s%s "
++		outf("[ /Rect [ %d %d t %d %d t ] /Border [0 0 0] %s%s "
+ 			"/Subtype /Link /LNK pdfmark\n",
+ 			o_h, o_v, o_h + hwid, o_v + vwid,
+ 			lnk[0] == '#' ? "/Dest /" : "/Page ",
+ 			lnk[0] == '#' ? lnk + 1 : lnk);
+ 	} else {
+-		outf("[ /Rect [ %d %d t %d %d t ] "
++		outf("[ /Rect [ %d %d t %d %d t ] /Border [0 0 0] "
+ 			"/Action << /Subtype /URI /URI %s >> /Open true "
+ 			"/Subtype /Link /LNK pdfmark\n",
+ 			o_h, o_v, o_h + hwid, o_v + vwid, pdftext_static(lnk));

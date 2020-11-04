@@ -33,3 +33,10 @@ in a format compatible with neatroff. The other possible targets are:
 	all: install everything
 	clean: clean the current directory.
 	uninstall: uninstall everything.
+
+Patch
+-----
+
+A small patch (invisible_links.diff) is applied to neatpost to prevent
+some viewers to surround links with a black rectangle in the produced
+documents.
