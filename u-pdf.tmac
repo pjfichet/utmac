@@ -21,25 +21,16 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\""""""""""""""""""""""""""""""""""""""
 .\"	Pdf metadata
 .de DT
-.	ds pdf-title \\$*
+.	dv info Title "\\$*"
 ..
 .de DA
-.	ds pdf-author \\$*
+.	dv info Author "\\$*"
 ..
 .de DS
-.	ds pdf-subject \\$*
+.	dv info Subject "\\$*"
 ..
 .de DK
-.	ds pdf-keywords \\$*
-..
-.de pdf:data
-.	ds pdf-data [ /Creator (Neatroff Utmac)
-.	if !"\\*[pdf-title]"" .as pdf-data " /Title (\\*[pdf-title])
-.	if !"\\*[pdf-author]"" .as pdf-data " /Author (\\*[pdf-author])
-.	if !"\\*[pdf-subject]"" .as pdf-data " /Subject (\\*[pdf-subject])
-.	if !"\\*[pdf-keywords]"" .as pdf-data " /Keywords (\\*[pdf-keywords])
-.	var:print \X"ps \\*[pdf-data] /DOCINFO pdfmark"
-.	sp -1v
+.	dv info Keywords "\\$*"
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" PDF strings and macros
@@ -52,14 +43,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		nr pdf-firsthead \\$1
 .	\}
 .	nr pdf-level \\$1-\\n[pdf-firsthead]
-.	var:print \X"ps [ /Title (\\$2) /Count (\\n[pdf-level]) /OUT pdfmark"\\c
+.	dv mark "\\$2" \\n(.% \\n(nl \\n[pdf-level]
 .	rr pdf-level
 ..
 .de pdf:anchor
 .	\" $1 anchor
-.	\" $2 string after
-.	\" $3 string before
-.	var:print \\$3\X"ps [ /Dest /\\$1 /DEST pdfmark"\\$2
+.	dv name \\$1 \\n(.% \\n(nl
 ..
 .de pdf:linker
 .	\" $1 anchor to link to

@@ -52,7 +52,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	link:anchors
 .	nr link-K\\$1 \\n% \" if no break before link
 .	as link-anchors @@@nr link-K\\$1 \\\\n%
-.	pdf:anchor \\$1 \\c
+.	pdf:anchor \\$1
 .	\" And print the text
 .	if !"\\*[link-text]"" .var:print \\*[link-beg]\\*[link-text]\\*[link-end]
 .	rm link-text

@@ -60,9 +60,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	page:head
 ..
 .de doc:end
-.	\" end document
-.	br
-.	pdf:data
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Page
@@ -251,9 +248,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nh
 .	in 0
 .	\" Print pdf bookmark
-.	pdf:bookmark \\$1 "\\$2" \\c
+.	pdf:bookmark \\$1 "\\$2"
 .	\" Print pdf anchor
-.	pdf:anchor \\*[head-level] \\c
+.	pdf:anchor \\*[head-level]
 .	\" Define head string
 .	sy str="\\$2" && echo ".ds head-str ${str: -1}" > /tmp/\\*[data-file]-head.tr
 .	so /tmp/\\*[data-file]-head.tr
@@ -358,11 +355,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" print table of contents
 .	H3 \\*[lang-Toc]
 .	sp -1v
-.	pdf:anchor TOC \\c
+.	pdf:anchor TOC
 .	br
 .	ev toc
 .	par:init \" par:toc don't reset paragraph
-.	sp 1v
 .	par:toc 0
 .	nf
 .	toc:print

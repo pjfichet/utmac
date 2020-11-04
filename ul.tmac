@@ -73,7 +73,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" end document
 .	br
 .	if \\n[note-div] .note:head
-.	pdf:data
 ..
 .\""""""""""""""""""""""""""""""""""""""
 .\" Page
@@ -316,9 +315,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nh
 .	in 0
 .	\" Print pdf bookmark
-.	pdf:bookmark \\$1 "\\$2" \\c
+.	pdf:bookmark \\$1 "\\$2"
 .	\" Print pdf anchor
-.	pdf:anchor \\*[head-level] \\c
+.	pdf:anchor \\*[head-level]
 .	\" Print heading linking to toc
 .	pdf:link TOC "\\$2" "\\$3" "\\$4"
 .	br
@@ -437,10 +436,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	H3 \\*[lang-Toc]
 .	\"H* \\*[lang-Toc]
 .	\"H0
-.	pdf:anchor TOC \\c
+.	pdf:anchor TOC
 .	br
-.	rs
-.	sp -1v
 .	ev toc
 .	par:init \" par:toc don't reset paragraph
 .	par:toc 0
