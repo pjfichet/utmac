@@ -118,4 +118,3 @@ clean:
 	$(ALL:%=%.txt) $(ALL:%=%.man) $(ALL:%=%.xml) \
 	$(ALL:%=%.html) $(ALL:%=%.fodt)
 
-include images.mk
