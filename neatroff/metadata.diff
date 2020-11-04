@@ -1,0 +1,70 @@
+diff --git a/pdf.c b/pdf.c
+index acc52d7..3d7ea3e 100644
+--- a/pdf.c
++++ b/pdf.c
+@@ -10,6 +10,8 @@
+ 
+ static char pdf_title[256];	/* document title */
+ static char pdf_author[256];	/* document author */
++static char pdf_subject[256];	/* document subject */
++static char pdf_keywords[256];	/* document keywords */
+ static int pdf_width;		/* page width */
+ static int pdf_height;		/* page height */
+ static int pdf_linewid;		/* line width in thousands of ems */
+@@ -830,6 +832,10 @@ void outinfo(char *kwd, char *val)
+ 		snprintf(pdf_author, sizeof(pdf_author), "%s", val);
+ 	if (!strcmp("Title", kwd))
+ 		snprintf(pdf_title, sizeof(pdf_title), "%s", val);
++	if (!strcmp("Subject", kwd))
++		snprintf(pdf_subject, sizeof(pdf_subject), "%s", val);
++	if (!strcmp("Keywords", kwd))
++		snprintf(pdf_keywords, sizeof(pdf_keywords), "%s", val);
+ }
+ 
+ void outset(char *var, char *val)
+@@ -1019,6 +1025,10 @@ void doctrailer(int pages)
+ 		pdfout("  /Title %s\n", pdftext_static(pdf_title));
+ 	if (pdf_author[0])
+ 		pdfout("  /Author %s\n", pdftext_static(pdf_author));
++	if (pdf_subject[0])
++		pdfout("  /Subject %s\n", pdftext_static(pdf_subject));
++	if (pdf_keywords[0])
++		pdfout("  /Keywords %s\n", pdftext_static(pdf_keywords));
+ 	pdfout("  /Creator (Neatroff)\n");
+ 	pdfout("  /Producer (Neatpost)\n");
+ 	pdfout(">>\n");
+diff --git a/ps.c b/ps.c
+index c888f1e..47f44ab 100644
+--- a/ps.c
++++ b/ps.c
+@@ -7,6 +7,8 @@
+ 
+ static char ps_title[256];	/* document title */
+ static char ps_author[256];	/* document author */
++static char ps_subject[256];	/* document subject */
++static char ps_keywords[256];	/* document keywords */
+ static int ps_height;		/* document height in basic units */
+ static int o_f, o_s, o_m;	/* font and size */
+ static int o_h, o_v;		/* current user position */
+@@ -364,6 +366,10 @@ void outinfo(char *kwd, char *val)
+ 		snprintf(ps_author, sizeof(ps_author), "%s", val);
+ 	if (!strcmp("Title", kwd))
+ 		snprintf(ps_title, sizeof(ps_title), "%s", val);
++	if (!strcmp("Subject", kwd))
++		snprintf(ps_subject, sizeof(ps_subject), "%s", val);
++	if (!strcmp("Keywords", kwd))
++		snprintf(ps_keywords, sizeof(ps_keywords), "%s", val);
+ }
+ 
+ void outset(char *var, char *val)
+@@ -392,6 +398,10 @@ void doctrailer(int pages)
+ 		out(" /Title %s", pdftext_static(ps_title));
+ 	if (ps_author[0])
+ 		out(" /Author %s", pdftext_static(ps_author));
++	if (ps_subject[0])
++		out(" /Subject %s", pdftext_static(ps_subject));
++	if (ps_keywords[0])
++		out(" /Keywords %s", pdftext_static(ps_keywords));
+ 	out(" /Creator (Neatroff) /DOCINFO pdfmark\n");
+ 	out("%%%%Trailer\n");
+ 	out("done\n");
