@@ -84,7 +84,6 @@ all: $(ALL:%=%.ps.pdf)
 	-dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH \
 	-sOutputFile=$@ $<
 
-
 %-crypt.pdf: %.ps
 	@echo "Generating $@"
 	@ps2pdf $(PDFFLAGS1) $(CRYPT) $< $@
@@ -114,4 +113,9 @@ all: $(ALL:%=%.ps.pdf)
 	@xsltproc $(XSLDIR)/utofodt.xsl $< > $@
 
 clean:
-	@rm -f *.ig $(ALL:%=%.tmp) $(ALL:%=%.to) $(ALL:%=%.ps) $(ALL:%=%.ps.pdf) $(ALL:%=%.pdf) $(ALL:%=%.txt) $(ALL:%=%.txt) $(ALL:%=%.man) $(ALL:%=%.xml) $(ALL:%=%.html) $(ALL:%=%.fodt)
+	@rm -f *.ig $(ALL:%=%.tmp) $(ALL:%=%.to) $(ALL:%=%.ps)  \
+	$(ALL:%=%.ps.pdf) $(ALL:%=%.pdf) $(ALL:%=%.neat.pdf) \
+	$(ALL:%=%.txt) $(ALL:%=%.man) $(ALL:%=%.xml) \
+	$(ALL:%=%.html) $(ALL:%=%.fodt)
+
+include images.mk
