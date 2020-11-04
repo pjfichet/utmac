@@ -1,7 +1,7 @@
 .so lorem.tr
 .\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 .\" Metadatas
-.DA Utroff.org
+.DA Utroff
 .DT Utmac demonstration layout
 .DS Demonstration of the layout of utmac
 .DK utroff, heirloom troff, utmac
