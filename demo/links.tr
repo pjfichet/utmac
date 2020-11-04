@@ -5,6 +5,7 @@ Internal link
 .LL keyword2 ,
 .LU http://example.com ,
 .LM mail@example.com .
+.br
 .bp
 .PP
 .LK keyword2
