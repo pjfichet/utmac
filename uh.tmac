@@ -155,26 +155,30 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	par:init
 .	var:layout
-.	sp 1v
 ..
 .de PB
 .	par:start
+.	sp 1v
 .	in 3v
 .	ti 0
 ..
 .de PC
 .	par:start
+.	sp 1v
 .	ad \\*[text-adj]c
 ..
 .de PP
 .	par:start
+.	sp 1v
 ..
 .de PQ
 .	par:start
+.	sp 1v
 .	in 3v
 ..
 .de PI
 .	par:start
+.	sp 1v
 .	in 3v
 .	ti 2v
 .	ta 3v
@@ -192,14 +196,17 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de PL
 .	par:start
+.	sp 1v
 .	ad \\*[text-adj]l
 ..
 .de PR
 .	par:start
+.	sp 1v
 .	ad \\*[text-adj]r
 ..
 .de PX
 .	par:start
+.	sp 1v
 .	nf
 .	ti 0
 .	in 3v
@@ -209,7 +216,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\" table of content paragraph
 .	\" Be carefull: don't reset paragraph
 .	\" to use it in footnotes
-.	\"par:start
 .	if \\n(.$ .in \\$1v
 .	if t .lc \[repeat-char]
 .	ta (\\n(.lu-\\n(.iu-\w'000'u) (\\n(.lu-\\n(.iu)R
@@ -262,6 +268,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	font:endhead
 .	hy \\n[text-hyphen]
+.	\" Don't check for widows after heading lines.
 .	nr var-layout 0
 .	\" After the line break, the page number is set, so we can record
 .	toc:record \\$1 "\\$2"
@@ -275,7 +282,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr head-4 0
 .	bp
 .	rs
-.	par:init
+.	par:start
 .	ps 32p
 .	ad \\*[text-adj]l
 .	sp |\\n[page-head]v-1v
@@ -297,7 +304,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		bp
 .	\}
 .	rs
-.	par:init
+.	par:start
 .	ps 24p
 .	ad \\*[text-adj]l
 .	sp |\\n[page-head]v-1v
@@ -311,7 +318,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr head-4 0
 .	br
 .	bp
-.	par:init
+.	par:start
 .	ps 16
 .	ad \\*[text-adj]l
 .	font:head
@@ -320,7 +327,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de H4
 .	nr head-4 +1
 .	br
-.	par:init
+.	par:start
 .	sp 1v
 .	ad \\*[text-adj]l
 .	font:head
@@ -354,9 +361,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de XT
 .	\" print table of contents
 .	H3 \\*[lang-Toc]
-.	sp -1v
 .	pdf:anchor TOC
 .	br
+.	sp 1v
 .	ev toc
 .	par:init \" par:toc don't reset paragraph
 .	par:toc 0

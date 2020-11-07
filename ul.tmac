@@ -323,6 +323,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	font:endhead
 .	hy \\n[text-hyphen]
+.	\" Don't check for widows after heading lines.
 .	nr var-layout 0
 .	toc:record \\$1 "\\$2"
 .	sum:record \\$1 \\*[head-level] \\n% "\\$2"
@@ -333,7 +334,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr head-3 0
 .	nr head-4 0
 .	bp
-.	par:init
+.	par:start
 .	po \\n[note-offset]u
 .	vs \\n[text-line]u*2u
 .	ps 25p
@@ -360,7 +361,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr head-4 0
 .	br
 .	note:after
-.	par:init
+.	par:start
 .	po \\n[text-offset]u
 .	sp 3v
 .	ps 20p
@@ -380,7 +381,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr head-4 0
 .	br
 .	note:after
-.	par:init
+.	par:start
 .	ne 3v
 .	sp 1.5v
 .	po \\n[note-offset]u
@@ -399,7 +400,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de H4
 .	nr head-4 +1
 .	br
-.	par:init
+.	par:start
 .	sp 1v
 .	ad \\*[text-adj]l
 .	font:head

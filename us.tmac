@@ -272,6 +272,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	font:endhead
 .	hy \\n[text-hyphen]
+.	\" Don't check for widows after heading lines.
 .	nr var-layout 0
 .	\" After the line break, page-num is set, so we can record
 .	toc:record \\$1 "\\$2"
@@ -284,7 +285,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr head-4 0
 .	bp
 .	rs
-.	par:init
+.	par:start \\$0
 .	sp 5v
 .	ps 25p
 .	ad \\*[text-adj]c
@@ -303,7 +304,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	\"if \\n[head-2]>0 .head:orn
 .	bp
 .	rs
-.	par:init
+.	par:start \\$0
 .	sp 3v
 .	ps 20p
 .	ad \\*[text-adj]c
@@ -318,7 +319,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de H3
 .	nr head-3 +1
 .	nr head-4 0
-.	par:init
+.	par:start \\$0
 .	br
 .	ne 5v
 .	sp 1.5v
@@ -332,7 +333,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ..
 .de H4
 .	nr head-4 +1
-.	par:init
+.	par:start \\$0
 .	br
 .	ne 3v
 .	sp 1v

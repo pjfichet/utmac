@@ -63,13 +63,16 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .de var:layout
 .	\" inform about orphans, widows, and blanks
 .	if \\n(RH \{\
-.		if \\n[var-layout] .if \\n(nl=\\n[var-orphan]v \{\
-.			var:log \\*[lang-Orphan]
-.		\}
-.		if \\n(nl=\\n[var-widow]v \{\
+.		if \\n[var-layout] .if \\n(nl=\\n[var-widow]v \{\
+.			\" Widows are at the top of the page
 .			var:log \\*[lang-Widow]
 .		\}
+.		if \\n(nl=\\n[var-orphan]v \{\
+.			\" Orphans are at the bottom of the page
+.			var:log \\*[lang-Orphan]
+.		\}
 .		if \\n(nl=\\n[var-blank]v \{\
+.			\" Blanks are at the bottom of the page
 .			var:log \\*[lang-Blank]
 .		\}
 .		nr var-layout 1

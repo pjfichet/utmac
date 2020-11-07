@@ -5,15 +5,36 @@ at the end of the second page.
 Utmac prints an error message about these glitches.
 ..
 .so lorem.tr
+.tm While formatting, utmac should detect:
+.tm - a widow p. 1,
+.tm - a widow p. 2,
+.tm - an orphan p. 2,
+.tm - a blank p. 3,
+.tm - nothing p. 4.
 .PP
 Widow.
+.PP
+There was a widow before.
+.lorem
+.br
+.bp
+.PP
+Widow.
+.H3 Headings check for widows too.
 .PP
 .lorem
 .sp |\n[page-foot]v-2v
 .PP
 Orphan.
 .lorem
-.sp |\n[page-foot]v-1v
+.sp |\n[page-foot]v-2v
+Blank.
 .PP
 Blank.
+.lorem
+.br
+.bp
+.H4 heading lines are not widows
+.PP
+Nothing.
 .lorem
