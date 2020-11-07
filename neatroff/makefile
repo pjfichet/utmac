@@ -47,6 +47,7 @@ mkfn: neatmkfn
 	cd $< && $(MAKE)
 
 roff: neatroff
+	-cd neatroff && git apply ../neatroff.diff
 	cd neatroff && $(MAKE) FDIR="$(FNTDIR)" MDIR="$(MACDIR)"
 
 post: neatpost
