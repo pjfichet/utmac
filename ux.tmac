@@ -65,10 +65,12 @@ this.
 .	\" print xml
 .	br
 .	\"fi
+.	ll 999
 .	lang:xmlrchar
 \&\\$*
 .	br
 .	lang:xmlchar
+.	ll 80
 ..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" start and stop
@@ -76,7 +78,7 @@ this.
 .	\" start xml file
 .	em xml:stop
 .	pl 1v
-.	ll 60
+.	ll 80
 .	na \" don't adjust
 .	nh \" don't hyphenate
 .	xml:print \\*[xml-tag ?xml version="1.0" encoding="UTF-8"?]
