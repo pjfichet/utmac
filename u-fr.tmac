@@ -23,35 +23,29 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .ds data-lang fr
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" Hyphenation
+.if !\n(.g \{\
 .hpf \n(.D/../hyph/fr.pat.txt \n(.D/../hyph/fr.hyp.txt \n(.D/../hyph/fr.chr.txt
+\}
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" typo
 .de lang:char
 .	char : \~:
 .	char ; \|;
 .	char ? \|?
-.	char « «\|
-.	char » \|»
-.	char § §\|
 .	char ! \|!
+.	char § §\|
 .	char % \|%
 .	char € \|€
+.	char « «\|
+.	char » \|»
+.	char ‹ ‹\|
+.	char › \|›
 ..
 .de lang:rchar
-.	char : :
-.	char ; ;
-.	char ? ?
-.	char « «
-.	char » »
-.	char § §
-.	char ! !
-.	char % %
-.	char € €
+.	rchar : ; ? ! §  % € « » ‹ ›
 ..
-.ds « \[guilsinglleft]\|
-.ds » \|\[guilsinglright]
-.ds lq ‹\|
-.ds rq \|›
+.ds lq ‹
+.ds rq ›
 .
 .
 .
@@ -72,26 +66,37 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" xml
 .de lang:xmlchar
-.	char - \-
-.	\"char - \[u002D] \" for groff
 .	\" \U'00A0' unbreakable space
 .	\" \U'202F' unbreakable thin space
-.	char « «\U'00A0'
-.	char » \U'00A0'»
-.	char : \U'202F':
-.	\"char ; \U'202F';
-.	char ? \U'202F'?
-.	\"char ! \U'202F'!
-.	\"char < &lt
-.	\"char > &gt
-.	\" fo: U2039, fc: U203A
-.	ds « \U'2039'\U'00A0'
-.	ds » \U'00A0'\U'203A'
-.	ds lq \U'2039'\U'00A0'
-.	ds rq \U'00A0'\U'203A'
+.	ie \n(.g \{\
+.		char : \[u00A0]:
+.		char ; \[u202F];
+.		char ? \[u202F]?
+.		char ! \[u202F]!
+.		char § §\[u202F]
+.		char % \[u202F]%
+.		char € \[u202F]€
+.		char « «\[u202F]
+.		char » \[u202F]»
+.		char ‹ ‹\[u202F]
+.		char › \[u202F]›
+.\}
+.	el \{\
+.		char : \U'u00A0':
+.		char ; \U'u202F';
+.		char ? \U'u202F'?
+.		char ! \U'u202F'!
+.		char § §\U'u202F'
+.		char % \U'202F'%
+.		char € \U'202F'€
+.		char « «\U'202F'
+.		char » \U'202F'»
+.		char ‹ ‹\U'202F'
+.		char › \U'202F'›
+.\}
 ..
 .de lang:xmlrchar
-.	rchar « » : ; ? ! \"< >
+.	rchar : ; ? ! § % € « » ‹ ›
 ..
 .\"""""""""""""""""""""""""""""""""""""""""""""""
 .\" ref

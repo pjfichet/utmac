@@ -52,7 +52,8 @@ this.
 .char < \\*[xml-gly lt]
 .char > \\*[xml-gly gt]
 .char & \\*[xml-gly amp]
-.char - \[u002D]
+.ie \n(.g .char - \[u002D]
+.el .char - \-
 .\" the detag pre-processor replace by strings
 .\" tags inserted by the user. Escape these tags.
 .ds #[ #~[
@@ -136,6 +137,7 @@ T\\*[data-date2]\\*[xml-tag /DD]
 .	xml:print \\*[xml-deline]
 .	ds xml-block \\*[xml-tag /\\$1]
 .	fi
+.	lang:xmlchar
 ..
 .de xml:block2
 .	\" single line block
@@ -152,6 +154,7 @@ T\\*[data-date2]\\*[xml-tag /DD]
 \\*[xml-tag /\\*[block2-tag]]
 .	\}
 .	fi
+. 	lang:xmlchar
 ..
 .de PB
 .	xml:block1 PB
