@@ -2,7 +2,9 @@
 
 # Default macro
 TMAC=-mul
-#TMAC=-muh -mu-apolline -mu-fr
+#TMAC=-muh -mu-apolline
+# Default language macro
+LMAC=-mu-fr
 
 # Prefix directory
 PREFIX=$(HOME)/.local
@@ -58,14 +60,14 @@ all: $(ALL:%=%.ps.pdf)
 	@#cp $< $@
 
 %.to: %.tmp
-	@echo "Generating $@ with $(TMAC)"
-	@$(ROFF) $(TMAC) $< > $@
+	@echo "Generating $@ with $(TMAC) $(LMAC)"
+	@$(ROFF) $(TMAC) $(LMAC) $< > $@
 
 %.ps: %.tmp
 	@echo "Generating $@"
-	@$(ROFF) $(TMAC) $< > /dev/null 2>&1 
-	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
-	@$(ROFF) $(TMAC) $< | $(POST) -pa4 >$@
+	@$(ROFF) $(TMAC) $(LMAC) $< > /dev/null 2>&1 
+	@$(ROFF) $(TMAC) $(LMAC) $< > /dev/null 2>&1
+	@$(ROFF) $(TMAC) $(LMAC) $< | $(POST) -pa4 >$@
 
 %.pdf: %.ps
 	@echo "Generating $@"
@@ -73,9 +75,9 @@ all: $(ALL:%=%.ps.pdf)
 
 %.neat.pdf: %.tmp
 	@echo "Generating $@"
-	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
-	@$(ROFF) $(TMAC) $< > /dev/null 2>&1
-	@$(ROFF) $(TMAC) $< | $(PDF) -pa4 > $@
+	@$(ROFF) $(TMAC) $(LMAC) $< > /dev/null 2>&1
+	@$(ROFF) $(TMAC) $(LMAC) $< > /dev/null 2>&1
+	@$(ROFF) $(TMAC) $(LMAC) $< | $(PDF) -pa4 > $@
 
 %.c.pdf: %.pdf
 	@echo "Compressing $<"
@@ -90,19 +92,19 @@ all: $(ALL:%=%.ps.pdf)
 
 %.txt: %.tmp
 	@echo "Generating $@"
-	@$(NROFF) -mut $< > $@
+	@$(NROFF) -mut $(LMAC) $< > $@
 
 %.mkd: %.tmp
 	@echo "Generating $@"
-	@$(NROFF) -muw $< > $@
+	@$(NROFF) -muw $(LMAC) $< > $@
 
 %.man: %.tr
 	@echo "Generating $@"
-	@$(SOELIM) $< | $(UGRIND) | $(NROFF) -mum $< > $@
+	@$(SOELIM) $< | $(UGRIND) | $(NROFF) -mum $(LMAC) $< > $@
 
 %.xml: %.tmp
 	@echo "Generating $@"
-	@$(PREXML) < $< | $(UGRIND) | $(NROFF) -mux | $(POSTXML) > $@
+	@$(PREXML) < $< | $(UGRIND) | $(NROFF) -mux $(LMAC) | $(POSTXML) > $@
 
 %.html: %.xml
 	@echo "Generating $@"
