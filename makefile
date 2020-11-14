@@ -17,18 +17,20 @@ TMAC= u-apolline u-biolib u-biolinum u-en u-include u-fonts u-fr uh u-idx \
 	u-libertine u-links ul um u-pdf u-ref us u-sum u-typo u-var \
 	u-grind ut uw ux u-graph u-tbl
 
+PREMAC= u-idx.tr u-ref.tr
+
 MAN= u-ref.7 utmac.7 utmac-hack.7
 
-all: $(TMAC:%=%.tr) $(MAN)
+all: $(TMAC:%=%.tmac) $(MAN)
 
 
-%.tr: %.tmac
+%.tmac: %.tr
 	sed -e "s#@BINDIR@#$(BINDIR)#g" $< > $@
 
 %.7: %.man
 	sed -e "s#@MACDIR@#$(MACDIR)#g" $< > $@
 
-$(DESTDIR)$(MACDIR)/%.tmac: %.tr
+$(DESTDIR)$(MACDIR)/%.tmac: %.tmac
 	@test -d $(DESTDIR)$(MACDIR) || mkdir -p $(DESTDIR)$(MACDIR)
 	$(INSTALL) -c -m 644 $< $@
 
@@ -43,7 +45,7 @@ uninstall:
 	rm -f $(MAN:%=$(DESTDIR)$(MANDIR)/man7/%)
 
 clean:
-	rm -f $(TMAC:%=%.tr) $(MAN)
+	rm -f $(PREMAC:%=%.tmac) $(MAN)
 
 tmac.eps:
 	@echo Downloading tmac.eps from neatroff_make
