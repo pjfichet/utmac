@@ -343,16 +343,36 @@ T\\*[data-date2]\\*[xml-tag /DD]
 .	\" $1: Keyword defining the kind of link
 .	\" $2: url
 .	\" $3, $4: text after and before
-.	if "\\*[link-text]"" \{\
+.	br
+.	ll 999
+.	ie "\\*[link-text]"" \{\
+.		\" The link text is not defined, so we print the url instead.
 .		ds link-text \\$2
 .		ds link-end \\$3
 .		ds link-beg \\$4
+\&\\*[link-beg]\c
+.		lang:xmlrchar
+\&\\*[xml-tagbeg]L\\$1 name=\[dq]\\$2\[dq]\\*[xml-tagend]\c
+\&\\*[link-text]\c
+\&\\*[xml-tagbeg]/L\\$1\\*[xml-tagend]\c
+.		lang:xmlchar
+\&\\*[link-end]
 .	\}
-.	xml:print \\*[link-beg]\
-\\*[xml-tagbeg]L\\$1 name=\[dq]\\$2\[dq]\\*[xml-tagend]\
-\\*[link-text]\
-\\*[xml-tagbeg]/L\\$1\\*[xml-tagend]\
-\\*[link-end]
+.	el \{\
+.		\" The link text is defined, we call lang:xmlchar before
+.		\" printing it.
+\&\\*[link-beg]\c
+.		lang:xmlrchar
+\&\\*[xml-tagbeg]L\\$1 name=\[dq]\\$2\[dq]\\*[xml-tagend]\c
+.		lang:xmlchar
+\&\\*[link-text]\c
+.		lang:xmlrchar
+\\*[xml-tagbeg]/L\\$1\\*[xml-tagend]\c
+.		lang:xmlchar
+\&\\*[link-end]
+.	\}
+.	br
+.	ll 80
 .	ds link-text
 .	ds link-beg
 .	ds link-end
