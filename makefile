@@ -13,15 +13,17 @@ MACDIR=$(LIBDIR)/tmac
 # install binary
 INSTALL=install
 
-TMAC= u-apolline u-biolib u-biolinum u-en u-include u-fonts u-fr uh u-idx \
-	u-libertine u-links ul um u-pdf u-ref us u-sum u-typo u-var \
-	u-grind ut uw ux u-graph u-tbl
+TMAC=u-apolline.tmac u-biolib.tmac u-biolinum.tmac u-en.tmac \
+	u-include.tmac u-fonts.tmac u-fr.tmac uh.tmac u-idx.tmac \
+	u-libertine.tmac u-links.tmac ul.tmac um.tmac u-pdf.tmac \
+	u-ref.tmac us.tmac u-sum.tmac u-typo.tmac u-var.tmac \
+	u-grind.tmac ut.tmac uw.tmac ux.tmac u-graph.tmac u-tbl.tmac
 
-PREMAC= u-idx.tr u-ref.tr
+PREMAC=u-idx.tmac u-ref.tmac
 
-MAN= u-ref.7 utmac.7 utmac-hack.7
+MAN=u-ref.7 utmac.7 utmac-hack.7
 
-all: $(TMAC:%=%.tmac) $(MAN)
+all: $(TMAC) $(MAN)
 
 
 %.tmac: %.tr
@@ -30,7 +32,7 @@ all: $(TMAC:%=%.tmac) $(MAN)
 %.7: %.man
 	sed -e "s#@MACDIR@#$(MACDIR)#g" $< > $@
 
-$(DESTDIR)$(MACDIR)/%.tmac: %.tmac
+$(DESTDIR)$(MACDIR)/%: %
 	@test -d $(DESTDIR)$(MACDIR) || mkdir -p $(DESTDIR)$(MACDIR)
 	$(INSTALL) -c -m 644 $< $@
 
@@ -38,14 +40,14 @@ $(DESTDIR)$(MANDIR)/man7/%: %
 	@test -d $(DESTDIR)$(MANDIR)/man7 || mkdir -p $(DESTDIR)$(MANDIR)/man7
 	$(INSTALL) -c -m 644 $< $@
 
-install: $(TMAC:%=$(DESTDIR)$(MACDIR)/%.tmac) $(MAN:%=$(DESTDIR)$(MANDIR)/man7/%)
+install: $(TMAC:%=$(DESTDIR)$(MACDIR)/%) $(MAN:%=$(DESTDIR)$(MANDIR)/man7/%)
 
 uninstall:
-	rm -f $(TMAC:%=$(DESTDIR)$(MACDIR)/%.tmac)
+	rm -f $(TMAC:%=$(DESTDIR)$(MACDIR)/%)
 	rm -f $(MAN:%=$(DESTDIR)$(MANDIR)/man7/%)
 
 clean:
-	rm -f $(PREMAC:%=%.tmac) $(MAN)
+	rm -f $(PREMAC) $(MAN)
 
 tmac.eps:
 	@echo Downloading tmac.eps from neatroff_make
