@@ -65,18 +65,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		head:string \\$1
 .	\}
 ..
-.de H1
-.	txt:break
-.	nr head-width \\n[txt-length] 1
-.	ds head-string
-.	head:string #
-.	var:print \\*[head-string]
-.	br
-.	tl '#'\\$*'#'
-.	var:print \\*[head-string]
-.	sp 1v
-..
-.de H2
+.de OLDUNUSEDHEADING
+.	\" Groff is unable to measure the length of a non ascii string
 .	txt:break
 .	length head-tmp \\$*
 .	nr head-width \\n[head-tmp] 1
@@ -86,25 +76,23 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	br
 .	var:print \\*[head-string]
 ..
+.de H1
+.	txt:break
+.	tl "####"\\$*"#####"
+..
+.de H2
+.	txt:break
+.	sp 2v
+.	var:print ### \\$* ### 
+..
 .de H3
 .	txt:break
-.	length head-tmp \\$*
-.	nr head-width \\n[head-tmp] 1
-.	ds head-string ==
-.	head:string =
-.	var:print # \\$*
-.	br
-.	var:print \\*[head-string]
+.	sp 1v
+.	var:print ## \\$* ##
 ..
 .de H4
 .	txt:break
-.	length head-tmp \\$*
-.	nr head-width \\n[head-tmp] 1
-.	ds head-string --
-.	head:string -
-.	var:print # \\$*
-.	br
-.	var:print \\*[head-string]
+.	var:print # \\$* #
 ..
 .\"""""""""""""""""""""""""""""""""""""
 .\" paragraphs
