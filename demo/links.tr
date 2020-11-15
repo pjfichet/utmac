@@ -1,5 +1,14 @@
 .H3 Links
 .PP
+.LU https://duckduckgo.com/?q=utroff+utmac&t=ffab&ia=web
+.LU https://github.com/pjfichet/utmac/commit/d6f65b5bdceeddd514a44daf42ae825dea955b36
+.PP
+.LT "search for utmac" ,
+.LU https://duckduckgo.com/?q=utroff+utmac&t=ffab&ia=web
+and finds a
+.LT "commit on github" .
+.LU https://github.com/pjfichet/utmac/commit/d6f65b5bdceeddd514a44daf42ae825dea955b36
+.PP
 .LK keyword1
 Internal link
 .LL keyword2 ,
