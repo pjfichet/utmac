@@ -32,6 +32,9 @@ REFER=$(BINDIR)/refer
 UGRIND=$(BINDIR)/ugrind
 PREXML=$(BINDIR)/prexml
 POSTXML=$(BINDIR)/postxml
+TCHARS=$(BINDIR)/tchars
+TSQL=$(BINDIR)/tsql
+TPLAN=$(BINDIR)/tplan
 
 # Groff tools
 NROFF=groff -k -Tutf8 -M$(MACDIR)
