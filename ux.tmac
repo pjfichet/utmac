@@ -278,6 +278,27 @@ T\\*[data-date2]\\*[xml-tag /DD]
 .	rm xml-line
 ..
 .\""""""""""""""""""""""""""""""""""""""""""""""""
+.\" Table macros
+.de tblbeg
+.	if !"\\*[xml-block]"" \{\
+.		xml:print \\*[xml-deline]
+.		xml:print \\*[xml-block]
+.	\}
+.	sp 1v
+.	xml:print \\*[xml-tag TABLE col="\\n(.$"]
+.	ds xml-block \\*[xml-tag /TABLE]
+..
+.de tblrow
+.	xml:print \\*[xml-tag ROW]
+.	xml:col \\$@
+.	xml:print \\*[xml-tag /ROW]
+..
+.de xml:col
+.	xml:print \\*[xml-tag COL]\\$1\\*[xml-tag /COL]
+.	shift
+.	if \\n(.$ .xml:col \\$@
+..
+.\""""""""""""""""""""""""""""""""""""""""""""""""
 .\" fonts
 .ds font-bold0 \\*[xml-tag /B]
 .ds font-bold1 \\*[xml-tag B]
