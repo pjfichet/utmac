@@ -1,0 +1,6 @@
+.H3 Tables
+.PP
+.tblbeg 6c 2c 2c 2c
+.tblrow "col a" "col b" "col c" "col d"
+.tblrow "col a" "col b" "col c" "col d"
+.tblend

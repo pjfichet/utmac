@@ -93,10 +93,11 @@ fonts: $(TTFDIR) $(DEVDIR) \
 
 ### Hyphenation files
 
-CTAN=ftp://ftp.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/txt/
+CTAN=http://ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/txt/
+
 $(HYPDIR)/%:
 	@echo "Downloading $@"
-	@wget -q -O $@ "$(CTAN)/hyph-$(notdir $@)" || true	
+	@wget -O $@ "$(CTAN)/hyph-$(notdir $@)"
 
 hyphen: $(HYPDIR) $(HYLANG:%=$(HYPDIR)/%.hyp.txt) \
 	$(HYLANG:%=$(HYPDIR)/%.pat.txt) \
