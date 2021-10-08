@@ -63,12 +63,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .nr tblvertsz 16	\" vertical line point size
 .nr tblhorisz 16	\" horizontal line point size
 .nr tblcolrev 0		\" reverse .tblcol column number (R2L tables)
+.nr tblfoot \n[page-foot]v-4v
 .ds tblcolor "#ddd
 .de tblrst
 .	in 0
 .	ad l
 ..
 .de tblrec
+.	ds tbl-rec \\$*
 .	if \\n[tblrow.ok] .tblrowend 0
 .	nr tblwid1 0\\$1
 .	if "\\$1"0" .nr tblwid1 \\n(.l
@@ -100,6 +102,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr tblrow.one 1
 ..
 .de tblmac
+.	ds tbl-mac \\$*
 .	rm tblrst1
 .	rm tblrst2
 .	rm tblrst3
@@ -122,6 +125,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	ds tblrst10 "\\$(10
 ..
 .de tblbox
+.	ds tbl-box \\$*
 .	if \\n[tblrow.ok] .tblrowend 0
 .	nr tblboxall 0\\$1
 .	nr tblboxrow 0\\$2
@@ -206,6 +210,15 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	if \\n(.$>=2 \\$2
 ..
 .de tblrow
+.	if \\n(nl>\\n[tblfoot]u \{\
+.		tblend
+.		rs
+.		bp
+.		tblmac \\*[tbl-mac]
+.		tblrst
+.		tblrec \\*[tbl-rec]
+.		nr tblrow.one 1
+.	\}
 .	if \\n[tblrow.ok] .tblrowend 0
 .	tblrowbeg
 .	if \\n(.$>=1 .tblcol 1
