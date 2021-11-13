@@ -341,9 +341,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	font:head
 .	ad \\*[text-adj]l
 .	head:print 1 "\\$*" "\m[\\*[color-text]]" "\m[\\*[color-head]]"
-.	nr h-l \\w"\\$*"u+3v
-.	ie \\n[h-l]u>\\n[text-length]u .nr h-length \\n[h-l]u
-.	el .nr h-length \\n[text-length]u
+.	\"nr h-l \\w"\\$*"u+3v
+.	\"ie \\n[h-l]u>\\n[text-length]u .nr h-length \\n[h-l]u
+.	\"el .nr h-length \\n[text-length]u
+.	nr h-length \\n[text-length]u
 .	sp -.5v
 .	var:print \m[\\*[color-line]]\s+(30\D'l \\n[h-length]u'\s-(30\m[\\*[color-text]]
 .	sp .5v
