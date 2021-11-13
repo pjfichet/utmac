@@ -20,6 +20,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\" This package creates simple tables, without using the tbl
 .\" preprocessor.  The main macros are as follows:
 .\"
+.\" .tblpre
+.\"   This macro is called before beginning a table. It can be defined
+.\"   by the user to configure the page offset and other things.
+.\"
 .\" .tblbeg colwid1 colwid2 ...
 .\"   This macro begins a table.  Its arguments are the widths of the
 .\"   columns.  At most seven columns are supported.  The width of the
@@ -96,6 +100,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .	nr tblwid \\n[tblwid1]+\\n[tblwid2]+\\n[tblwid3]+\\n[tblwid4]+\\n[tblwid5]+\\n[tblwid6]+\\n[tblwid7]+\\n[tblwid8]+\\n[tblwid9]+\\n[tblwid10]
 ..
 .de tblbeg
+.	tblpre
 .	tblmac
 .	tblrst
 .	tblrec \\$^
@@ -214,6 +219,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .		tblend
 .		rs
 .		bp
+.		tblpre
 .		tblmac \\*[tbl-mac]
 .		tblrst
 .		tblrec \\*[tbl-rec]
