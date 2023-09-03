@@ -23,12 +23,11 @@ FONTS =	LinBiolinum_K \
 	LinLibertine_RZI \
 	LinLibertine_RZ
 
-FONTS = LIbertinusMath-Regular \
+FONTS = LibertinusMath-Regular \
+		LibertinusMono-Regular \
 		LibertinusSans-Regular \
 		LibertinusSans-Italic \
 		LibertinusSans-Bold \
-		LibertinusSans-BoldItalic \
-		LibertinusSerif-Mono \
 		LibertinusSerif-Regular \
 		LibertinusSerif-Italic \
 		LibertinusSerif-Semibold \
