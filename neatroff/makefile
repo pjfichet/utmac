@@ -23,12 +23,23 @@ FONTS =	LinBiolinum_K \
 	LinLibertine_RZI \
 	LinLibertine_RZ
 
+FONTS = LIbertinusMath-Regular \
+		LibertinusSans-Regular \
+		LibertinusSans-Italic \
+		LibertinusSans-Bold \
+		LibertinusSans-BoldItalic \
+		LibertinusSerif-Mono \
+		LibertinusSerif-Regular \
+		LibertinusSerif-Italic \
+		LibertinusSerif-Semibold \
+		LibertinusSerif-SemiboldItalic
+
 help:
 	@echo "Run make target, with target in:"
 	@echo "    help: short usage."
 	@echo "    bin: build roff, post, pdf, mkfn."
 	@echo "    install: install roff, post, pdf, and mkfn."
-	@echo "    fonts: install the linux libertine font."
+	@echo "    fonts: install the libertinus font."
 	@echo "    hyphen: download the hyphenation files."
 	@echo "    all: install everything"
 	@echo "    clean: clean the current directory."
@@ -75,7 +86,7 @@ $(TTFDIR)/%.ttf:
 
 $(DEVDIR)/DESC:
 	@echo "Generating $@"
-	@echo "fonts 1 LinLibertine_R" > $@
+	@echo "fonts 1 LibertinusSerif-Regular" > $@
 	@echo "res 720" >> $@
 	@echo "hor 1" >> $@
 	@echo "ver 1" >> $@

@@ -1,0 +1,103 @@
+.\" u-libertinus: libertinus font.
+.ig
+Copyright (C) 2012-2018 Pierre Jean Fichet
+<pierrejean dot fichet at posteo dot net>
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+..
+.\"""""""""""""""""""""""""""""""""""""
+.\" u-libertinus: libertinus font.
+.
+.
+.nr tmac-u-libertinus 1
+.ds data-font libertinus
+.so \n(.D/u-fonts.tmac
+.\""""""""""""""""""""""""""""
+.\" Mount fonts for text
+.\"
+.\"	ex: fp 11 f-000 LinLibertine_R otf
+.\" (start at 11 since position 9 and 10 are reserved)
+.
+.de font:mount
+.	\" $1: bold and italic numbers
+.	\" $2: name of font
+.
+.	\" mount XX0: Default
+.	fp - f-\\$10 \\$2
+.	\" ff f-\\$10 +hlig +dlig +onum
+. 	ff f-\\$10 +dlig +onum
+.	\" mount XX1: small caps
+.	fp - f-\\$11 \\$2
+.	ff f-\\$11 +smcp +lnum
+.	\" mount XX2: acronyms
+.	fp - f-\\$12 \\$2
+.	ff f-\\$12 +c2sc +smcp +lnum
+.	\"fzoom f-\\$12 .9
+.	\"tkf f-\\$12 1 .7 40 0
+.	\" mount XX3: superscripts
+.	fp - f-\\$13 \\$2
+.	ff f-\\$13 +sups
+.	\" mount XX4: inferior
+.	fp - f-\\$14 \\$2
+.	ff f-\\$14 +sinf
+.	\" mount XX5: No final glyphs in this font
+..
+.font:mount 00 LibertinusSerif-Regular
+.font:mount 01 LibertinusSerif-Italic
+.font:mount 10 LibertinusSerif-Semibold
+.font:mount 11 LibertinusSerif-SemiboldItalic
+.\" 6 monospace
+.fp - f-006 LibertinusMono-Regular
+.\"fzoom f-006 .8
+.\"track f-006 1 -.1 40 -0
+.rm font:mount
+.
+.
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" Font macros
+.
+.de font:text
+.	\" Roman Bold Roman Italic Noform
+.	font:reset 0 1 0 1 0
+..
+.de font:note
+.	\" Roman Bold Roman Italic Noform
+.	font:reset 0 1 0 1 0
+..
+.de font:note-it
+.	\" Roman Bold Italic Roman Noform
+.	font:reset 0 1 1 0 0
+..
+.de font:head
+.	\" Bold Bold Italic Roman Noform
+.	font:reset 1 1 1 0 0
+..
+.de font:subhead
+.	\" Bold Bold Italic Roman Noform
+.	font:reset 1 1 1 0 0
+..
+.de font:endhead
+.	font:text
+..
+.de font:code
+.	\" Roman Roman Roman Roman Monospace
+.	font:reset 0 0 0 0 6
+.	nr f-f 6
+.	lang:rchar
+..
+.\"""""""""""""""""""""""""""""""""""""""""""""""
+.\" Fonts Strings
+.
+.ds font-orn \[uniE002]
+.\" No fBglyphs in this font...
+.ds FB

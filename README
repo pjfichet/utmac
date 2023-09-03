@@ -39,7 +39,8 @@ macros:
 - u-en: English localization (default).
 - u-fr: French localization.
 - u-apolline: Use the Porchez Typofonderie Apolline Font.
-- u-libertine: Use the Linux Libertine font (default).
+- u-libertinus: Use the Libertinus font (default).
+- u-libertine: Use the Linux Libertine font.
 - u-biolinum: Use the Linux Biolinum font.
 - u-biolib: Use a mix of Linux Libertine and Biolinum.
 
@@ -70,7 +71,7 @@ Utmac is supposed to be used with Neatroff <http://litcave.rudi.ir>.  The
 subdirectory "neatroff" contains a makefile to help you to build and install
 it for the needs of utmac.
 
-By default, Utmac uses the libertine font, which must be transferred in the
+By default, Utmac uses the libertinus font, which must be transferred in the
 neatroff font format. The makefile in the subdirectory "neatroff" will do that
 for you.
 

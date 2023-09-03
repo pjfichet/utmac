@@ -22,7 +22,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .
 .
-.TH UTMAC 7 2020-06-09
+.TH UTMAC 7 2023-09-03
 .
 .
 .
@@ -94,6 +94,9 @@ English localization (default).
 \&\fIu-fr\fR
 French localization.
 .TP
+\&-libertinus\fR
+Use the libertinus font (default).
+.TP
 \&\fIu-apolline\fR
 Use the Porchez Typofonderie Apolline font.
 .TP
@@ -103,7 +106,7 @@ Use the linux libertine font.
 \&\fIu-biolinum\fR
 Use the linux biolinum font.
 .TP
-\&\fIu-biollib\fR
+\&\fIu-biolib\fR
 Use a mix of Linux Libertine and Biolinum.
 .
 .

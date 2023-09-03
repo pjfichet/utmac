@@ -11,7 +11,7 @@ should prefer <http://github.com/aligrudi/neatroff_make>.
 Dependencies
 ------------
 
-You will need the Linux Libertine font. It is usually packaged
+You will need the Libertinus font. It is usually packaged
 by linux distributions.
 
 Usage
@@ -22,8 +22,8 @@ You should edit the makefile to suit your needs and run:
 	$ make all
 
 That will download, build, and install roff, post, pdf, mkfn and
-hyphenations files. That will also transfer the linux libertine font
-in a format compatible with neatroff. The other possible targets are:
+hyphenations files. That will also transfer the libertinus font in
+a format compatible with neatroff. The other possible targets are:
 
 	help: short usage.
 	bin: build roff, post, pdf, mkfn.

@@ -22,7 +22,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .
 .
 .
-.TH UTMAC-HACK 7 2020-06-09
+.TH UTMAC-HACK 7 2023-09-03
 .
 .
 .
@@ -68,9 +68,9 @@ defined, english is loaded.
 \&\fIu-font\fR
 Font macros shared by all font files.
 .TP
-\&\fIu-apolline\fR, \fIu-libertine\fR, \fIu-biolinum\fR, \fIu-biolib\fR
+\&\fIu-apolline\fR, \fIu-libertine\fR, \fIu-libertinus\fR, \fIu-biolinum\fR, \fIu-biolib\fR
 Mount the specified font. By default,
-\fIu-libertine\fR is loaded.
+\fIu-libertinus\fR is loaded.
 .
 .
 .

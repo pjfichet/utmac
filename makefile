@@ -15,9 +15,9 @@ INSTALL=install
 
 TMAC=u-apolline.tmac u-biolib.tmac u-biolinum.tmac u-en.tmac \
 	u-include.tmac u-fonts.tmac u-fr.tmac uh.tmac u-idx.tmac \
-	u-libertine.tmac u-links.tmac ul.tmac um.tmac u-pdf.tmac \
-	u-ref.tmac us.tmac u-sum.tmac u-typo.tmac u-var.tmac \
-	u-grind.tmac ut.tmac uw.tmac ux.tmac u-graph.tmac u-tbl.tmac
+	u-libertine.tmac u-libertinus.tmac u-links.tmac ul.tmac \
+	um.tmac u-pdf.tmac u-ref.tmac us.tmac u-sum.tmac u-typo.tmac \
+	u-var.tmac u-grind.tmac ut.tmac uw.tmac ux.tmac u-graph.tmac u-tbl.tmac
 
 PREMAC=u-idx.tmac u-ref.tmac
 
