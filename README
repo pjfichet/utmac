@@ -80,15 +80,15 @@ neatroff font format. The makefile in the subdirectory "neatroff" will do that
 for you.
 
 To benefit of all the functions of Utmac, you can also install:
-- refer <http://github.com/pjfichet/refer>, to format bibliography
+- refer <http://codeberg.org/pjfichet/refer>, to format bibliography
   references.
-- idx <http://github.com/pjfichet/idx>, to index keywords in your
+- idx <http://codeberg.org/pjfichet/idx>, to index keywords in your
   documents.
-- ugrind <http://github.com/pjfichet/ugrind>, to highlight source
+- ugrind <http://codeberg.org/pjfichet/ugrind>, to highlight source
   code in your documents.
-- tchars <http://github.com/pjfichet/tchars>, to write polytonic
+- tchars <http://codeberg.org/pjfichet/tchars>, to write polytonic
   greek.
-- troffxml <http://github.com/pjfichet/troffxml>, to convert your
+- troffxml <http://codeberg.org/pjfichet/troffxml>, to convert your
   utmac documents to xml, html, and fodt.
 
 # License
